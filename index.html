@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Extreme Demon Gacha</title>
+  <title>AREDL Extreme Demon Gacha</title>
   <style>
     :root {
-      --bg: #121212;
-      --panel: #1e1e1e;
-      --panel-hover: #2a2a2a;
-      --border: #333333;
-      --text: #f0f0f0;
-      --muted: #9e9e9e;
+      --bg: #0e1015;
+      --panel: #171a23;
+      --panel-hover: #212634;
+      --border: #2a3042;
+      --text: #f3f4f8;
+      --muted: #949cb3;
       --accent: #3b82f6;
+
+      /* Rarezas AREDL */
       --common: #64748b;
       --rare: #0ea5e9;
       --epic: #a855f7;
       --legendary: #f59e0b;
-      --top1: #ef4444;
+      --divine: #ff2a6d;
     }
 
     * {
@@ -39,7 +41,7 @@
 
     header {
       width: 100%;
-      max-width: 720px;
+      max-width: 780px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -52,14 +54,15 @@
 
     header h1 {
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.3px;
     }
 
     .stats-bar {
       display: flex;
-      gap: 10px;
-      font-size: 0.85rem;
+      gap: 8px;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
     }
 
     .stat-badge {
@@ -76,13 +79,12 @@
 
     .container {
       width: 100%;
-      max-width: 720px;
+      max-width: 780px;
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
 
-    /* Caja principal estilo Demon Roulette */
     .roulette-card {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -93,47 +95,59 @@
     }
 
     .card-header {
-      background: #181818;
+      background: #12151d;
       padding: 10px 16px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--muted);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .pull-display {
-      padding: 18px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
       min-height: 190px;
       justify-content: center;
     }
 
     .demon-row {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       align-items: center;
-      background: #161616;
+      background: #12151d;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px;
-      animation: fadeIn 0.25s ease;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .demon-row.is-divine {
+      border-color: var(--divine);
+      box-shadow: 0 0 15px rgba(255, 42, 109, 0.25);
+    }
+
+    .demon-row.is-legendary {
+      border-color: var(--legendary);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.18);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .demon-thumb {
-      width: 120px;
-      height: 68px;
+      width: 118px;
+      height: 66px;
       border-radius: 6px;
       object-fit: cover;
-      background: #0a0a0a;
+      background: #090b0f;
       flex-shrink: 0;
     }
 
@@ -143,7 +157,7 @@
     }
 
     .demon-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
@@ -151,16 +165,17 @@
     }
 
     .demon-sub {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--muted);
       margin-top: 2px;
     }
 
     .tag {
       display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-size: 0.7rem;
+      font-weight: 800;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
       padding: 2px 7px;
       border-radius: 4px;
       margin-top: 6px;
@@ -170,14 +185,14 @@
     .t-rare { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; border: 1px solid var(--rare); }
     .t-epic { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid var(--epic); }
     .t-legendary { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid var(--legendary); }
-    .t-top1 { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid var(--top1); }
+    .t-divine { background: rgba(255, 42, 109, 0.25); color: #ff85ab; border: 1px solid var(--divine); }
 
     .controls {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 8px;
       padding: 14px 16px;
-      background: #181818;
+      background: #12151d;
       border-top: 1px solid var(--border);
     }
 
@@ -186,15 +201,20 @@
       border: 1px solid var(--border);
       background: var(--panel-hover);
       color: var(--text);
-      padding: 10px 14px;
+      padding: 10px 12px;
       border-radius: 6px;
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: background 0.15s;
+      font-size: 0.88rem;
+      transition: background 0.15s, opacity 0.15s;
     }
 
-    button:hover {
-      background: #353535;
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background: #2e3548;
     }
 
     .btn-primary {
@@ -203,7 +223,7 @@
       color: #fff;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: #2563eb;
     }
 
@@ -211,7 +231,17 @@
       color: #f87171;
     }
 
-    /* Inventario / Colección */
+    .rates-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 0.74rem;
+      padding: 10px 16px;
+      background: #141720;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+    }
+
     .collection-box {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -224,24 +254,59 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .collection-header h2 {
       font-size: 1rem;
     }
 
+    .filter-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .filter-btn {
+      padding: 5px 9px;
+      font-size: 0.76rem;
+      border-radius: 5px;
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #12151d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
     .collection-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 8px;
+      max-height: 460px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
     .col-item {
-      background: #161616;
+      background: #12151d;
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 8px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     .col-item.locked {
@@ -251,9 +316,9 @@
     .col-top {
       display: flex;
       justify-content: space-between;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .col-name {
@@ -263,80 +328,102 @@
       text-overflow: ellipsis;
     }
 
-    @media (max-width: 500px) {
-      .demon-thumb { width: 96px; height: 54px; }
+    @media (max-width: 560px) {
+      .demon-thumb { width: 92px; height: 52px; }
       .controls { grid-template-columns: 1fr 1fr; }
-      .btn-danger { grid-column: span 2; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Extreme Demon Gacha</h1>
+    <h1>AREDL Extreme Demon Gacha</h1>
     <div class="stats-bar">
       <div class="stat-badge">Tiradas: <strong id="pullsCount">0</strong></div>
-      <div class="stat-badge">Colección: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
+      <div class="stat-badge">Desbloqueados: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
     </div>
   </header>
 
   <main class="container">
     <section class="roulette-card">
       <div class="card-header">
-        <span>Banner: Demonlist & Legacy Pool</span>
-        <span id="lastRarityText">Listo para girar</span>
+        <span id="syncStatus">Analizando base de datos AREDL...</span>
+        <span id="lastRarityText">Esperando datos</span>
       </div>
 
       <div class="pull-display" id="pullDisplay">
         <p style="text-align:center; color: var(--muted); font-size: 0.9rem;">
-          Presiona <strong>Tirar x1</strong> o <strong>Tirar x10</strong> para obtener un Extreme Demon.
+          Cargando todos los Extreme Demons desde la AREDL...
         </p>
       </div>
 
       <div class="controls">
-        <button class="btn-primary" id="pull1Btn">Tirar x1</button>
-        <button class="btn-primary" id="pull10Btn">Tirar x10</button>
+        <button class="btn-primary" id="pull1Btn" disabled>Tirar x1</button>
+        <button class="btn-primary" id="pull10Btn" disabled>Tirar x10</button>
+        <button id="syncBtn" title="Actualizar lista desde AREDL">Sincronizar AREDL</button>
         <button class="btn-danger" id="resetBtn">Reiniciar</button>
+      </div>
+
+      <div class="rates-bar">
+        <span>Probabilidades:</span>
+        <strong style="color:#cbd5e1;">Common (55%)</strong> ·
+        <strong style="color:#7dd3fc;">Rare (27%)</strong> ·
+        <strong style="color:#d8b4fe;">Epic (12%)</strong> ·
+        <strong style="color:#fcd34d;">Legendary (5%)</strong> ·
+        <strong style="color:#ff85ab;">Divine Top 1-15 (1%)</strong>
       </div>
     </section>
 
     <section class="collection-box">
       <div class="collection-header">
-        <h2>Demonlist Index (Colección)</h2>
-        <span style="font-size: 0.8rem; color: var(--muted);">Ordenado por rango</span>
+        <h2>Índice Completo AREDL</h2>
+        <span id="filterSummary" style="font-size: 0.8rem; color: var(--muted);">Mostrando todos</span>
       </div>
+
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="owned">Desbloqueados</button>
+        <button class="filter-btn" data-filter="divine">Divine</button>
+        <button class="filter-btn" data-filter="legendary">Legendary</button>
+        <button class="filter-btn" data-filter="epic">Epic</button>
+        <button class="filter-btn" data-filter="rare">Rare</button>
+        <button class="filter-btn" data-filter="common">Common</button>
+      </div>
+
+      <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre o #posición en la AREDL..." />
+
       <div class="collection-grid" id="collectionGrid"></div>
     </section>
   </main>
 
   <script>
-    // Pool de niveles (puedes agregar más copiando una línea y cambiando el ID de video de YouTube)
-    const DEMON_POOL = [
-      { rank: 1, name: "Tidal Wave", creator: "OniLink", yt: "9fsZ014qB3s", rarity: "top1", weight: 1 },
-      { rank: 2, name: "Nullscapes", creator: "Kiba", yt: "E1202863_mQ", rarity: "legendary", weight: 2 },
-      { rank: 3, name: "Avernus", creator: "PockeWindfish", yt: "16Le9e882aM", rarity: "legendary", weight: 3 },
-      { rank: 4, name: "Acheron", creator: "ryamu", yt: "sBKR6aUorzA", rarity: "legendary", weight: 4 },
-      { rank: 5, name: "Silent Clubstep", creator: "TheRealSailent", yt: "GR4snkLP2-I", rarity: "epic", weight: 6 },
-      { rank: 6, name: "Slaughterhouse", creator: "icedcave", yt: "kpcF1-6989M", rarity: "epic", weight: 8 },
-      { rank: 7, name: "KOCMOC", creator: "cherryteam", yt: "27248540900", rarity: "epic", weight: 9 },
-      { rank: 8, name: "Firework", creator: "Trick", yt: "QBe5x2o9v2w", rarity: "rare", weight: 12 },
-      { rank: 9, name: "Tartarus", creator: "Dolphy", yt: "22146519300", rarity: "rare", weight: 15 },
-      { rank: 10, name: "Zodiac", creator: "Bianox", yt: "32145698700", rarity: "rare", weight: 18 },
-      { rank: 11, name: "Sonic Wave", creator: "Sunix", yt: "21456987400", rarity: "common", weight: 25 },
-      { rank: 12, name: "Bloodbath", creator: "Riot", yt: "twTw4fjDp04", rarity: "common", weight: 30 },
-      { rank: 13, name: "Cataclysm", creator: "Ggb0y", yt: "21456987111", rarity: "common", weight: 35 },
-      { rank: 14, name: "Acu", creator: "Neigefeu", yt: "21456987222", rarity: "common", weight: 40 }
-    ];
+    const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
+    const CACHE_KEY = "aredl_levels_cache_v1";
+    const SAVE_KEY = "aredl_gacha_save_v1";
 
-    const RARITY_NAMES = {
-      common: "Común",
-      rare: "Raro",
-      epic: "Épico",
-      legendary: "Legendario",
-      top1: "TOP 1 MÍTICO"
+    // Clasificación automática por posición en la AREDL
+    function classifyRarity(position) {
+      if (position <= 15) return "divine";
+      if (position <= 75) return "legendary";
+      if (position <= 200) return "epic";
+      if (position <= 500) return "rare";
+      return "common";
+    }
+
+    const RARITY_CONFIG = {
+      common:    { label: "Common",    weight: 55 },
+      rare:      { label: "Rare",      weight: 27 },
+      epic:      { label: "Epic",      weight: 12 },
+      legendary: { label: "Legendary", weight: 5  },
+      divine:    { label: "Divine",    weight: 1  }
     };
 
-    let saveData = JSON.parse(localStorage.getItem("ed_gacha_v1")) || {
+    let allDemons = [];
+    let poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
+    let currentFilter = "all";
+    let searchQuery = "";
+
+    let saveData = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
       pulls: 0,
       owned: {}
     };
@@ -346,64 +433,203 @@
     const pullsCount = document.getElementById("pullsCount");
     const ownedCount = document.getElementById("ownedCount");
     const totalCount = document.getElementById("totalCount");
+    const syncStatus = document.getElementById("syncStatus");
     const lastRarityText = document.getElementById("lastRarityText");
+    const pull1Btn = document.getElementById("pull1Btn");
+    const pull10Btn = document.getElementById("pull10Btn");
+    const syncBtn = document.getElementById("syncBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const searchInput = document.getElementById("searchInput");
 
-    totalCount.textContent = DEMON_POOL.length;
-
-    function rollSingle() {
-      const totalWeight = DEMON_POOL.reduce((acc, item) => acc + item.weight, 0);
-      let random = Math.random() * totalWeight;
-      for (const demon of DEMON_POOL) {
-        random -= demon.weight;
-        if (random <= 0) return demon;
-      }
-      return DEMON_POOL[DEMON_POOL.length - 1];
+    // Extrae ID de video de YouTube desde URL o ID directo
+    function extractYtId(raw) {
+      if (!raw) return "";
+      const str = String(raw);
+      const match = str.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (match) return match[1];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(str)) return str;
+      return "";
     }
 
-    function getThumbUrl(ytId) {
-      return `https://i.ytimg.com/vi/${ytId}/mqdefault.jpg`;
+    // Procesa y clasifica la lista cruda de la AREDL
+    function processAndStoreLevels(rawLevels) {
+      const valid = rawLevels
+        .filter(lvl => !lvl.legacy && typeof lvl.position === "number")
+        .sort((a, b) => a.position - b.position)
+        .map(lvl => {
+          const rarity = classifyRarity(lvl.position);
+          const ytId = extractYtId(
+            lvl.verification_video ||
+            lvl.showcase_video ||
+            (lvl.verifications && lvl.verifications[0]?.video_url) ||
+            lvl.video_url ||
+            ""
+          );
+          const creator =
+            lvl.publisher?.global_name ||
+            lvl.publisher?.username ||
+            lvl.author ||
+            "AREDL";
+
+          return {
+            id: lvl.id || lvl.level_id || lvl.position,
+            rank: lvl.position,
+            name: lvl.name,
+            creator,
+            yt: ytId,
+            rarity
+          };
+        });
+
+      allDemons = valid;
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        updatedAt: Date.now(),
+        levels: allDemons
+      }));
+
+      rebuildPools();
+    }
+
+    function rebuildPools() {
+      poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
+      for (const d of allDemons) {
+        if (poolsByRarity[d.rarity]) {
+          poolsByRarity[d.rarity].push(d);
+        }
+      }
+      totalCount.textContent = allDemons.length;
+      pull1Btn.disabled = allDemons.length === 0;
+      pull10Btn.disabled = allDemons.length === 0;
+      updateCollectionUI();
+    }
+
+    async function loadAREDL(forceRefresh = false) {
+      syncBtn.disabled = true;
+
+      if (!forceRefresh) {
+        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+        if (cached && Array.isArray(cached.levels) && cached.levels.length > 0) {
+          allDemons = cached.levels;
+          rebuildPools();
+          const dateStr = new Date(cached.updatedAt).toLocaleDateString();
+          syncStatus.textContent = `AREDL guardada (${allDemons.length} demons · ${dateStr})`;
+          lastRarityText.textContent = "Listo para girar";
+          pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Base de datos cargada con <strong>${allDemons.length} Extreme Demons</strong>. ¡Tira para comenzar!</p>`;
+          syncBtn.disabled = false;
+          return;
+        }
+      }
+
+      syncStatus.textContent = "Descargando y clasificando toda la AREDL...";
+      try {
+        const res = await fetch(AREDL_API);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data.data || data.levels || []);
+        processAndStoreLevels(list);
+
+        syncStatus.textContent = `AREDL sincronizada (${allDemons.length} demons)`;
+        lastRarityText.textContent = "Listo para girar";
+        pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">¡Listo! Se guardaron y clasificaron <strong>${allDemons.length} Extreme Demons</strong>.</p>`;
+      } catch (err) {
+        syncStatus.textContent = "Error al conectar con AREDL";
+        pullDisplay.innerHTML = `<p style="text-align:center; color: #f87171; font-size: 0.9rem;">No se pudo descargar la AREDL en este momento. Revisa tu conexión y pulsa <strong>Sincronizar AREDL</strong>.</p>`;
+      } finally {
+        syncBtn.disabled = false;
+      }
+    }
+
+    // Selección ponderada por rareza y luego nivel aleatorio dentro de esa rareza
+    function rollSingleDemon() {
+      const availableRarities = Object.keys(RARITY_CONFIG).filter(
+        r => poolsByRarity[r].length > 0
+      );
+      const totalWeight = availableRarities.reduce(
+        (sum, r) => sum + RARITY_CONFIG[r].weight,
+        0
+      );
+
+      let roll = Math.random() * totalWeight;
+      let chosenRarity = availableRarities[0];
+
+      for (const r of availableRarities) {
+        roll -= RARITY_CONFIG[r].weight;
+        if (roll <= 0) {
+          chosenRarity = r;
+          break;
+        }
+      }
+
+      const pool = poolsByRarity[chosenRarity];
+      return pool[Math.floor(Math.random() * pool.length)];
     }
 
     function executePull(times) {
+      if (allDemons.length === 0) return;
       const results = [];
+
       for (let i = 0; i < times; i++) {
-        const demon = rollSingle();
+        const demon = rollSingleDemon();
         results.push(demon);
         saveData.pulls += 1;
-        saveData.owned[demon.rank] = (saveData.owned[demon.rank] || 0) + 1;
+        saveData.owned[demon.id] = (saveData.owned[demon.id] || 0) + 1;
       }
 
+      localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
       renderPullResults(results);
-      updateUI();
+      updateCollectionUI();
     }
 
     function renderPullResults(results) {
-      pullDisplay.innerHTML = results.map(d => `
-        <div class="demon-row">
-          <img class="demon-thumb" src="${getThumbUrl(d.yt)}" alt="${d.name}" onerror="this.src='https://via.placeholder.com/120x68/111/666?text=GD'">
-          <div class="demon-info">
-            <div class="demon-title">#${d.rank} - ${d.name}</div>
-            <div class="demon-sub">por ${d.creator}</div>
-            <span class="tag t-${d.rarity}">${RARITY_NAMES[d.rarity]}</span>
+      pullDisplay.innerHTML = results.map(d => {
+        const thumbSrc = d.yt
+          ? `https://i.ytimg.com/vi/${d.yt}/mqdefault.jpg`
+          : `https://placehold.co/120x68/111520/949cb3?text=%23${d.rank}`;
+
+        return `
+          <div class="demon-row is-${d.rarity}">
+            <img class="demon-thumb" src="${thumbSrc}" alt="${d.name}" loading="lazy"
+              onerror="this.onerror=null;this.src='https://placehold.co/120x68/111520/949cb3?text=%23${d.rank}'">
+            <div class="demon-info">
+              <div class="demon-title">#${d.rank} - ${d.name}</div>
+              <div class="demon-sub">Publicado por ${d.creator}</div>
+              <span class="tag t-${d.rarity}">${RARITY_CONFIG[d.rarity].label}</span>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
 
       const best = results.reduce((prev, curr) => (curr.rank < prev.rank ? curr : prev), results[0]);
-      lastRarityText.textContent = `Mejor obtenido: #${best.rank} ${best.name}`;
+      lastRarityText.textContent = `Mejor: #${best.rank} ${best.name} (${RARITY_CONFIG[best.rarity].label})`;
     }
 
-    function updateUI() {
-      localStorage.setItem("ed_gacha_v1", JSON.stringify(saveData));
+    function updateCollectionUI() {
       pullsCount.textContent = saveData.pulls;
       ownedCount.textContent = Object.keys(saveData.owned).length;
 
-      collectionGrid.innerHTML = DEMON_POOL.map(d => {
-        const count = saveData.owned[d.rank] || 0;
+      const filtered = allDemons.filter(d => {
+        const count = saveData.owned[d.id] || 0;
+        if (currentFilter === "owned" && count === 0) return false;
+        if (["common", "rare", "epic", "legendary", "divine"].includes(currentFilter) && d.rarity !== currentFilter) {
+          return false;
+        }
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          const matchName = d.name.toLowerCase().includes(q);
+          const matchRank = String(d.rank) === q || ("#" + d.rank) === q;
+          if (!matchName && !matchRank) return false;
+        }
+        return true;
+      });
+
+      document.getElementById("filterSummary").textContent = `Mostrando ${filtered.length} niveles`;
+
+      collectionGrid.innerHTML = filtered.map(d => {
+        const count = saveData.owned[d.id] || 0;
         return `
-          <div class="col-item ${count === 0 ? "locked" : ""}">
+          <div class="col-item ${count === 0 ? "locked" : ""}" style="border-left: 3px solid var(--${d.rarity});">
             <div class="col-top">
-              <span>#${d.rank}</span>
+              <span>#${d.rank} · ${RARITY_CONFIG[d.rarity].label}</span>
               <span>${count > 0 ? "x" + count : "???"}</span>
             </div>
             <div class="col-name">${count > 0 ? d.name : "Bloqueado"}</div>
@@ -412,16 +638,33 @@
       }).join("");
     }
 
-    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
-    document.getElementById("pull10Btn").addEventListener("click", () => executePull(10));
-    document.getElementById("resetBtn").addEventListener("click", () => {
+    // Eventos
+    pull1Btn.addEventListener("click", () => executePull(1));
+    pull10Btn.addEventListener("click", () => executePull(10));
+    syncBtn.addEventListener("click", () => loadAREDL(true));
+
+    resetBtn.addEventListener("click", () => {
       saveData = { pulls: 0, owned: {} };
-      pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Datos reiniciados.</p>`;
+      localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+      pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Progreso reiniciado.</p>`;
       lastRarityText.textContent = "Listo para girar";
-      updateUI();
+      updateCollectionUI();
     });
 
-    updateUI();
+    document.getElementById("filterBar").addEventListener("click", (e) => {
+      if (!e.target.classList.contains("filter-btn")) return;
+      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      currentFilter = e.target.dataset.filter;
+      updateCollectionUI();
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      updateCollectionUI();
+    });
+
+    loadAREDL(false);
   </script>
 </body>
 </html>
