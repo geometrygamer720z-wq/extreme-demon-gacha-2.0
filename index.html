@@ -9,10 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #06080e;
-      --bg-panel: rgba(16, 20, 34, 0.88);
-      --bg-card: #111524;
-      --border: rgba(255, 255, 255, 0.1);
+      --bg-deep: #05070d;
+      --bg-panel: rgba(14, 19, 34, 0.9);
+      --bg-card: #101627;
+      --bg-card-elev: #151d33;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-bright: rgba(255, 255, 255, 0.2);
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #3b82f6;
@@ -55,9 +57,9 @@
     body {
       background-color: var(--bg-deep);
       background-image:
-        radial-gradient(circle at 12% 12%, rgba(59, 130, 246, 0.16), transparent 36%),
-        radial-gradient(circle at 88% 18%, rgba(255, 42, 109, 0.14), transparent 40%),
-        radial-gradient(circle at 50% 92%, rgba(0, 245, 212, 0.09), transparent 45%);
+        radial-gradient(circle at 12% 10%, rgba(59, 130, 246, 0.16), transparent 36%),
+        radial-gradient(circle at 88% 14%, rgba(255, 42, 109, 0.14), transparent 40%),
+        radial-gradient(circle at 50% 94%, rgba(0, 245, 212, 0.08), transparent 46%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -70,39 +72,34 @@
     body.modal-open-lock { overflow: hidden; }
 
     body.shake {
-      animation: screenShake 0.6s var(--ease-fresh) both;
+      animation: screenShake 0.52s var(--ease-fresh) both;
     }
 
     @keyframes screenShake {
       0%, 100% { transform: translate3d(0, 0, 0); }
-      15% { transform: translate3d(-5px, 2px, 0); }
-      30% { transform: translate3d(5px, -2px, 0); }
-      45% { transform: translate3d(-4px, -1px, 0); }
-      60% { transform: translate3d(4px, 1px, 0); }
-      75% { transform: translate3d(-2px, 0, 0); }
+      20% { transform: translate3d(-4px, 2px, 0); }
+      40% { transform: translate3d(4px, -2px, 0); }
+      60% { transform: translate3d(-3px, -1px, 0); }
+      80% { transform: translate3d(3px, 1px, 0); }
     }
 
     @keyframes freshFadeIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.985); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .fresh-enter {
-      animation: freshFadeIn 0.34s var(--ease-fresh) both;
+      from { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.99); }
+      to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
     }
 
     .micro-tag {
       font-size: 0.62rem;
-      opacity: 0.42;
+      opacity: 0.44;
       font-weight: 700;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.35px;
     }
 
     #particlesCanvas {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 50;
+      z-index: 45;
     }
 
     .flash-overlay {
@@ -112,14 +109,15 @@
       opacity: 0;
       pointer-events: none;
       z-index: 998;
-      transition: opacity 0.48s var(--ease-fresh);
+      transition: opacity 0.42s var(--ease-fresh);
+      will-change: opacity;
     }
 
     .mini-toast {
       position: fixed;
       top: 16px;
       right: 16px;
-      background: rgba(15, 23, 42, 0.96);
+      background: rgba(12, 18, 34, 0.96);
       border: 1px solid rgba(250, 204, 21, 0.65);
       color: #fef08a;
       padding: 10px 15px;
@@ -127,26 +125,24 @@
       font-size: 0.84rem;
       font-weight: 900;
       z-index: 1100;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
       opacity: 0;
-      transform: translateY(-10px) scale(0.95);
+      transform: translate3d(0, -10px, 0) scale(0.96);
       pointer-events: none;
-      transition: opacity 0.28s var(--ease-fresh), transform 0.28s var(--ease-fresh);
+      transition: opacity 0.24s var(--ease-fresh), transform 0.24s var(--ease-fresh);
     }
 
     .mini-toast.show {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translate3d(0, 0, 0) scale(1);
     }
 
     .topbar {
       width: 100%;
-      max-width: 1040px;
+      max-width: 1060px;
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 14px 18px;
       display: flex;
       justify-content: space-between;
@@ -154,31 +150,30 @@
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 16px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
-      transition: border-color 0.25s var(--ease-fresh);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
     }
 
     .brand { display: flex; align-items: center; gap: 12px; }
 
     .brand-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
       background: linear-gradient(135deg, #ff2a6d, #7928ca);
       display: grid;
       place-items: center;
       font-weight: 900;
       font-size: 1.15rem;
-      box-shadow: 0 0 18px rgba(255, 42, 109, 0.5);
+      box-shadow: 0 0 20px rgba(255, 42, 109, 0.45);
     }
 
-    .brand h1 { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.4px; }
-    .brand span { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+    .brand h1 { font-size: 1.28rem; font-weight: 900; letter-spacing: -0.4px; }
+    .brand span { display: block; font-size: 0.73rem; color: var(--muted); font-weight: 600; }
 
     .hud-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
     .hud-pill {
-      background: rgba(8, 11, 20, 0.85);
+      background: rgba(8, 12, 22, 0.9);
       border: 1px solid var(--border);
       padding: 7px 13px;
       border-radius: 999px;
@@ -188,20 +183,22 @@
       align-items: center;
       gap: 6px;
       min-height: var(--touch-min);
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
+      transition: border-color 0.2s var(--ease-fresh), transform 0.2s var(--ease-fresh);
     }
 
     .hud-pill strong { color: #fff; font-weight: 800; }
-    .hud-pill.orbs strong { color: var(--orb); text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
+    .hud-pill.orbs { border-color: rgba(0, 229, 255, 0.25); }
+    .hud-pill.orbs strong { color: var(--orb); }
+
     .hud-pill.tokens-pill {
       border-color: rgba(250, 204, 21, 0.45);
-      background: rgba(250, 204, 21, 0.08);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(245, 158, 11, 0.05));
       color: #fde68a;
       flex-direction: column;
       align-items: flex-start;
       border-radius: 14px;
       gap: 4px;
-      min-width: 175px;
+      min-width: 178px;
     }
     .hud-pill.tokens-pill strong { color: var(--token); }
 
@@ -221,7 +218,7 @@
     }
 
     .icon-btn {
-      background: rgba(15, 20, 35, 0.9);
+      background: rgba(16, 22, 39, 0.95);
       border: 1px solid var(--border);
       color: #fff;
       padding: 8px 12px;
@@ -234,23 +231,24 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: all 0.2s var(--ease-fresh);
+      transition: transform 0.18s var(--ease-fresh), background 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
     }
 
-    .icon-btn:hover:not(:disabled) { background: #232c47; transform: translateY(-1px); }
+    .icon-btn:hover:not(:disabled) { background: #222c48; border-color: var(--border-bright); transform: translate3d(0, -1px, 0); }
+    .icon-btn:active:not(:disabled) { transform: scale(0.97); }
     .icon-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     .icon-btn.active-toggle {
       border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.2);
+      background: rgba(59, 130, 246, 0.22);
       color: #93c5fd;
     }
 
-    .main-wrap { width: 100%; max-width: 1040px; display: flex; flex-direction: column; gap: 18px; }
+    .main-wrap { width: 100%; max-width: 1060px; display: flex; flex-direction: column; gap: 18px; }
 
     .top1-banner {
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 42, 109, 0.12), rgba(16, 20, 34, 0.92));
-      border: 1px solid rgba(255, 215, 0, 0.35);
-      border-radius: 16px;
+      background: linear-gradient(125deg, rgba(255, 215, 0, 0.14), rgba(255, 42, 109, 0.12), rgba(14, 19, 34, 0.95));
+      border: 1px solid rgba(255, 215, 0, 0.36);
+      border-radius: 18px;
       padding: 12px 16px;
       display: flex;
       align-items: center;
@@ -258,18 +256,18 @@
       gap: 14px;
       flex-wrap: wrap;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.08);
-      transition: transform 0.22s var(--ease-fresh), border-color 0.22s var(--ease-fresh);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
     }
 
-    .top1-banner:hover { transform: translateY(-2px); border-color: rgba(255, 215, 0, 0.6); }
+    .top1-banner:hover { transform: translate3d(0, -2px, 0); border-color: rgba(255, 215, 0, 0.65); }
 
     .top1-left { display: flex; align-items: center; gap: 12px; }
 
     .top1-thumb {
-      width: 96px;
-      height: 54px;
-      border-radius: 8px;
+      width: 98px;
+      height: 55px;
+      border-radius: 9px;
       object-fit: cover;
       border: 1px solid rgba(255, 215, 0, 0.5);
       background: #080a12;
@@ -283,7 +281,7 @@
       color: var(--c-apex);
       background: rgba(255, 215, 0, 0.15);
       padding: 2px 8px;
-      border-radius: 5px;
+      border-radius: 6px;
       display: inline-block;
       margin-bottom: 3px;
     }
@@ -293,7 +291,7 @@
     .nav-card-btn {
       background: var(--bg-panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 15px;
       padding: 12px;
       min-height: var(--touch-min);
       color: #fff;
@@ -304,24 +302,27 @@
       align-items: center;
       justify-content: center;
       gap: 7px;
-      transition: transform 0.22s var(--ease-fresh), border-color 0.22s var(--ease-fresh), background 0.22s var(--ease-fresh), box-shadow 0.22s var(--ease-fresh);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh), background 0.2s var(--ease-fresh);
     }
 
     .nav-card-btn:hover {
-      background: #1b2238;
-      border-color: rgba(255, 255, 255, 0.28);
-      transform: translateY(-2px);
+      background: #19223a;
+      border-color: var(--border-bright);
+      transform: translate3d(0, -2px, 0);
     }
+
+    .nav-card-btn:active { transform: scale(0.97); }
 
     .nav-card-btn.section-active {
       border-color: var(--primary);
-      background: rgba(59, 130, 246, 0.22);
-      box-shadow: 0 0 18px rgba(59, 130, 246, 0.25);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(37, 99, 235, 0.14));
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.24);
     }
 
     .nav-card-btn.trader-btn {
-      background: linear-gradient(135deg, rgba(0, 245, 212, 0.16), rgba(59, 130, 246, 0.16));
-      border-color: rgba(0, 245, 212, 0.45);
+      background: linear-gradient(135deg, rgba(0, 245, 212, 0.15), rgba(59, 130, 246, 0.16));
+      border-color: rgba(0, 245, 212, 0.42);
     }
 
     .badge-count {
@@ -335,12 +336,11 @@
 
     .section-panel {
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 20px;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
-      animation: freshFadeIn 0.32s var(--ease-fresh) both;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+      animation: freshFadeIn 0.28s var(--ease-fresh) both;
     }
 
     .section-top-bar {
@@ -356,16 +356,15 @@
 
     .summon-stage {
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       overflow: hidden;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
     }
 
     .stage-header {
       padding: 12px 18px;
-      background: rgba(8, 10, 18, 0.7);
+      background: rgba(8, 11, 20, 0.78);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -385,7 +384,7 @@
       align-items: center;
       gap: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      animation: freshFadeIn 0.25s var(--ease-fresh) both;
+      animation: freshFadeIn 0.22s var(--ease-fresh) both;
     }
 
     .active-luck-banner {
@@ -405,13 +404,13 @@
 
     .stage-arena {
       padding: 24px 16px;
-      min-height: 290px;
+      min-height: 295px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       position: relative;
-      background: radial-gradient(circle at 50% 35%, rgba(59, 130, 246, 0.09), transparent 65%);
+      background: radial-gradient(circle at 50% 35%, rgba(59, 130, 246, 0.1), transparent 68%);
     }
 
     .orb-loader {
@@ -420,7 +419,7 @@
       align-items: center;
       gap: 16px;
       text-align: center;
-      animation: freshFadeIn 0.28s var(--ease-fresh) both;
+      animation: freshFadeIn 0.24s var(--ease-fresh) both;
     }
 
     .gd-orb {
@@ -428,28 +427,29 @@
       height: 96px;
       border-radius: 50%;
       background: radial-gradient(circle, #fff 14%, #00e5ff 44%, #3b82f6 78%, transparent 100%);
-      box-shadow: 0 0 40px #00e5ff, 0 0 85px rgba(59, 130, 246, 0.8);
+      box-shadow: 0 0 36px #00e5ff, 0 0 75px rgba(59, 130, 246, 0.75);
       animation: orbCharge 0.45s ease-in-out infinite alternate;
       position: relative;
+      will-change: transform;
     }
 
     .gd-orb.multi-burst {
       background: radial-gradient(circle, #fff 12%, #c084fc 40%, #ff2a6d 75%, transparent 100%);
-      box-shadow: 0 0 48px #c084fc, 0 0 95px rgba(255, 42, 109, 0.85);
+      box-shadow: 0 0 42px #c084fc, 0 0 85px rgba(255, 42, 109, 0.8);
     }
 
     .gd-orb.dramatic {
-      width: 118px;
-      height: 118px;
+      width: 114px;
+      height: 114px;
       background: radial-gradient(circle, #fff 10%, #ffd700 36%, #ff2a6d 72%, #7928ca 100%);
-      box-shadow: 0 0 65px #ffd700, 0 0 115px #ff2a6d;
+      box-shadow: 0 0 56px #ffd700, 0 0 100px #ff2a6d;
       animation: orbCharge 0.28s ease-in-out infinite alternate;
     }
 
     .gd-orb::before {
       content: "";
       position: absolute;
-      inset: -18px;
+      inset: -16px;
       border-radius: 50%;
       border: 2px solid rgba(0, 245, 212, 0.55);
       animation: pulseHalo 0.9s ease-out infinite;
@@ -458,20 +458,20 @@
     .gd-orb::after {
       content: "";
       position: absolute;
-      inset: -11px;
+      inset: -10px;
       border-radius: 50%;
-      border: 3px dashed rgba(255, 255, 255, 0.85);
+      border: 3px dashed rgba(255, 255, 255, 0.82);
       animation: spinRing 0.95s linear infinite;
     }
 
     @keyframes orbCharge {
-      from { transform: scale(0.88); filter: brightness(1); }
-      to { transform: scale(1.22); filter: brightness(1.45); }
+      from { transform: scale(0.9); }
+      to { transform: scale(1.18); }
     }
 
     @keyframes pulseHalo {
-      0% { transform: scale(0.85); opacity: 0.9; }
-      100% { transform: scale(1.35); opacity: 0; }
+      0% { transform: scale(0.86); opacity: 0.85; }
+      100% { transform: scale(1.32); opacity: 0; }
     }
 
     @keyframes spinRing { to { transform: rotate(360deg); } }
@@ -484,11 +484,11 @@
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 14px;
-      padding: 9px 14px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      animation: freshFadeIn 0.32s var(--ease-fresh) both;
+      padding: 10px 14px;
+      border-radius: 13px;
+      background: linear-gradient(90deg, rgba(16, 22, 39, 0.92), rgba(24, 32, 56, 0.85));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      animation: freshFadeIn 0.28s var(--ease-fresh) both;
     }
 
     .results-grid {
@@ -502,44 +502,39 @@
 
     .pull-card {
       background: var(--bg-card);
-      border-radius: 14px;
+      border-radius: 15px;
       overflow: hidden;
       border: 2px solid var(--border);
       position: relative;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      animation: cardPop 0.5s var(--ease-fresh) backwards;
-      transition: transform 0.24s var(--ease-fresh), box-shadow 0.24s var(--ease-fresh);
+      animation: cardPop 0.42s var(--ease-fresh) backwards;
+      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
+      will-change: transform, opacity;
     }
 
-    .pull-card:hover { transform: translateY(-5px) scale(1.02); }
+    .pull-card:hover { transform: translate3d(0, -4px, 0) scale(1.015); }
 
     @keyframes cardPop {
-      0% { opacity: 0; transform: scale(0.72) translateY(24px); filter: brightness(1.8); }
-      65% { transform: scale(1.035) translateY(-3px); filter: brightness(1.15); }
-      100% { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1); }
+      0% { opacity: 0; transform: scale(0.82) translate3d(0, 18px, 0); }
+      70% { transform: scale(1.02) translate3d(0, -2px, 0); }
+      100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
     }
 
     .r-common { border-color: rgba(148, 163, 184, 0.45); }
-    .r-rare { border-color: var(--c-rare); box-shadow: 0 0 22px rgba(56, 189, 248, 0.35); }
-    .r-epic { border-color: var(--c-epic); box-shadow: 0 0 26px rgba(192, 132, 252, 0.45); }
-    .r-legendary { border-color: var(--c-legendary); box-shadow: 0 0 32px rgba(251, 191, 36, 0.55); }
-    .r-mythic { border-color: var(--c-mythic); box-shadow: 0 0 36px rgba(251, 113, 133, 0.62); }
-    .r-divine { border-color: var(--c-divine); box-shadow: 0 0 42px rgba(255, 42, 109, 0.78); }
+    .r-rare { border-color: var(--c-rare); box-shadow: 0 0 18px rgba(56, 189, 248, 0.28); }
+    .r-epic { border-color: var(--c-epic); box-shadow: 0 0 22px rgba(192, 132, 252, 0.36); }
+    .r-legendary { border-color: var(--c-legendary); box-shadow: 0 0 26px rgba(251, 191, 36, 0.45); }
+    .r-mythic { border-color: var(--c-mythic); box-shadow: 0 0 30px rgba(251, 113, 133, 0.5); }
+    .r-divine { border-color: var(--c-divine); box-shadow: 0 0 34px rgba(255, 42, 109, 0.62); }
     .r-transcendent {
       border-color: var(--c-transcendent);
-      box-shadow: 0 0 48px rgba(0, 245, 212, 0.85), inset 0 0 18px rgba(0, 245, 212, 0.25);
+      box-shadow: 0 0 40px rgba(0, 245, 212, 0.72);
     }
     .r-apex {
       border-color: var(--c-apex);
-      box-shadow: 0 0 60px rgba(255, 215, 0, 0.95), 0 0 28px rgba(255, 42, 109, 0.85);
-      animation: cardPop 0.55s var(--ease-fresh) backwards, apexGlow 1.5s infinite alternate;
-    }
-
-    @keyframes apexGlow {
-      from { box-shadow: 0 0 32px rgba(255, 215, 0, 0.8); }
-      to { box-shadow: 0 0 68px rgba(255, 215, 0, 1), 0 0 38px rgba(255, 42, 109, 0.9); }
+      box-shadow: 0 0 48px rgba(255, 215, 0, 0.85), 0 0 24px rgba(255, 42, 109, 0.7);
     }
 
     .card-media { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #070910; overflow: hidden; }
@@ -550,7 +545,6 @@
       top: 8px;
       left: 8px;
       background: rgba(6, 8, 14, 0.88);
-      backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       font-weight: 900;
@@ -574,7 +568,7 @@
     .badge-new {
       background: linear-gradient(135deg, #22c55e, #15803d);
       color: #fff;
-      box-shadow: 0 0 14px rgba(34, 197, 94, 0.75);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.65);
       border: 1px solid rgba(187, 247, 208, 0.6);
     }
     .badge-dup { background: rgba(245, 158, 11, 0.92); color: #090b10; }
@@ -584,7 +578,7 @@
       position: absolute;
       bottom: 8px;
       right: 8px;
-      background: rgba(6, 8, 14, 0.88);
+      background: rgba(6, 8, 14, 0.9);
       border: 1px solid rgba(0, 229, 255, 0.45);
       color: var(--orb);
       font-size: 0.72rem;
@@ -622,7 +616,7 @@
 
     .summon-controls {
       padding: 16px;
-      background: rgba(8, 10, 18, 0.75);
+      background: rgba(8, 11, 20, 0.82);
       border-top: 1px solid var(--border);
       display: grid;
       grid-template-columns: 1fr 1fr auto auto;
@@ -632,34 +626,34 @@
     .btn-main {
       cursor: pointer;
       border: 1px solid var(--border);
-      background: #1b2136;
+      background: #1a2238;
       color: #fff;
       padding: 13px 16px;
       min-height: var(--touch-min);
-      border-radius: 12px;
+      border-radius: 13px;
       font-weight: 800;
       font-size: 0.94rem;
-      transition: all 0.2s var(--ease-fresh);
+      transition: transform 0.18s var(--ease-fresh), background 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
     }
 
+    .btn-main:hover:not(:disabled) { transform: translate3d(0, -1px, 0); border-color: var(--border-bright); }
     .btn-main:active:not(:disabled) { transform: scale(0.96); }
     .btn-main:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    .btn-roll-1 { background: linear-gradient(135deg, #2563eb, #3b82f6); border: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4); }
-    .btn-roll-15 { background: linear-gradient(135deg, #9333ea, #ff2a6d); border: none; box-shadow: 0 6px 22px rgba(255, 42, 109, 0.4); }
+    .btn-roll-1 { background: linear-gradient(135deg, #2563eb, #3b82f6); border: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.36); }
+    .btn-roll-15 { background: linear-gradient(135deg, #9333ea, #ff2a6d); border: none; box-shadow: 0 6px 22px rgba(255, 42, 109, 0.36); }
     .btn-danger { color: #fca5a5; border-color: rgba(239, 68, 68, 0.35); }
 
     .dex-panel {
       background: var(--bg-panel);
-      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       padding: 18px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
     }
 
     .dex-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
@@ -670,12 +664,12 @@
       min-height: var(--touch-min);
       font-size: 0.75rem;
       font-weight: 700;
-      border-radius: 8px;
-      background: rgba(10, 13, 24, 0.85);
+      border-radius: 9px;
+      background: rgba(10, 14, 26, 0.9);
       border: 1px solid var(--border);
       color: var(--text);
       cursor: pointer;
-      transition: all 0.18s var(--ease-fresh);
+      transition: background 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
     }
 
     .f-pill.active { background: var(--primary); border-color: var(--primary); }
@@ -688,7 +682,7 @@
 
     .search-box {
       width: 100%;
-      background: rgba(8, 11, 20, 0.9);
+      background: rgba(8, 11, 20, 0.92);
       border: 1px solid var(--border);
       color: #fff;
       padding: 11px 14px;
@@ -696,7 +690,7 @@
       border-radius: 12px;
       font-size: 0.88rem;
       outline: none;
-      transition: border-color 0.2s var(--ease-fresh);
+      transition: border-color 0.18s var(--ease-fresh);
     }
 
     .search-box:focus { border-color: var(--primary); }
@@ -709,6 +703,7 @@
       overflow-y: auto;
       padding-right: 4px;
       scroll-behavior: smooth;
+      contain: layout style;
     }
 
     .dex-grid.list-view { grid-template-columns: 1fr; }
@@ -725,7 +720,6 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 6px;
-      animation: freshFadeIn 0.25s var(--ease-fresh) both;
     }
 
     .cat-apex { background: rgba(255, 215, 0, 0.14); border: 1px solid rgba(255, 215, 0, 0.45); color: #fde047; }
@@ -737,16 +731,18 @@
     .dex-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 13px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
+      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
       position: relative;
+      content-visibility: auto;
+      contain-intrinsic-size: 165px;
     }
 
-    .dex-card:hover { transform: translateY(-2px); }
+    .dex-card:hover { transform: translate3d(0, -2px, 0); border-color: var(--border-bright); }
     .dex-grid.list-view .dex-card { display: flex; align-items: center; }
-    .dex-card.locked { opacity: 0.44; filter: grayscale(75%); }
+    .dex-card.locked { opacity: 0.46; filter: grayscale(72%); }
 
     .dex-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #070910; display: block; }
     .dex-grid.list-view .dex-thumb { width: 120px; flex-shrink: 0; }
@@ -771,29 +767,25 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 6, 12, 0.82);
-      backdrop-filter: blur(10px);
+      background: rgba(4, 6, 12, 0.84);
       display: none;
       place-items: center;
       padding: 16px;
       z-index: 999;
-      opacity: 0;
-      transition: opacity 0.24s var(--ease-fresh);
     }
 
-    .modal-backdrop.open { display: grid; opacity: 1; }
+    .modal-backdrop.open { display: grid; animation: freshFadeIn 0.2s var(--ease-fresh) both; }
 
     .modal-box {
       width: 100%;
       max-width: 680px;
       max-height: 88vh;
       overflow-y: auto;
-      background: #121728;
+      background: #111728;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 20px;
       padding: 20px;
-      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8);
-      animation: freshFadeIn 0.28s var(--ease-fresh) both;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
     }
 
     .modal-head {
@@ -819,7 +811,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: filter 0.25s var(--ease-fresh);
     }
 
     .inspect-img-wrap.gray-locked img {
@@ -847,10 +838,10 @@
     }
 
     .inv-token-box {
-      background: linear-gradient(135deg, rgba(250, 204, 21, 0.14), rgba(245, 158, 11, 0.12));
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.15), rgba(245, 158, 11, 0.08));
       border: 1px solid rgba(250, 204, 21, 0.45);
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 15px;
+      padding: 13px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -860,31 +851,31 @@
     }
 
     .pack-item {
-      background: var(--bg-card);
+      background: linear-gradient(145deg, var(--bg-card-elev), var(--bg-card));
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
+      border-radius: 15px;
+      padding: 14px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
       margin-bottom: 10px;
       cursor: pointer;
-      transition: border-color 0.2s var(--ease-fresh), transform 0.2s var(--ease-fresh);
+      transition: border-color 0.18s var(--ease-fresh), transform 0.18s var(--ease-fresh);
     }
 
-    .pack-item:hover { border-color: rgba(255, 255, 255, 0.28); transform: translateY(-1px); }
-    .pack-item.depleted { opacity: 0.65; }
+    .pack-item:hover { border-color: rgba(0, 229, 255, 0.38); transform: translate3d(0, -1px, 0); }
+    .pack-item.depleted { opacity: 0.68; }
 
     .item-detail-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(0, 229, 255, 0.35);
-      border-radius: 16px;
+      background: linear-gradient(145deg, var(--bg-card-elev), var(--bg-card));
+      border: 1px solid rgba(0, 229, 255, 0.36);
+      border-radius: 17px;
       padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      animation: freshFadeIn 0.26s var(--ease-fresh) both;
+      animation: freshFadeIn 0.24s var(--ease-fresh) both;
     }
 
     .buy-btn {
@@ -894,23 +885,24 @@
       font-weight: 900;
       padding: 10px 16px;
       min-height: var(--touch-min);
-      border-radius: 10px;
+      border-radius: 11px;
       cursor: pointer;
       white-space: nowrap;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: transform 0.18s var(--ease-fresh), opacity 0.18s var(--ease-fresh);
+      box-shadow: 0 4px 14px rgba(0, 114, 255, 0.32);
+      transition: transform 0.16s var(--ease-fresh), opacity 0.16s var(--ease-fresh);
     }
 
     .buy-btn:active:not(:disabled) { transform: scale(0.97); }
-    .buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .buy-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 
     .notice-box {
-      background: rgba(59, 130, 246, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: 12px;
+      background: rgba(59, 130, 246, 0.11);
+      border: 1px solid rgba(59, 130, 246, 0.32);
+      border-radius: 13px;
       padding: 11px 14px;
       font-size: 0.8rem;
       color: #cbd5e1;
@@ -921,7 +913,7 @@
     .display-name-bar {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 15px;
       padding: 12px 14px;
       display: flex;
       align-items: center;
@@ -933,28 +925,28 @@
     .room-create-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
 
     .room-card {
-      background: var(--bg-card);
+      background: linear-gradient(145deg, var(--bg-card-elev), var(--bg-card));
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 14px;
+      padding: 13px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
       margin-bottom: 8px;
       flex-wrap: wrap;
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
+      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
     }
 
-    .room-card:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, 0.22); }
+    .room-card:hover { transform: translate3d(0, -1px, 0); border-color: rgba(0, 245, 212, 0.35); }
 
     .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-    .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+    .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; padding: 13px; }
 
     .trade-summary-strip {
-      background: rgba(8, 11, 20, 0.85);
+      background: rgba(8, 11, 20, 0.88);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 10px 14px;
       font-size: 0.8rem;
       color: #e2e8f0;
@@ -976,7 +968,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      animation: freshFadeIn 0.25s var(--ease-fresh) both;
+      animation: freshFadeIn 0.22s var(--ease-fresh) both;
     }
 
     .currency-offer-row {
@@ -988,17 +980,18 @@
 
     .mini-num-input {
       width: 100%;
-      background: rgba(7, 9, 16, 0.9);
+      background: rgba(7, 9, 16, 0.92);
       border: 1px solid var(--border);
       color: #fff;
       padding: 8px 10px;
       min-height: var(--touch-min);
-      border-radius: 9px;
+      border-radius: 10px;
       font-size: 0.82rem;
       font-weight: 700;
       outline: none;
     }
 
+    .mini-num-input:focus { border-color: var(--primary); }
     .mini-num-input:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .trade-slots {
@@ -1006,15 +999,15 @@
       flex-wrap: wrap;
       gap: 6px;
       min-height: 74px;
-      background: rgba(7, 9, 16, 0.7);
+      background: rgba(7, 9, 16, 0.75);
       border: 1px dashed rgba(255, 255, 255, 0.16);
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 8px;
       margin: 8px 0;
     }
 
     .trade-chip {
-      background: #1b2238;
+      background: #1b243c;
       border: 1px solid rgba(255, 255, 255, 0.18);
       border-radius: 8px;
       padding: 5px 8px;
@@ -1049,24 +1042,26 @@
       max-height: 210px;
       overflow-y: auto;
       margin-top: 8px;
+      contain: layout style;
     }
 
     .pick-item {
-      background: rgba(9, 12, 22, 0.9);
+      background: rgba(9, 12, 22, 0.92);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 9px;
       padding: 8px;
       min-height: var(--touch-min);
       font-size: 0.74rem;
       cursor: pointer;
+      transition: border-color 0.15s var(--ease-fresh), background 0.15s var(--ease-fresh);
     }
 
     .pick-item.selected { border-color: var(--c-transcendent); background: rgba(0, 245, 212, 0.12); }
 
     .agree-box {
-      background: rgba(8, 11, 20, 0.85);
+      background: rgba(8, 11, 20, 0.88);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 15px;
       padding: 12px 14px;
       display: flex;
       justify-content: space-between;
@@ -1074,7 +1069,7 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 12px;
-      transition: border-color 0.22s var(--ease-fresh), background 0.22s var(--ease-fresh);
+      transition: border-color 0.2s var(--ease-fresh), background 0.2s var(--ease-fresh);
     }
 
     .agree-box.both-agreed {
@@ -1085,7 +1080,7 @@
     .countdown-box {
       background: rgba(59, 130, 246, 0.16);
       border: 1px solid rgba(96, 165, 250, 0.55);
-      border-radius: 14px;
+      border-radius: 15px;
       padding: 12px 14px;
       display: flex;
       justify-content: space-between;
@@ -1093,7 +1088,7 @@
       gap: 10px;
       margin-bottom: 12px;
       flex-wrap: wrap;
-      animation: freshFadeIn 0.22s var(--ease-fresh) both;
+      animation: freshFadeIn 0.2s var(--ease-fresh) both;
     }
 
     .ext-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
@@ -1499,6 +1494,7 @@
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
+    const MAX_PARTICLES = 64;
     const NO_DUP_DURATION_MS = 90000;
     const TOKEN_INTERVAL_MS = 300000;
     const TOKEN_REWARD_AMOUNT = 10;
@@ -1660,6 +1656,7 @@
     let isRolling = false;
     let selectedShopItemId = null;
     let toastTimeout = null;
+    let uiDirty = true;
 
     let activeRoomId = null;
     let mySelectedOffer = [];
@@ -1680,7 +1677,9 @@
     let fiveSecSecondsLeft = 0;
 
     function saveProfile() {
-      localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
+      try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
+      } catch (_) {}
     }
 
     function showToast(msg) {
@@ -1690,7 +1689,7 @@
       if (toastTimeout) clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
-      }, 2400);
+      }, 2200);
     }
 
     function tickTokensByTime() {
@@ -1704,6 +1703,7 @@
         profile.tokens = Math.min(TOKEN_CAP, profile.tokens + gained);
         const actualGain = profile.tokens - prevTokens;
         saveProfile();
+        uiDirty = true;
         if (actualGain > 0) {
           showToast(`+${actualGain} Tokens!`);
         }
@@ -1727,80 +1727,170 @@
       return Date.now() < (Number(profile.noDupUntil) || 0);
     }
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playTone(freq, type, duration, vol = 0.15, delay = 0) {
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, type, duration, vol = 0.14, delay = 0) {
       if (!profile.settings.sfx) return;
-      if (audioCtx.state === "suspended") audioCtx.resume();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
+      const ctxAudio = getAudioCtx();
+      if (!ctxAudio) return;
+      const startAt = ctxAudio.currentTime + delay;
+      const osc = ctxAudio.createOscillator();
+      const gain = ctxAudio.createGain();
       osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
-      gain.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+      osc.frequency.setValueAtTime(freq, startAt);
+      gain.gain.setValueAtTime(vol, startAt);
+      gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
       osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(audioCtx.currentTime + delay);
-      osc.stop(audioCtx.currentTime + delay + duration);
+      gain.connect(ctxAudio.destination);
+      osc.start(startAt);
+      osc.stop(startAt + duration);
     }
 
     function playSummonSFX(bestRarity, isTroll = false) {
       if (!profile.settings.sfx) return;
       if (isTroll) {
-        [523, 659, 784, 1046, 220, 165].forEach((f, i) => playTone(f, i < 4 ? "triangle" : "sawtooth", 0.28, 0.24, i * 0.075));
+        [523, 659, 784, 1046, 220, 165].forEach((f, i) => playTone(f, i < 4 ? "triangle" : "sawtooth", 0.25, 0.2, i * 0.07));
         return;
       }
       if (bestRarity === "apex" || bestRarity === "transcendent") {
-        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((f, i) => playTone(f, "triangle", 0.42, 0.26, i * 0.07));
+        [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98].forEach((f, i) => playTone(f, "triangle", 0.36, 0.22, i * 0.065));
       } else if (bestRarity === "divine" || bestRarity === "mythic" || bestRarity === "legendary") {
-        [440, 554.37, 659.25, 880, 1108.73].forEach((f, i) => playTone(f, "sine", 0.34, 0.22, i * 0.065));
+        [440, 554.37, 659.25, 880, 1108.73].forEach((f, i) => playTone(f, "sine", 0.3, 0.18, i * 0.06));
       } else {
-        playTone(392, "sine", 0.18, 0.15, 0);
-        playTone(523.25, "sine", 0.22, 0.15, 0.07);
+        playTone(392, "sine", 0.16, 0.13, 0);
+        playTone(523.25, "sine", 0.2, 0.13, 0.065);
       }
     }
 
+    // Ultra-lightweight pooled Canvas particle engine
     const canvas = document.getElementById("particlesCanvas");
-    const ctx = canvas.getContext("2d");
-    let particles = [];
+    const ctx = canvas.getContext("2d", { alpha: true });
+    const particlePool = Array.from({ length: MAX_PARTICLES }, () => ({
+      active: false, x: 0, y: 0, vx: 0, vy: 0, r: 2.5, color: "#fff", life: 0, decay: 0.025
+    }));
+    let viewW = window.innerWidth;
+    let viewH = window.innerHeight;
+    let activeParticleCount = 0;
+    let particleRafId = null;
+    let lastParticleTs = 0;
+
     function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      viewW = window.innerWidth;
+      viewH = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      canvas.width = Math.floor(viewW * dpr);
+      canvas.height = Math.floor(viewH * dpr);
+      canvas.style.width = `${viewW}px`;
+      canvas.style.height = `${viewH}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
-    window.addEventListener("resize", resizeCanvas);
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      for (let i = 0; i < MAX_PARTICLES; i++) particlePool[i].active = false;
+      activeParticleCount = 0;
+    }, { passive: true });
     resizeCanvas();
 
-    function spawnParticles(color, count = 55) {
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: window.innerWidth / 2 + (Math.random() - 0.5) * 300,
-          y: window.innerHeight * 0.42,
-          vx: (Math.random() - 0.5) * 12,
-          vy: (Math.random() - 0.85) * 11,
-          size: Math.random() * 5.5 + 2,
-          color,
-          life: 1
-        });
+    function spawnParticles(color, count = 32, originY = null) {
+      const centerX = viewW * 0.5;
+      const centerY = typeof originY === "number" ? originY : viewH * 0.44;
+      const targetSpawn = Math.min(count, 48);
+      let spawned = 0;
+
+      for (let i = 0; i < MAX_PARTICLES && spawned < targetSpawn; i++) {
+        const p = particlePool[i];
+        if (!p.active) {
+          const ang = (Math.PI * 2 * spawned) / targetSpawn + (Math.random() - 0.5) * 0.45;
+          const spd = Math.random() * 6.2 + 2.2;
+          p.active = true;
+          p.x = centerX + (Math.random() - 0.5) * Math.min(viewW * 0.3, 180);
+          p.y = centerY + (Math.random() - 0.5) * 44;
+          p.vx = Math.cos(ang) * spd;
+          p.vy = Math.sin(ang) * spd - 2.6;
+          p.r = Math.random() * 2.8 + 1.6;
+          p.color = color;
+          p.life = 1;
+          p.decay = Math.random() * 0.015 + 0.022;
+          activeParticleCount++;
+          spawned++;
+        }
+      }
+
+      if (activeParticleCount > 0 && !particleRafId) {
+        lastParticleTs = performance.now();
+        particleRafId = requestAnimationFrame(stepParticles);
       }
     }
 
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles = particles.filter(p => p.life > 0);
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.18;
-        p.life -= 0.018;
-        ctx.globalAlpha = Math.max(0, p.life);
+    function stepParticles(now) {
+      const step = Math.min((now - lastParticleTs) / 16.67, 2);
+      lastParticleTs = now;
+
+      ctx.clearRect(0, 0, viewW, viewH);
+      let alive = 0;
+
+      for (let i = 0; i < MAX_PARTICLES; i++) {
+        const p = particlePool[i];
+        if (!p.active) continue;
+
+        p.x += p.vx * step;
+        p.y += p.vy * step;
+        p.vy += 0.2 * step;
+        p.vx *= Math.pow(0.985, step);
+        p.life -= p.decay * step;
+
+        if (p.life <= 0 || p.y > viewH + 24) {
+          p.active = false;
+          continue;
+        }
+
+        alive++;
+        ctx.globalAlpha = p.life > 1 ? 1 : (p.life < 0 ? 0 : p.life);
         ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
       }
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
 
+      ctx.globalAlpha = 1;
+      activeParticleCount = alive;
+
+      if (alive > 0) {
+        particleRafId = requestAnimationFrame(stepParticles);
+      } else {
+        particleRafId = null;
+        ctx.clearRect(0, 0, viewW, viewH);
+      }
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        for (let i = 0; i < MAX_PARTICLES; i++) particlePool[i].active = false;
+        activeParticleCount = 0;
+        if (particleRafId) {
+          cancelAnimationFrame(particleRafId);
+          particleRafId = null;
+        }
+        ctx.clearRect(0, 0, viewW, viewH);
+      } else {
+        tickTokensByTime();
+        pruneExpiredRooms();
+        uiDirty = true;
+      }
+    });
+
+    // Image loading logic preserved identically
     function extractYtId(raw) {
       if (!raw) return "";
       const str = String(raw);
@@ -1861,7 +1951,9 @@
         });
 
       allDemons = valid;
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ updatedAt: Date.now(), levels: allDemons }));
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ updatedAt: Date.now(), levels: allDemons }));
+      } catch (_) {}
       rebuildIndexes();
     }
 
@@ -1900,6 +1992,7 @@
           </p>`;
       }
 
+      uiDirty = true;
       updateAllUI();
     }
 
@@ -2017,6 +2110,7 @@
       isRolling = true;
       profile.tokens = Math.max(0, profile.tokens - times);
       saveProfile();
+      uiDirty = true;
       updateAllUI();
 
       const stageArena = document.getElementById("stageArena");
@@ -2053,16 +2147,15 @@
         pullOutputs.push({ demon, isDup, orbsEarned, isTroll });
       }
 
-      // Sort best rarity first so big drops shine immediately on reveal
       pullOutputs.sort((a, b) => TIER_ORDER.indexOf(b.demon.rarity) - TIER_ORDER.indexOf(a.demon.rarity) || a.demon.rank - b.demon.rank);
 
       const bestTier = TIER_ORDER[bestTierIndex];
       const animDuration = anyTroll
         ? RARITY_TIERS.apex.animMs
-        : Math.min(1650, RARITY_TIERS[bestTier].animMs + (times > 1 ? 260 : 120));
+        : Math.min(1550, RARITY_TIERS[bestTier].animMs + (times > 1 ? 220 : 100));
 
       if (!profile.settings.skip) {
-        playTone(anyTroll ? 659 : 280, "triangle", animDuration / 1000, 0.18);
+        playTone(anyTroll ? 659 : 280, "triangle", animDuration / 1000, 0.16);
         const orbCls = anyTroll || bestTierIndex >= 4
           ? "dramatic"
           : (times > 1 ? "multi-burst" : "");
@@ -2084,10 +2177,13 @@
       profile.lastPullIds = pullOutputs.map(x => x.demon.id);
       checkAchievements();
       saveProfile();
+      uiDirty = true;
 
       playSummonSFX(bestTier, anyTroll);
       const effectColor = anyTroll ? "#ffd700" : RARITY_TIERS[bestTier].color;
-      spawnParticles(effectColor, anyTroll || bestTierIndex >= 5 ? 110 : (times > 1 ? 75 : 48));
+      const arenaRect = stageArena.getBoundingClientRect();
+      const originY = Math.max(110, Math.min(viewH * 0.72, arenaRect.top + arenaRect.height * 0.44));
+      spawnParticles(effectColor, anyTroll || bestTierIndex >= 5 ? 48 : (times > 1 ? 36 : 24), originY);
 
       if (anyTroll || bestTier === "apex" || bestTier === "transcendent" || bestTier === "divine" || times > 1) {
         document.body.classList.remove("shake");
@@ -2096,8 +2192,8 @@
 
         const flash = document.getElementById("flashOverlay");
         flash.style.background = effectColor;
-        flash.style.opacity = bestTierIndex >= 5 || anyTroll ? "0.42" : "0.22";
-        setTimeout(() => { flash.style.opacity = "0"; }, 170);
+        flash.style.opacity = bestTierIndex >= 5 || anyTroll ? "0.36" : "0.18";
+        setTimeout(() => { flash.style.opacity = "0"; }, 160);
       }
 
       renderStageCards(pullOutputs, !profile.settings.skip);
@@ -2150,7 +2246,7 @@
             const d = item.demon;
             const imgs = getImageSources(d);
             const isFav = profile.favorites.includes(d.id);
-            const delay = animate ? `style="animation-delay:${Math.min(idx * 42, 420)}ms"` : `style="animation:none"`;
+            const delay = animate ? `style="animation-delay:${Math.min(idx * 32, 320)}ms"` : `style="animation:none"`;
             let statusBadge = "";
             if (item.isTroll) {
               statusBadge = `<span class="card-status-badge badge-troll">🤡 TROLL COMMON</span>`;
@@ -2192,6 +2288,7 @@
       if (idx >= 0) profile.favorites.splice(idx, 1);
       else profile.favorites.push(id);
       saveProfile();
+      uiDirty = true;
       updateAllUI();
     }
 
@@ -2264,13 +2361,17 @@
 
       refreshTimersUI();
       updateSummonButtonsState();
-      renderDexGrid();
+
+      if (uiDirty && currentSection === "home") {
+        uiDirty = false;
+        renderDexGrid();
+      }
     }
 
     setInterval(() => {
       tickTokensByTime();
       pruneExpiredRooms();
-      updateAllUI();
+      refreshTimersUI();
     }, 500);
 
     function renderDexGrid() {
@@ -2322,7 +2423,7 @@
           <div class="dex-card ${count === 0 ? "locked" : ""}"
             style="border-bottom: 3px solid var(--c-${d.rarity});"
             onclick="openInspectModal('${d.id}', ${isSearching})">
-            <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
+            <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy" decoding="async"
               onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
             ${count > 0 ? `<span class="copy-pill">x${count}</span>` : ""}
             <div class="dex-meta">
@@ -2344,6 +2445,7 @@
       document.getElementById("gachaHomeView").style.display = sectionName === "home" ? "flex" : "none";
       document.getElementById("shopSection").style.display = sectionName === "shop" ? "block" : "none";
       document.getElementById("traderSection").style.display = sectionName === "trader" ? "block" : "none";
+      if (sectionName === "home") uiDirty = true;
       updateAllUI();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -2415,7 +2517,8 @@
       profile.orbs -= item.cost;
       profile.packs[item.id] = (profile.packs[item.id] || 0) + 1;
       saveProfile();
-      playTone(660, "triangle", 0.25, 0.18);
+      uiDirty = true;
+      playTone(660, "triangle", 0.22, 0.16);
       showToast(`Bought ${item.name}!`);
       updateAllUI();
       document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
@@ -2462,6 +2565,7 @@
 
       profile.tradeRooms = profile.tradeRooms.filter(r => now < (r.expiresAt || 0));
       saveProfile();
+      uiDirty = true;
 
       expiredIds.forEach(id => removeRoomFromBackend(id));
 
@@ -2491,6 +2595,7 @@
             .filter(r => now < r.expiresAt)
             .slice(0, MAX_TRADE_ROOMS);
           saveProfile();
+          uiDirty = true;
         }
       } catch (_) {}
     }
@@ -2598,6 +2703,7 @@
       });
       profile.tradeRooms.push(room);
       saveProfile();
+      uiDirty = true;
       await pushRoomToBackend(room);
       document.getElementById("newRoomNameInput").value = "";
       document.getElementById("roomNameCounter").textContent = "0/32";
@@ -3020,19 +3126,21 @@
         persistRoomOffers();
         checkAchievements();
         saveProfile();
+        uiDirty = true;
 
         if (receivedDemons.length > 0) {
           profile.lastPullIds = receivedDemons.map(d => d.id);
           renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false })), true);
         }
 
-        playTone(784, "triangle", 0.3, 0.2);
+        playTone(784, "triangle", 0.28, 0.18);
         updateAllUI();
         renderTradeRoomWorkspace();
         showToast("Trade verified & completed cleanly!");
       } catch (_) {
         profile = snapshot;
         saveProfile();
+        uiDirty = true;
         updateAllUI();
         renderTradeRoomWorkspace();
         showToast("Trade safety check triggered — no items lost!");
@@ -3053,6 +3161,7 @@
       const idToDel = activeRoomId;
       profile.tradeRooms = profile.tradeRooms.filter(r => r.id !== idToDel);
       saveProfile();
+      uiDirty = true;
       await removeRoomFromBackend(idToDel);
       showToast("Room deleted.");
       updateAllUI();
@@ -3099,7 +3208,7 @@
           const imgs = getImageSources(d);
           return `
             <div class="dex-card" style="border-bottom:3px solid var(--c-${d.rarity});" onclick="closeModal('invModal'); openInspectModal('${d.id}', false)">
-              <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}"
+              <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy" decoding="async"
                 onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
               <span class="copy-pill">x${profile.owned[d.id]}</span>
               <div class="dex-meta">
@@ -3140,7 +3249,8 @@
       }
 
       saveProfile();
-      playTone(880, "sine", 0.3, 0.2);
+      uiDirty = true;
+      playTone(880, "sine", 0.26, 0.18);
       closeModal("invModal");
       updateAllUI();
     }
@@ -3441,6 +3551,7 @@
     viewBtn.addEventListener("click", () => {
       profile.settings.listView = !profile.settings.listView;
       saveProfile();
+      uiDirty = true;
       syncToggleButtons();
       renderDexGrid();
     });
@@ -3469,6 +3580,7 @@
         settings: profile.settings
       };
       saveProfile();
+      uiDirty = true;
       document.getElementById("tokenShortageBanner").style.display = "none";
       document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Summon to begin!</p>`;
       showToast("Progress reset.");
