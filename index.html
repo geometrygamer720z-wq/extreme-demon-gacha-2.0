@@ -1,18 +1,427 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" href="/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Extreme Demon Roulette</title>
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="Extreme Demon Roulette" />
-        <meta property="og:description" name="description"
-            content="Simple website for the extreme demon roulette challenge." />
-        <meta property="og:url" content="https://matcool.github.io/extreme-demon-roulette/" />
-    </head>
-    <body>
-        <div id="app"></div>
-        <script type="module" src="/src/main.ts"></script>
-    </body>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Extreme Demon Gacha</title>
+  <style>
+    :root {
+      --bg: #121212;
+      --panel: #1e1e1e;
+      --panel-hover: #2a2a2a;
+      --border: #333333;
+      --text: #f0f0f0;
+      --muted: #9e9e9e;
+      --accent: #3b82f6;
+      --common: #64748b;
+      --rare: #0ea5e9;
+      --epic: #a855f7;
+      --legendary: #f59e0b;
+      --top1: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    header {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      font-size: 0.85rem;
+    }
+
+    .stat-badge {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 6px;
+      color: var(--muted);
+    }
+
+    .stat-badge strong {
+      color: var(--text);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Caja principal estilo Demon Roulette */
+    .roulette-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      background: #181818;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pull-display {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 190px;
+      justify-content: center;
+    }
+
+    .demon-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: #161616;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .demon-thumb {
+      width: 120px;
+      height: 68px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #0a0a0a;
+      flex-shrink: 0;
+    }
+
+    .demon-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .demon-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .demon-sub {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    .t-common { background: rgba(100, 116, 139, 0.2); color: #cbd5e1; border: 1px solid var(--common); }
+    .t-rare { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; border: 1px solid var(--rare); }
+    .t-epic { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid var(--epic); }
+    .t-legendary { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid var(--legendary); }
+    .t-top1 { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid var(--top1); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #181818;
+      border-top: 1px solid var(--border);
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--panel-hover);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+
+    button:hover {
+      background: #353535;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+
+    .btn-danger {
+      color: #f87171;
+    }
+
+    /* Inventario / Colección */
+    .collection-box {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .collection-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .collection-header h2 {
+      font-size: 1rem;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .col-item {
+      background: #161616;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.85rem;
+    }
+
+    .col-item.locked {
+      opacity: 0.35;
+    }
+
+    .col-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .col-name {
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 500px) {
+      .demon-thumb { width: 96px; height: 54px; }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .btn-danger { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Extreme Demon Gacha</h1>
+    <div class="stats-bar">
+      <div class="stat-badge">Tiradas: <strong id="pullsCount">0</strong></div>
+      <div class="stat-badge">Colección: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="roulette-card">
+      <div class="card-header">
+        <span>Banner: Demonlist & Legacy Pool</span>
+        <span id="lastRarityText">Listo para girar</span>
+      </div>
+
+      <div class="pull-display" id="pullDisplay">
+        <p style="text-align:center; color: var(--muted); font-size: 0.9rem;">
+          Presiona <strong>Tirar x1</strong> o <strong>Tirar x10</strong> para obtener un Extreme Demon.
+        </p>
+      </div>
+
+      <div class="controls">
+        <button class="btn-primary" id="pull1Btn">Tirar x1</button>
+        <button class="btn-primary" id="pull10Btn">Tirar x10</button>
+        <button class="btn-danger" id="resetBtn">Reiniciar</button>
+      </div>
+    </section>
+
+    <section class="collection-box">
+      <div class="collection-header">
+        <h2>Demonlist Index (Colección)</h2>
+        <span style="font-size: 0.8rem; color: var(--muted);">Ordenado por rango</span>
+      </div>
+      <div class="collection-grid" id="collectionGrid"></div>
+    </section>
+  </main>
+
+  <script>
+    // Pool de niveles (puedes agregar más copiando una línea y cambiando el ID de video de YouTube)
+    const DEMON_POOL = [
+      { rank: 1, name: "Tidal Wave", creator: "OniLink", yt: "9fsZ014qB3s", rarity: "top1", weight: 1 },
+      { rank: 2, name: "Nullscapes", creator: "Kiba", yt: "E1202863_mQ", rarity: "legendary", weight: 2 },
+      { rank: 3, name: "Avernus", creator: "PockeWindfish", yt: "16Le9e882aM", rarity: "legendary", weight: 3 },
+      { rank: 4, name: "Acheron", creator: "ryamu", yt: "sBKR6aUorzA", rarity: "legendary", weight: 4 },
+      { rank: 5, name: "Silent Clubstep", creator: "TheRealSailent", yt: "GR4snkLP2-I", rarity: "epic", weight: 6 },
+      { rank: 6, name: "Slaughterhouse", creator: "icedcave", yt: "kpcF1-6989M", rarity: "epic", weight: 8 },
+      { rank: 7, name: "KOCMOC", creator: "cherryteam", yt: "27248540900", rarity: "epic", weight: 9 },
+      { rank: 8, name: "Firework", creator: "Trick", yt: "QBe5x2o9v2w", rarity: "rare", weight: 12 },
+      { rank: 9, name: "Tartarus", creator: "Dolphy", yt: "22146519300", rarity: "rare", weight: 15 },
+      { rank: 10, name: "Zodiac", creator: "Bianox", yt: "32145698700", rarity: "rare", weight: 18 },
+      { rank: 11, name: "Sonic Wave", creator: "Sunix", yt: "21456987400", rarity: "common", weight: 25 },
+      { rank: 12, name: "Bloodbath", creator: "Riot", yt: "twTw4fjDp04", rarity: "common", weight: 30 },
+      { rank: 13, name: "Cataclysm", creator: "Ggb0y", yt: "21456987111", rarity: "common", weight: 35 },
+      { rank: 14, name: "Acu", creator: "Neigefeu", yt: "21456987222", rarity: "common", weight: 40 }
+    ];
+
+    const RARITY_NAMES = {
+      common: "Común",
+      rare: "Raro",
+      epic: "Épico",
+      legendary: "Legendario",
+      top1: "TOP 1 MÍTICO"
+    };
+
+    let saveData = JSON.parse(localStorage.getItem("ed_gacha_v1")) || {
+      pulls: 0,
+      owned: {}
+    };
+
+    const pullDisplay = document.getElementById("pullDisplay");
+    const collectionGrid = document.getElementById("collectionGrid");
+    const pullsCount = document.getElementById("pullsCount");
+    const ownedCount = document.getElementById("ownedCount");
+    const totalCount = document.getElementById("totalCount");
+    const lastRarityText = document.getElementById("lastRarityText");
+
+    totalCount.textContent = DEMON_POOL.length;
+
+    function rollSingle() {
+      const totalWeight = DEMON_POOL.reduce((acc, item) => acc + item.weight, 0);
+      let random = Math.random() * totalWeight;
+      for (const demon of DEMON_POOL) {
+        random -= demon.weight;
+        if (random <= 0) return demon;
+      }
+      return DEMON_POOL[DEMON_POOL.length - 1];
+    }
+
+    function getThumbUrl(ytId) {
+      return `https://i.ytimg.com/vi/${ytId}/mqdefault.jpg`;
+    }
+
+    function executePull(times) {
+      const results = [];
+      for (let i = 0; i < times; i++) {
+        const demon = rollSingle();
+        results.push(demon);
+        saveData.pulls += 1;
+        saveData.owned[demon.rank] = (saveData.owned[demon.rank] || 0) + 1;
+      }
+
+      renderPullResults(results);
+      updateUI();
+    }
+
+    function renderPullResults(results) {
+      pullDisplay.innerHTML = results.map(d => `
+        <div class="demon-row">
+          <img class="demon-thumb" src="${getThumbUrl(d.yt)}" alt="${d.name}" onerror="this.src='https://via.placeholder.com/120x68/111/666?text=GD'">
+          <div class="demon-info">
+            <div class="demon-title">#${d.rank} - ${d.name}</div>
+            <div class="demon-sub">por ${d.creator}</div>
+            <span class="tag t-${d.rarity}">${RARITY_NAMES[d.rarity]}</span>
+          </div>
+        </div>
+      `).join("");
+
+      const best = results.reduce((prev, curr) => (curr.rank < prev.rank ? curr : prev), results[0]);
+      lastRarityText.textContent = `Mejor obtenido: #${best.rank} ${best.name}`;
+    }
+
+    function updateUI() {
+      localStorage.setItem("ed_gacha_v1", JSON.stringify(saveData));
+      pullsCount.textContent = saveData.pulls;
+      ownedCount.textContent = Object.keys(saveData.owned).length;
+
+      collectionGrid.innerHTML = DEMON_POOL.map(d => {
+        const count = saveData.owned[d.rank] || 0;
+        return `
+          <div class="col-item ${count === 0 ? "locked" : ""}">
+            <div class="col-top">
+              <span>#${d.rank}</span>
+              <span>${count > 0 ? "x" + count : "???"}</span>
+            </div>
+            <div class="col-name">${count > 0 ? d.name : "Bloqueado"}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
+    document.getElementById("pull10Btn").addEventListener("click", () => executePull(10));
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      saveData = { pulls: 0, owned: {} };
+      pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Datos reiniciados.</p>`;
+      lastRarityText.textContent = "Listo para girar";
+      updateUI();
+    });
+
+    updateUI();
+  </script>
+</body>
 </html>
