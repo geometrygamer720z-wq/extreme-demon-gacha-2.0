@@ -2,210 +2,371 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>AREDL Extreme Demon Gacha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0e1015;
-      --panel: #171a23;
-      --panel-hover: #212634;
-      --border: #2a3042;
-      --text: #f3f4f8;
-      --muted: #949cb3;
-      --accent: #3b82f6;
+      --bg-deep: #07090f;
+      --bg-panel: rgba(18, 22, 36, 0.85);
+      --bg-card: #121625;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.45);
 
-      /* Rarezas AREDL */
-      --common: #64748b;
-      --rare: #0ea5e9;
-      --epic: #a855f7;
-      --legendary: #f59e0b;
-      --divine: #ff2a6d;
+      /* Colores de Rarezas */
+      --c-common: #94a3b8;
+      --g-common: rgba(148, 163, 184, 0.25);
+
+      --c-rare: #38bdf8;
+      --g-rare: rgba(56, 189, 248, 0.35);
+
+      --c-epic: #c084fc;
+      --g-epic: rgba(192, 132, 252, 0.45);
+
+      --c-legendary: #fbbf24;
+      --g-legendary: rgba(251, 191, 36, 0.55);
+
+      --c-divine: #ff2a6d;
+      --g-divine: rgba(255, 42, 109, 0.7);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: var(--bg);
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(255, 42, 109, 0.1), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.12), transparent 45%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
+      padding: 14px;
+      overflow-x: hidden;
     }
 
-    header {
+    /* Barra Superior Glassmorphism */
+    .topbar {
       width: 100%;
-      max-width: 780px;
+      max-width: 920px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 18px;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    header h1 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-    }
-
-    .stats-bar {
-      display: flex;
-      gap: 8px;
-      font-size: 0.82rem;
-      flex-wrap: wrap;
-    }
-
-    .stat-badge {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 6px;
-      color: var(--muted);
-    }
-
-    .stat-badge strong {
-      color: var(--text);
-    }
-
-    .container {
-      width: 100%;
-      max-width: 780px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .roulette-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-header {
-      background: #12151d;
-      padding: 10px 16px;
-      font-size: 0.82rem;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .pull-display {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      min-height: 190px;
-      justify-content: center;
-    }
-
-    .demon-row {
-      display: flex;
       gap: 12px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .brand {
+      display: flex;
       align-items: center;
-      background: #12151d;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff2a6d, #7928ca);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      box-shadow: 0 0 16px rgba(255, 42, 109, 0.5);
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      background: linear-gradient(to right, #fff, #cbd5e1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .hud-stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .hud-pill {
+      background: rgba(10, 13, 24, 0.8);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px;
-      animation: fadeIn 0.2s ease;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .demon-row.is-divine {
-      border-color: var(--divine);
-      box-shadow: 0 0 15px rgba(255, 42, 109, 0.25);
+    .hud-pill strong {
+      color: #fff;
+      font-weight: 800;
     }
 
-    .demon-row.is-legendary {
-      border-color: var(--legendary);
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.18);
+    .main-wrap {
+      width: 100%;
+      max-width: 920px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Escenario de Invocación Gacha */
+    .summon-stage {
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
     }
 
-    .demon-thumb {
-      width: 118px;
-      height: 66px;
-      border-radius: 6px;
+    .stage-header {
+      padding: 12px 18px;
+      background: rgba(8, 10, 18, 0.65);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      margin-right: 6px;
+    }
+
+    .stage-arena {
+      padding: 20px 16px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Grid de cartas obtenidas */
+    .results-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+
+    .results-grid.single-pull {
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    .pull-card {
+      background: var(--bg-card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transform-origin: center;
+      animation: cardPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .pull-card:hover {
+      transform: translateY(-4px) scale(1.015);
+    }
+
+    @keyframes cardPop {
+      0% { opacity: 0; transform: scale(0.78) translateY(18px); }
+      70% { transform: scale(1.03) translateY(-2px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Estilos visuales por rareza */
+    .pull-card.r-common {
+      border-color: rgba(148, 163, 184, 0.45);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+    .pull-card.r-rare {
+      border-color: var(--c-rare);
+      box-shadow: 0 0 22px var(--g-rare);
+    }
+    .pull-card.r-epic {
+      border-color: var(--c-epic);
+      box-shadow: 0 0 26px var(--g-epic);
+    }
+    .pull-card.r-legendary {
+      border-color: var(--c-legendary);
+      box-shadow: 0 0 32px var(--g-legendary);
+    }
+    .pull-card.r-divine {
+      border-color: var(--c-divine);
+      box-shadow: 0 0 40px var(--g-divine), inset 0 0 20px rgba(255, 42, 109, 0.25);
+      animation: cardPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards, divinePulse 2.2s infinite alternate;
+    }
+
+    @keyframes divinePulse {
+      from { box-shadow: 0 0 25px var(--g-divine); }
+      to { box-shadow: 0 0 48px rgba(255, 42, 109, 0.95), 0 0 18px #ffd000; }
+    }
+
+    .card-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #080a12;
+      overflow: hidden;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      background: #090b0f;
-      flex-shrink: 0;
+      display: block;
+      transition: transform 0.35s ease;
     }
 
-    .demon-info {
-      flex: 1;
-      min-width: 0;
+    .pull-card:hover .card-media img {
+      transform: scale(1.06);
     }
 
-    .demon-title {
+    .card-rank-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(7, 9, 15, 0.85);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .card-new-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.68rem;
+      padding: 3px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 10px rgba(34, 197, 94, 0.5);
+    }
+
+    .card-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rarity-pill {
+      align-self: flex-start;
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 2px 8px;
+      border-radius: 5px;
+    }
+
+    .rp-common { background: rgba(148, 163, 184, 0.18); color: var(--c-common); }
+    .rp-rare { background: rgba(56, 189, 248, 0.18); color: var(--c-rare); }
+    .rp-epic { background: rgba(192, 132, 252, 0.2); color: var(--c-epic); }
+    .rp-legendary { background: rgba(251, 191, 36, 0.22); color: var(--c-legendary); }
+    .rp-divine { background: rgba(255, 42, 109, 0.25); color: #ff7aa5; border: 1px solid rgba(255, 42, 109, 0.5); }
+
+    .card-title {
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .card-creator {
+      font-size: 0.78rem;
+      color: var(--muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .demon-sub {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      margin-top: 6px;
-    }
-
-    .t-common { background: rgba(100, 116, 139, 0.2); color: #cbd5e1; border: 1px solid var(--common); }
-    .t-rare { background: rgba(14, 165, 233, 0.2); color: #7dd3fc; border: 1px solid var(--rare); }
-    .t-epic { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid var(--epic); }
-    .t-legendary { background: rgba(245, 158, 11, 0.2); color: #fcd34d; border: 1px solid var(--legendary); }
-    .t-divine { background: rgba(255, 42, 109, 0.25); color: #ff85ab; border: 1px solid var(--divine); }
-
-    .controls {
+    /* Botonera Gacha */
+    .summon-controls {
+      padding: 16px;
+      background: rgba(8, 10, 18, 0.75);
+      border-top: 1px solid var(--border);
       display: grid;
       grid-template-columns: 1fr 1fr auto auto;
-      gap: 8px;
-      padding: 14px 16px;
-      background: #12151d;
-      border-top: 1px solid var(--border);
+      gap: 10px;
     }
 
     button {
       cursor: pointer;
       border: 1px solid var(--border);
-      background: var(--panel-hover);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      transition: background 0.15s, opacity 0.15s;
+      background: #1b2136;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.96);
     }
 
     button:disabled {
@@ -213,202 +374,400 @@
       cursor: not-allowed;
     }
 
-    button:hover:not(:disabled) {
-      background: #2e3548;
+    .btn-roll-1 {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border: none;
+      box-shadow: 0 6px 20px var(--primary-glow);
     }
 
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: #2563eb;
+    .btn-roll-10 {
+      background: linear-gradient(135deg, #9333ea, #ff2a6d);
+      border: none;
+      box-shadow: 0 6px 22px rgba(255, 42, 109, 0.4);
     }
 
     .btn-danger {
-      color: #f87171;
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
     }
 
-    .rates-bar {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      font-size: 0.74rem;
+    .rates-strip {
       padding: 10px 16px;
-      background: #141720;
+      background: rgba(6, 8, 14, 0.9);
       border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.74rem;
       color: var(--muted);
     }
 
-    .collection-box {
-      background: var(--panel);
+    /* Navegación de Pestañas (Colección vs Historial) */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-panel);
+      padding: 6px;
+      border-radius: 14px;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
     }
 
-    .collection-header {
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .tab-btn.active {
+      background: #232b45;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Panel de Colección */
+    .dex-panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .dex-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
       flex-wrap: wrap;
       gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .collection-header h2 {
-      font-size: 1rem;
+    .dex-top h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
     }
 
-    .filter-bar {
+    .filter-pills {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       margin-bottom: 12px;
     }
 
-    .filter-btn {
-      padding: 5px 9px;
+    .f-pill {
+      padding: 6px 11px;
       font-size: 0.76rem;
-      border-radius: 5px;
+      border-radius: 8px;
+      background: rgba(12, 15, 26, 0.8);
     }
 
-    .filter-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+    .f-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
     }
 
-    .search-input {
+    .search-box {
       width: 100%;
-      background: #12151d;
+      background: rgba(10, 13, 24, 0.9);
       border: 1px solid var(--border);
-      color: var(--text);
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
+      color: #fff;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      margin-bottom: 14px;
+      outline: none;
     }
 
-    .collection-grid {
+    .search-box:focus {
+      border-color: var(--primary);
+    }
+
+    .dex-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-      gap: 8px;
-      max-height: 460px;
+      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+      gap: 10px;
+      max-height: 540px;
       overflow-y: auto;
       padding-right: 4px;
     }
 
-    .col-item {
-      background: #12151d;
+    .dex-card {
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px;
-      font-size: 0.82rem;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease;
     }
 
-    .col-item.locked {
-      opacity: 0.35;
+    .dex-card:hover {
+      transform: translateY(-2px);
     }
 
-    .col-top {
+    .dex-card.locked {
+      opacity: 0.42;
+      filter: grayscale(85%);
+    }
+
+    .dex-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #080a12;
+      display: block;
+    }
+
+    .dex-meta {
+      padding: 8px 10px;
+    }
+
+    .dex-row1 {
       display: flex;
       justify-content: space-between;
       font-size: 0.72rem;
       color: var(--muted);
-      margin-bottom: 3px;
+      font-weight: 700;
     }
 
-    .col-name {
-      font-weight: 700;
+    .dex-name {
+      font-size: 0.86rem;
+      font-weight: 800;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-top: 2px;
     }
 
-    @media (max-width: 560px) {
-      .demon-thumb { width: 92px; height: 52px; }
-      .controls { grid-template-columns: 1fr 1fr; }
+    /* Historial guardado */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .hist-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .hist-thumb {
+      width: 72px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #080a12;
+      flex-shrink: 0;
+    }
+
+    /* Modal de inspección de nivel */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.82);
+      backdrop-filter: blur(8px);
+      display: none;
+      place-items: center;
+      padding: 16px;
+      z-index: 999;
+    }
+
+    .modal-backdrop.open {
+      display: grid;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 440px;
+      background: #14192b;
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      animation: cardPop 0.25s ease;
+    }
+
+    .modal-img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #080a12;
+    }
+
+    .modal-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .modal-actions a {
+      flex: 1;
+      text-decoration: none;
+      background: #ef4444;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 11px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    /* Flash blanco al sacar Divine/Legendary */
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 998;
+      transition: opacity 0.45s ease;
+    }
+
+    @media (max-width: 600px) {
+      .summon-controls {
+        grid-template-columns: 1fr 1fr;
+      }
+      .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .results-grid.single-pull {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>AREDL Extreme Demon Gacha</h1>
-    <div class="stats-bar">
-      <div class="stat-badge">Tiradas: <strong id="pullsCount">0</strong></div>
-      <div class="stat-badge">Desbloqueados: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
+  <div class="flash-overlay" id="flashOverlay"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">GD</div>
+      <div>
+        <h1>AREDL Demon Gacha</h1>
+        <span>Edición Oficial · Guardado Automático</span>
+      </div>
+    </div>
+
+    <div class="hud-stats">
+      <div class="hud-pill">Tiradas: <strong id="pullsCount">0</strong></div>
+      <div class="hud-pill">Colección: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
+      <div class="hud-pill">Progreso: <strong id="percentCount">0%</strong></div>
     </div>
   </header>
 
-  <main class="container">
-    <section class="roulette-card">
-      <div class="card-header">
-        <span id="syncStatus">Analizando base de datos AREDL...</span>
-        <span id="lastRarityText">Esperando datos</span>
+  <main class="main-wrap">
+    <!-- Escenario Principal -->
+    <section class="summon-stage">
+      <div class="stage-header">
+        <div><span class="status-dot"></span><span id="syncStatus">Cargando base de datos AREDL...</span></div>
+        <strong id="lastPullBadge" style="color:#fff;">Listo para invocar</strong>
       </div>
 
-      <div class="pull-display" id="pullDisplay">
-        <p style="text-align:center; color: var(--muted); font-size: 0.9rem;">
-          Cargando todos los Extreme Demons desde la AREDL...
+      <div class="stage-arena" id="stageArena">
+        <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
+          Sincronizando todos los Extreme Demons y sus miniaturas...
         </p>
       </div>
 
-      <div class="controls">
-        <button class="btn-primary" id="pull1Btn" disabled>Tirar x1</button>
-        <button class="btn-primary" id="pull10Btn" disabled>Tirar x10</button>
-        <button id="syncBtn" title="Actualizar lista desde AREDL">Sincronizar AREDL</button>
-        <button class="btn-danger" id="resetBtn">Reiniciar</button>
+      <div class="summon-controls">
+        <button class="btn-roll-1" id="pull1Btn" disabled>⚡ Tirar x1</button>
+        <button class="btn-roll-10" id="pull10Btn" disabled>🔥 Tirar x10</button>
+        <button id="syncBtn" title="Actualizar niveles de la AREDL">🔄 Actualizar</button>
+        <button class="btn-danger" id="resetBtn">🗑️ Borrar</button>
       </div>
 
-      <div class="rates-bar">
+      <div class="rates-strip">
         <span>Probabilidades:</span>
-        <strong style="color:#cbd5e1;">Common (55%)</strong> ·
-        <strong style="color:#7dd3fc;">Rare (27%)</strong> ·
-        <strong style="color:#d8b4fe;">Epic (12%)</strong> ·
-        <strong style="color:#fcd34d;">Legendary (5%)</strong> ·
-        <strong style="color:#ff85ab;">Divine Top 1-15 (1%)</strong>
+        <strong style="color:var(--c-common)">Common 55%</strong> •
+        <strong style="color:var(--c-rare)">Rare 27%</strong> •
+        <strong style="color:var(--c-epic)">Epic 12%</strong> •
+        <strong style="color:var(--c-legendary)">Legendary 5%</strong> •
+        <strong style="color:var(--c-divine)">Divine Top 1-15 1%</strong>
       </div>
     </section>
 
-    <section class="collection-box">
-      <div class="collection-header">
-        <h2>Índice Completo AREDL</h2>
-        <span id="filterSummary" style="font-size: 0.8rem; color: var(--muted);">Mostrando todos</span>
+    <!-- Navegación entre Índice e Historial -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" id="tabDexBtn">📚 Índice AREDL Guardado</button>
+      <button class="tab-btn" id="tabHistBtn">🕒 Últimas Tiradas Guardadas</button>
+    </nav>
+
+    <!-- Panel de Colección / Índice -->
+    <section class="dex-panel" id="dexSection">
+      <div class="dex-top">
+        <h2>Colección de Extreme Demons</h2>
+        <span id="filterSummary" style="font-size: 0.8rem; color: var(--muted);">0 niveles</span>
       </div>
 
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="owned">Desbloqueados</button>
-        <button class="filter-btn" data-filter="divine">Divine</button>
-        <button class="filter-btn" data-filter="legendary">Legendary</button>
-        <button class="filter-btn" data-filter="epic">Epic</button>
-        <button class="filter-btn" data-filter="rare">Rare</button>
-        <button class="filter-btn" data-filter="common">Common</button>
+      <div class="filter-pills" id="filterBar">
+        <button class="f-pill active" data-filter="all">Todos</button>
+        <button class="f-pill" data-filter="owned">✅ Desbloqueados</button>
+        <button class="f-pill" data-filter="divine" style="color:var(--c-divine)">Divine</button>
+        <button class="f-pill" data-filter="legendary" style="color:var(--c-legendary)">Legendary</button>
+        <button class="f-pill" data-filter="epic" style="color:var(--c-epic)">Epic</button>
+        <button class="f-pill" data-filter="rare" style="color:var(--c-rare)">Rare</button>
+        <button class="f-pill" data-filter="common" style="color:var(--c-common)">Common</button>
       </div>
 
-      <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre o #posición en la AREDL..." />
+      <input type="text" class="search-box" id="searchInput" placeholder="Buscar nivel por nombre, creador o #posición (ej: Tidal Wave, #1)..." />
 
-      <div class="collection-grid" id="collectionGrid"></div>
+      <div class="dex-grid" id="dexGrid"></div>
+    </section>
+
+    <!-- Panel de Historial Guardado -->
+    <section class="dex-panel" id="histSection" style="display:none;">
+      <div class="dex-top">
+        <h2>Historial de Tiradas (Últimos 100)</h2>
+        <span style="font-size: 0.8rem; color: var(--muted);">Guardado automáticamente</span>
+      </div>
+      <div class="history-list" id="historyList"></div>
     </section>
   </main>
 
+  <!-- Modal de Inspección de Carta -->
+  <div class="modal-backdrop" id="inspectModal">
+    <div class="modal-card" id="modalCard">
+      <img class="modal-img" id="modalImg" src="" alt="" />
+      <div class="modal-body">
+        <span class="rarity-pill" id="modalRarity"></span>
+        <h3 id="modalTitle" style="font-size:1.3rem; font-weight:900;"></h3>
+        <p id="modalCreator" style="font-size:0.88rem; color:var(--muted);"></p>
+        <p id="modalCount" style="font-size:0.85rem; color:#cbd5e1;"></p>
+        <div class="modal-actions">
+          <a id="modalYtLink" href="#" target="_blank" rel="noopener">▶ Ver Showcase / Verificación</a>
+          <button id="closeModalBtn">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
-    const CACHE_KEY = "aredl_levels_cache_v1";
-    const SAVE_KEY = "aredl_gacha_save_v1";
-
-    // Clasificación automática por posición en la AREDL
-    function classifyRarity(position) {
-      if (position <= 15) return "divine";
-      if (position <= 75) return "legendary";
-      if (position <= 200) return "epic";
-      if (position <= 500) return "rare";
-      return "common";
-    }
+    const AREDL_THUMBS_REPO = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards";
+    const CACHE_KEY = "aredl_gacha_db_v2";
+    const SAVE_KEY = "aredl_gacha_profile_v2";
 
     const RARITY_CONFIG = {
       common:    { label: "Common",    weight: 55 },
@@ -418,30 +777,47 @@
       divine:    { label: "Divine",    weight: 1  }
     };
 
+    function classifyRarity(position) {
+      if (position <= 15) return "divine";
+      if (position <= 75) return "legendary";
+      if (position <= 200) return "epic";
+      if (position <= 500) return "rare";
+      return "common";
+    }
+
     let allDemons = [];
+    let demonMap = {};
     let poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
     let currentFilter = "all";
     let searchQuery = "";
 
-    let saveData = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
+    // Perfil persistente guardado en el navegador
+    let profile = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
       pulls: 0,
-      owned: {}
+      owned: {},      // { [id]: cantidad }
+      lastPullIds: [], // Última tirada mostrada en pantalla
+      history: []     // Historial cronológico de hasta 100 tiradas
     };
 
-    const pullDisplay = document.getElementById("pullDisplay");
-    const collectionGrid = document.getElementById("collectionGrid");
+    const stageArena = document.getElementById("stageArena");
+    const dexGrid = document.getElementById("dexGrid");
+    const historyList = document.getElementById("historyList");
     const pullsCount = document.getElementById("pullsCount");
     const ownedCount = document.getElementById("ownedCount");
     const totalCount = document.getElementById("totalCount");
+    const percentCount = document.getElementById("percentCount");
     const syncStatus = document.getElementById("syncStatus");
-    const lastRarityText = document.getElementById("lastRarityText");
+    const lastPullBadge = document.getElementById("lastPullBadge");
     const pull1Btn = document.getElementById("pull1Btn");
     const pull10Btn = document.getElementById("pull10Btn");
     const syncBtn = document.getElementById("syncBtn");
     const resetBtn = document.getElementById("resetBtn");
     const searchInput = document.getElementById("searchInput");
 
-    // Extrae ID de video de YouTube desde URL o ID directo
+    function saveProfile() {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
+    }
+
     function extractYtId(raw) {
       if (!raw) return "";
       const str = String(raw);
@@ -451,7 +827,27 @@
       return "";
     }
 
-    // Procesa y clasifica la lista cruda de la AREDL
+    // Genera la cadena de imágenes: 1) Miniatura oficial AREDL -> 2) Miniatura YouTube -> 3) Placeholder
+    function getImageSources(demon) {
+      const aredlImg = demon.levelId ? `${AREDL_THUMBS_REPO}/${demon.levelId}.webp` : "";
+      const ytImg = demon.yt ? `https://i.ytimg.com/vi/${demon.yt}/mqdefault.jpg` : "";
+      const fallback = `https://placehold.co/320x180/0e1324/94a3b8?text=%23${demon.rank}+${encodeURIComponent(demon.name)}`;
+
+      const primary = aredlImg || ytImg || fallback;
+      const secondary = (aredlImg && ytImg) ? ytImg : fallback;
+      return { primary, secondary, fallback };
+    }
+
+    function handleImgError(imgEl, secondary, fallback) {
+      if (!imgEl.dataset.triedSecondary && secondary && imgEl.src !== secondary) {
+        imgEl.dataset.triedSecondary = "1";
+        imgEl.src = secondary;
+      } else {
+        imgEl.onerror = null;
+        imgEl.src = fallback;
+      }
+    }
+
     function processAndStoreLevels(rawLevels) {
       const valid = rawLevels
         .filter(lvl => !lvl.legacy && typeof lvl.position === "number")
@@ -471,8 +867,11 @@
             lvl.author ||
             "AREDL";
 
+          const levelId = lvl.level_id || lvl.id || "";
+
           return {
-            id: lvl.id || lvl.level_id || lvl.position,
+            id: String(levelId || lvl.position),
+            levelId: String(levelId),
             rank: lvl.position,
             name: lvl.name,
             creator,
@@ -487,20 +886,35 @@
         levels: allDemons
       }));
 
-      rebuildPools();
+      rebuildIndexes();
     }
 
-    function rebuildPools() {
+    function rebuildIndexes() {
+      demonMap = {};
       poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
+
       for (const d of allDemons) {
+        demonMap[d.id] = d;
         if (poolsByRarity[d.rarity]) {
           poolsByRarity[d.rarity].push(d);
         }
       }
+
       totalCount.textContent = allDemons.length;
       pull1Btn.disabled = allDemons.length === 0;
       pull10Btn.disabled = allDemons.length === 0;
-      updateCollectionUI();
+
+      // Si el usuario ya tenía una tirada guardada, restaurarla al abrir la página
+      if (profile.lastPullIds && profile.lastPullIds.length > 0) {
+        const restored = profile.lastPullIds.map(id => demonMap[id]).filter(Boolean);
+        if (restored.length > 0) {
+          renderStageCards(restored, new Set(), false);
+        }
+      } else if (allDemons.length > 0) {
+        stageArena.innerHTML = `<p style="color: var(--muted); text-align: center; font-size: 0.95rem;">Listo con <strong>${allDemons.length} Extreme Demons</strong> y sus miniaturas oficiales. ¡Presiona Tirar!</p>`;
+      }
+
+      updateAllUI();
     }
 
     async function loadAREDL(forceRefresh = false) {
@@ -510,105 +924,137 @@
         const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
         if (cached && Array.isArray(cached.levels) && cached.levels.length > 0) {
           allDemons = cached.levels;
-          rebuildPools();
-          const dateStr = new Date(cached.updatedAt).toLocaleDateString();
-          syncStatus.textContent = `AREDL guardada (${allDemons.length} demons · ${dateStr})`;
-          lastRarityText.textContent = "Listo para girar";
-          pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Base de datos cargada con <strong>${allDemons.length} Extreme Demons</strong>. ¡Tira para comenzar!</p>`;
+          rebuildIndexes();
+          syncStatus.textContent = `AREDL activa (${allDemons.length} niveles guardados)`;
           syncBtn.disabled = false;
           return;
         }
       }
 
-      syncStatus.textContent = "Descargando y clasificando toda la AREDL...";
+      syncStatus.textContent = "Descargando lista y miniaturas AREDL...";
       try {
         const res = await fetch(AREDL_API);
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
         const list = Array.isArray(data) ? data : (data.data || data.levels || []);
         processAndStoreLevels(list);
-
-        syncStatus.textContent = `AREDL sincronizada (${allDemons.length} demons)`;
-        lastRarityText.textContent = "Listo para girar";
-        pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">¡Listo! Se guardaron y clasificaron <strong>${allDemons.length} Extreme Demons</strong>.</p>`;
+        syncStatus.textContent = `AREDL sincronizada (${allDemons.length} niveles)`;
       } catch (err) {
-        syncStatus.textContent = "Error al conectar con AREDL";
-        pullDisplay.innerHTML = `<p style="text-align:center; color: #f87171; font-size: 0.9rem;">No se pudo descargar la AREDL en este momento. Revisa tu conexión y pulsa <strong>Sincronizar AREDL</strong>.</p>`;
+        syncStatus.textContent = "Error de red al sincronizar AREDL";
       } finally {
         syncBtn.disabled = false;
       }
     }
 
-    // Selección ponderada por rareza y luego nivel aleatorio dentro de esa rareza
     function rollSingleDemon() {
-      const availableRarities = Object.keys(RARITY_CONFIG).filter(
-        r => poolsByRarity[r].length > 0
-      );
-      const totalWeight = availableRarities.reduce(
-        (sum, r) => sum + RARITY_CONFIG[r].weight,
-        0
-      );
-
+      const available = Object.keys(RARITY_CONFIG).filter(r => poolsByRarity[r].length > 0);
+      const totalWeight = available.reduce((sum, r) => sum + RARITY_CONFIG[r].weight, 0);
       let roll = Math.random() * totalWeight;
-      let chosenRarity = availableRarities[0];
+      let chosen = available[0];
 
-      for (const r of availableRarities) {
+      for (const r of available) {
         roll -= RARITY_CONFIG[r].weight;
         if (roll <= 0) {
-          chosenRarity = r;
+          chosen = r;
           break;
         }
       }
-
-      const pool = poolsByRarity[chosenRarity];
+      const pool = poolsByRarity[chosen];
       return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function triggerScreenFlash(color) {
+      const flash = document.getElementById("flashOverlay");
+      flash.style.background = color;
+      flash.style.opacity = "0.35";
+      setTimeout(() => { flash.style.opacity = "0"; }, 120);
     }
 
     function executePull(times) {
       if (allDemons.length === 0) return;
       const results = [];
+      const newlyUnlocked = new Set();
 
       for (let i = 0; i < times; i++) {
         const demon = rollSingleDemon();
         results.push(demon);
-        saveData.pulls += 1;
-        saveData.owned[demon.id] = (saveData.owned[demon.id] || 0) + 1;
+
+        if (!profile.owned[demon.id]) {
+          newlyUnlocked.add(demon.id);
+        }
+
+        profile.pulls += 1;
+        profile.owned[demon.id] = (profile.owned[demon.id] || 0) + 1;
+
+        profile.history.unshift({
+          id: demon.id,
+          time: Date.now()
+        });
       }
 
-      localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
-      renderPullResults(results);
-      updateCollectionUI();
+      if (profile.history.length > 100) {
+        profile.history = profile.history.slice(0, 100);
+      }
+
+      profile.lastPullIds = results.map(d => d.id);
+      saveProfile();
+
+      const hasDivine = results.some(d => d.rarity === "divine");
+      const hasLegendary = results.some(d => d.rarity === "legendary");
+      if (hasDivine) triggerScreenFlash("#ff2a6d");
+      else if (hasLegendary) triggerScreenFlash("#fbbf24");
+
+      renderStageCards(results, newlyUnlocked, true);
+      updateAllUI();
     }
 
-    function renderPullResults(results) {
-      pullDisplay.innerHTML = results.map(d => {
-        const thumbSrc = d.yt
-          ? `https://i.ytimg.com/vi/${d.yt}/mqdefault.jpg`
-          : `https://placehold.co/120x68/111520/949cb3?text=%23${d.rank}`;
-
-        return `
-          <div class="demon-row is-${d.rarity}">
-            <img class="demon-thumb" src="${thumbSrc}" alt="${d.name}" loading="lazy"
-              onerror="this.onerror=null;this.src='https://placehold.co/120x68/111520/949cb3?text=%23${d.rank}'">
-            <div class="demon-info">
-              <div class="demon-title">#${d.rank} - ${d.name}</div>
-              <div class="demon-sub">Publicado por ${d.creator}</div>
-              <span class="tag t-${d.rarity}">${RARITY_CONFIG[d.rarity].label}</span>
-            </div>
-          </div>
-        `;
-      }).join("");
+    function renderStageCards(results, newlyUnlocked, animate) {
+      const isSingle = results.length === 1;
+      stageArena.innerHTML = `
+        <div class="results-grid ${isSingle ? "single-pull" : ""}">
+          ${results.map((d, idx) => {
+            const imgs = getImageSources(d);
+            const isNew = newlyUnlocked.has(d.id);
+            const delay = animate ? `style="animation-delay: ${idx * 45}ms"` : `style="animation: none"`;
+            return `
+              <article class="pull-card r-${d.rarity}" ${delay} onclick="openInspectModal('${d.id}')">
+                <div class="card-media">
+                  <img src="${imgs.primary}" alt="${d.name}"
+                    onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+                  <span class="card-rank-badge">#${d.rank}</span>
+                  ${isNew ? '<span class="card-new-badge">¡NUEVO!</span>' : ''}
+                </div>
+                <div class="card-body">
+                  <span class="rarity-pill rp-${d.rarity}">${RARITY_CONFIG[d.rarity].label}</span>
+                  <div class="card-title">${d.name}</div>
+                  <div class="card-creator">por ${d.creator}</div>
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+      `;
 
       const best = results.reduce((prev, curr) => (curr.rank < prev.rank ? curr : prev), results[0]);
-      lastRarityText.textContent = `Mejor: #${best.rank} ${best.name} (${RARITY_CONFIG[best.rarity].label})`;
+      lastPullBadge.textContent = `Mejor: #${best.rank} ${best.name}`;
     }
 
-    function updateCollectionUI() {
-      pullsCount.textContent = saveData.pulls;
-      ownedCount.textContent = Object.keys(saveData.owned).length;
+    function updateAllUI() {
+      const ownedTotal = Object.keys(profile.owned).length;
+      const total = allDemons.length;
+      const pct = total > 0 ? ((ownedTotal / total) * 100).toFixed(1) : "0";
 
+      pullsCount.textContent = profile.pulls;
+      ownedCount.textContent = ownedTotal;
+      percentCount.textContent = `${pct}%`;
+
+      renderDexGrid();
+      renderHistoryList();
+    }
+
+    function renderDexGrid() {
       const filtered = allDemons.filter(d => {
-        const count = saveData.owned[d.id] || 0;
+        const count = profile.owned[d.id] || 0;
         if (currentFilter === "owned" && count === 0) return false;
         if (["common", "rare", "epic", "legendary", "divine"].includes(currentFilter) && d.rarity !== currentFilter) {
           return false;
@@ -616,52 +1062,158 @@
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
           const matchName = d.name.toLowerCase().includes(q);
+          const matchCreator = d.creator.toLowerCase().includes(q);
           const matchRank = String(d.rank) === q || ("#" + d.rank) === q;
-          if (!matchName && !matchRank) return false;
+          if (!matchName && !matchCreator && !matchRank) return false;
         }
         return true;
       });
 
-      document.getElementById("filterSummary").textContent = `Mostrando ${filtered.length} niveles`;
+      document.getElementById("filterSummary").textContent = `${filtered.length} niveles`;
 
-      collectionGrid.innerHTML = filtered.map(d => {
-        const count = saveData.owned[d.id] || 0;
+      dexGrid.innerHTML = filtered.map(d => {
+        const count = profile.owned[d.id] || 0;
+        const imgs = getImageSources(d);
         return `
-          <div class="col-item ${count === 0 ? "locked" : ""}" style="border-left: 3px solid var(--${d.rarity});">
-            <div class="col-top">
-              <span>#${d.rank} · ${RARITY_CONFIG[d.rarity].label}</span>
-              <span>${count > 0 ? "x" + count : "???"}</span>
+          <div class="dex-card ${count === 0 ? "locked" : ""}"
+            style="border-bottom: 3px solid var(--c-${d.rarity});"
+            onclick="openInspectModal('${d.id}')">
+            <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
+              onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+            <div class="dex-meta">
+              <div class="dex-row1">
+                <span>#${d.rank} · ${RARITY_CONFIG[d.rarity].label}</span>
+                <span>${count > 0 ? "x" + count : "🔒"}</span>
+              </div>
+              <div class="dex-name">${count > 0 ? d.name : "???"}</div>
             </div>
-            <div class="col-name">${count > 0 ? d.name : "Bloqueado"}</div>
           </div>
         `;
       }).join("");
     }
 
-    // Eventos
+    function renderHistoryList() {
+      if (!profile.history || profile.history.length === 0) {
+        historyList.innerHTML = `<p style="color:var(--muted); text-align:center; padding:20px;">Aún no has realizado ninguna tirada.</p>`;
+        return;
+      }
+
+      historyList.innerHTML = profile.history.map(entry => {
+        const d = demonMap[entry.id];
+        if (!d) return "";
+        const imgs = getImageSources(d);
+        const timeStr = new Date(entry.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return `
+          <div class="hist-row" onclick="openInspectModal('${d.id}')" style="border-left: 3px solid var(--c-${d.rarity});">
+            <img class="hist-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
+              onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+            <div style="flex:1; min-width:0;">
+              <div style="font-weight:800; font-size:0.92rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                #${d.rank} - ${d.name}
+              </div>
+              <div style="font-size:0.76rem; color:var(--muted);">
+                ${RARITY_CONFIG[d.rarity].label} · por ${d.creator}
+              </div>
+            </div>
+            <span style="font-size:0.74rem; color:var(--muted);">${timeStr}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Modal de inspección
+    function openInspectModal(id) {
+      const d = demonMap[id];
+      if (!d) return;
+      const count = profile.owned[d.id] || 0;
+      const imgs = getImageSources(d);
+
+      const modal = document.getElementById("inspectModal");
+      const modalCard = document.getElementById("modalCard");
+      const modalImg = document.getElementById("modalImg");
+      const modalRarity = document.getElementById("modalRarity");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalCreator = document.getElementById("modalCreator");
+      const modalCount = document.getElementById("modalCount");
+      const modalYtLink = document.getElementById("modalYtLink");
+
+      modalCard.style.borderColor = `var(--c-${d.rarity})`;
+      modalImg.dataset.triedSecondary = "";
+      modalImg.onerror = () => handleImgError(modalImg, imgs.secondary, imgs.fallback);
+      modalImg.src = imgs.primary;
+
+      modalRarity.className = `rarity-pill rp-${d.rarity}`;
+      modalRarity.textContent = `${RARITY_CONFIG[d.rarity].label} · Top #${d.rank}`;
+      modalTitle.textContent = count > 0 ? d.name : `Nivel Bloqueado (#${d.rank})`;
+      modalCreator.textContent = count > 0 ? `Publicado por ${d.creator} · ID: ${d.levelId}` : "Consíguelo en el Gacha para revelar su nombre";
+      modalCount.textContent = count > 0 ? `Tienes ${count} copia(s) en tu inventario guardado.` : "Aún no lo has desbloqueado.";
+
+      if (d.yt && count > 0) {
+        modalYtLink.style.display = "block";
+        modalYtLink.href = `https://www.youtube.com/watch?v=${d.yt}`;
+      } else {
+        modalYtLink.style.display = "none";
+      }
+
+      modal.classList.add("open");
+    }
+
+    document.getElementById("closeModalBtn").addEventListener("click", () => {
+      document.getElementById("inspectModal").classList.remove("open");
+    });
+
+    document.getElementById("inspectModal").addEventListener("click", (e) => {
+      if (e.target.id === "inspectModal") {
+        e.target.classList.remove("open");
+      }
+    });
+
+    // Eventos principales
     pull1Btn.addEventListener("click", () => executePull(1));
     pull10Btn.addEventListener("click", () => executePull(10));
     syncBtn.addEventListener("click", () => loadAREDL(true));
 
     resetBtn.addEventListener("click", () => {
-      saveData = { pulls: 0, owned: {} };
-      localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
-      pullDisplay.innerHTML = `<p style="text-align:center; color: var(--muted); font-size: 0.9rem;">Progreso reiniciado.</p>`;
-      lastRarityText.textContent = "Listo para girar";
-      updateCollectionUI();
+      if (!confirm("¿Seguro que quieres borrar todo tu inventario e historial guardado?")) return;
+      profile = { pulls: 0, owned: {}, lastPullIds: [], history: [] };
+      saveProfile();
+      stageArena.innerHTML = `<p style="color: var(--muted); text-align: center; font-size: 0.95rem;">Progreso borrado. ¡Vuelve a tirar!</p>`;
+      lastPullBadge.textContent = "Listo para invocar";
+      updateAllUI();
     });
 
+    // Pestañas Índice / Historial
+    const tabDexBtn = document.getElementById("tabDexBtn");
+    const tabHistBtn = document.getElementById("tabHistBtn");
+    const dexSection = document.getElementById("dexSection");
+    const histSection = document.getElementById("histSection");
+
+    tabDexBtn.addEventListener("click", () => {
+      tabDexBtn.classList.add("active");
+      tabHistBtn.classList.remove("active");
+      dexSection.style.display = "block";
+      histSection.style.display = "none";
+    });
+
+    tabHistBtn.addEventListener("click", () => {
+      tabHistBtn.classList.add("active");
+      tabDexBtn.classList.remove("active");
+      histSection.style.display = "block";
+      dexSection.style.display = "none";
+    });
+
+    // Filtros y búsqueda
     document.getElementById("filterBar").addEventListener("click", (e) => {
-      if (!e.target.classList.contains("filter-btn")) return;
-      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      if (!e.target.classList.contains("f-pill")) return;
+      document.querySelectorAll(".f-pill").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       currentFilter = e.target.dataset.filter;
-      updateCollectionUI();
+      renderDexGrid();
     });
 
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.trim();
-      updateCollectionUI();
+      renderDexGrid();
     });
 
     loadAREDL(false);
