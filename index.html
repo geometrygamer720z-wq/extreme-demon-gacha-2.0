@@ -75,6 +75,10 @@
       animation: screenShake 0.52s var(--ease-fresh) both;
     }
 
+    body.troll-shake {
+      animation: trollExaggeratedShake 0.85s var(--ease-fresh) both;
+    }
+
     @keyframes screenShake {
       0%, 100% { transform: translate3d(0, 0, 0); }
       20% { transform: translate3d(-4px, 2px, 0); }
@@ -83,9 +87,19 @@
       80% { transform: translate3d(3px, 1px, 0); }
     }
 
+    @keyframes trollExaggeratedShake {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      15% { transform: translate3d(-10px, -6px, 0) scale(1.015); }
+      30% { transform: translate3d(10px, 6px, 0) scale(0.99); }
+      45% { transform: translate3d(-9px, 5px, 0) scale(1.02); }
+      60% { transform: translate3d(9px, -5px, 0) scale(0.992); }
+      75% { transform: translate3d(-6px, -3px, 0) scale(1.01); }
+      90% { transform: translate3d(5px, 3px, 0) scale(1); }
+    }
+
     @keyframes freshFadeIn {
-      from { opacity: 0; transform: translate3d(0, 8px, 0) scale(0.99); }
-      to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+      from { opacity: 0; transform: translate3d(0, 6px, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
     .micro-tag {
@@ -109,8 +123,7 @@
       opacity: 0;
       pointer-events: none;
       z-index: 998;
-      transition: opacity 0.42s var(--ease-fresh);
-      will-change: opacity;
+      transition: opacity 0.25s linear;
     }
 
     .mini-toast {
@@ -129,7 +142,7 @@
       opacity: 0;
       transform: translate3d(0, -10px, 0) scale(0.96);
       pointer-events: none;
-      transition: opacity 0.24s var(--ease-fresh), transform 0.24s var(--ease-fresh);
+      transition: opacity 0.2s var(--ease-fresh), transform 0.2s var(--ease-fresh);
     }
 
     .mini-toast.show {
@@ -231,10 +244,10 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: transform 0.18s var(--ease-fresh), background 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
+      transition: transform 0.14s var(--ease-fresh), background 0.14s var(--ease-fresh), border-color 0.14s var(--ease-fresh);
     }
 
-    .icon-btn:hover:not(:disabled) { background: #222c48; border-color: var(--border-bright); transform: translate3d(0, -1px, 0); }
+    .icon-btn:hover:not(:disabled) { background: #222c48; border-color: var(--border-bright); }
     .icon-btn:active:not(:disabled) { transform: scale(0.97); }
     .icon-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     .icon-btn.active-toggle {
@@ -249,26 +262,25 @@
       min-width: 42px;
       min-height: 42px;
       border-radius: 12px;
-      border: 1px solid rgba(248, 113, 113, 0.42);
-      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(248, 113, 113, 0.48);
+      background: rgba(239, 68, 68, 0.16);
       color: #fecaca;
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 900;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.16s var(--ease-fresh), background 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
+      transition: background 0.12s linear, border-color 0.12s linear, color 0.12s linear;
     }
 
     .modal-close-btn:hover {
-      background: rgba(239, 68, 68, 0.28);
-      border-color: rgba(248, 113, 113, 0.75);
+      background: rgba(239, 68, 68, 0.32);
+      border-color: rgba(248, 113, 113, 0.8);
       color: #fff;
-      transform: scale(1.04);
     }
 
-    .modal-close-btn:active { transform: scale(0.94); }
+    .modal-close-btn:active { background: rgba(239, 68, 68, 0.45); }
 
     .main-wrap { width: 100%; max-width: 1060px; display: flex; flex-direction: column; gap: 18px; }
 
@@ -313,13 +325,13 @@
       margin-bottom: 3px;
     }
 
-    .quick-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+    .quick-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
 
     .nav-card-btn {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 15px;
-      padding: 12px;
+      padding: 12px 14px;
       min-height: var(--touch-min);
       color: #fff;
       font-weight: 800;
@@ -330,7 +342,7 @@
       justify-content: center;
       gap: 7px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh), background 0.2s var(--ease-fresh);
+      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh), background 0.16s var(--ease-fresh);
     }
 
     .nav-card-btn:hover {
@@ -371,7 +383,7 @@
       border-radius: 24px;
       padding: 22px;
       box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      animation: freshFadeIn 0.28s var(--ease-fresh) both;
+      animation: freshFadeIn 0.2s var(--ease-fresh) both;
     }
 
     .section-top-bar {
@@ -414,7 +426,7 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh), box-shadow 0.2s var(--ease-fresh);
+      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh), box-shadow 0.18s var(--ease-fresh);
     }
 
     .shop-card::before {
@@ -464,7 +476,7 @@
       flex-direction: column;
       gap: 14px;
       box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
-      animation: freshFadeIn 0.24s var(--ease-fresh) both;
+      animation: freshFadeIn 0.18s var(--ease-fresh) both;
     }
 
     .buy-btn {
@@ -482,7 +494,7 @@
       justify-content: center;
       gap: 6px;
       box-shadow: 0 6px 18px rgba(37, 99, 235, 0.38);
-      transition: transform 0.16s var(--ease-fresh), opacity 0.16s var(--ease-fresh), box-shadow 0.16s var(--ease-fresh);
+      transition: transform 0.14s var(--ease-fresh), opacity 0.14s var(--ease-fresh), box-shadow 0.14s var(--ease-fresh);
     }
 
     .buy-btn:hover:not(:disabled) { transform: translate3d(0, -1px, 0); box-shadow: 0 8px 22px rgba(0, 210, 255, 0.45); }
@@ -531,7 +543,7 @@
       gap: 10px;
       margin-bottom: 8px;
       flex-wrap: wrap;
-      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
+      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
     }
 
     .room-card:hover { transform: translate3d(0, -1px, 0); border-color: rgba(0, 245, 212, 0.35); }
@@ -564,7 +576,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      animation: freshFadeIn 0.22s var(--ease-fresh) both;
+      animation: freshFadeIn 0.18s var(--ease-fresh) both;
     }
 
     .currency-offer-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
@@ -644,7 +656,7 @@
       min-height: var(--touch-min);
       font-size: 0.74rem;
       cursor: pointer;
-      transition: border-color 0.15s var(--ease-fresh), background 0.15s var(--ease-fresh);
+      transition: border-color 0.14s var(--ease-fresh), background 0.14s var(--ease-fresh);
     }
 
     .pick-item.selected { border-color: var(--c-transcendent); background: rgba(0, 245, 212, 0.12); }
@@ -660,7 +672,7 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 12px;
-      transition: border-color 0.2s var(--ease-fresh), background 0.2s var(--ease-fresh);
+      transition: border-color 0.18s var(--ease-fresh), background 0.18s var(--ease-fresh);
     }
 
     .agree-box.both-agreed {
@@ -679,7 +691,7 @@
       gap: 10px;
       margin-bottom: 12px;
       flex-wrap: wrap;
-      animation: freshFadeIn 0.2s var(--ease-fresh) both;
+      animation: freshFadeIn 0.18s var(--ease-fresh) both;
     }
 
     /* ================= HOME GACHA & DEX ================= */
@@ -713,7 +725,7 @@
       align-items: center;
       gap: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      animation: freshFadeIn 0.22s var(--ease-fresh) both;
+      animation: freshFadeIn 0.18s var(--ease-fresh) both;
     }
 
     .active-luck-banner { background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(255, 42, 109, 0.2)); color: #fde68a; }
@@ -737,7 +749,7 @@
       align-items: center;
       gap: 16px;
       text-align: center;
-      animation: freshFadeIn 0.24s var(--ease-fresh) both;
+      animation: freshFadeIn 0.2s var(--ease-fresh) both;
     }
 
     .gd-orb {
@@ -757,11 +769,11 @@
     }
 
     .gd-orb.dramatic {
-      width: 114px;
-      height: 114px;
-      background: radial-gradient(circle, #fff 10%, #ffd700 36%, #ff2a6d 72%, #7928ca 100%);
-      box-shadow: 0 0 56px #ffd700, 0 0 100px #ff2a6d;
-      animation: orbCharge 0.28s ease-in-out infinite alternate;
+      width: 124px;
+      height: 124px;
+      background: radial-gradient(circle, #fff 10%, #ffd700 34%, #ff2a6d 70%, #7928ca 100%);
+      box-shadow: 0 0 64px #ffd700, 0 0 110px #ff2a6d;
+      animation: trollOrbExaggerated 0.22s ease-in-out infinite alternate;
     }
 
     .gd-orb::before {
@@ -773,6 +785,13 @@
       animation: pulseHalo 0.9s ease-out infinite;
     }
 
+    .gd-orb.dramatic::before {
+      inset: -24px;
+      border-width: 3px;
+      border-color: rgba(255, 215, 0, 0.85);
+      animation: pulseHalo 0.48s ease-out infinite;
+    }
+
     .gd-orb::after {
       content: "";
       position: absolute;
@@ -782,7 +801,18 @@
       animation: spinRing 0.95s linear infinite;
     }
 
+    .gd-orb.dramatic::after {
+      inset: -16px;
+      border-width: 4px;
+      border-color: rgba(255, 215, 0, 0.95);
+      animation: spinRing 0.34s linear infinite;
+    }
+
     @keyframes orbCharge { from { transform: scale(0.9); } to { transform: scale(1.18); } }
+    @keyframes trollOrbExaggerated {
+      0% { transform: scale(0.82) rotate(-14deg); }
+      100% { transform: scale(1.34) rotate(14deg); }
+    }
     @keyframes pulseHalo { 0% { transform: scale(0.86); opacity: 0.85; } 100% { transform: scale(1.32); opacity: 0; } }
     @keyframes spinRing { to { transform: rotate(360deg); } }
 
@@ -798,7 +828,7 @@
       border-radius: 13px;
       background: linear-gradient(90deg, rgba(16, 22, 39, 0.92), rgba(24, 32, 56, 0.85));
       border: 1px solid rgba(255, 255, 255, 0.12);
-      animation: freshFadeIn 0.28s var(--ease-fresh) both;
+      animation: freshFadeIn 0.22s var(--ease-fresh) both;
     }
 
     .results-grid {
@@ -819,17 +849,28 @@
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      animation: cardPop 0.42s var(--ease-fresh) backwards;
-      transition: transform 0.2s var(--ease-fresh), border-color 0.2s var(--ease-fresh);
+      animation: cardPop 0.36s var(--ease-fresh) backwards;
+      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
       will-change: transform, opacity;
+    }
+
+    .pull-card.troll-pop {
+      animation: trollCardPop 0.62s var(--ease-fresh) backwards;
     }
 
     .pull-card:hover { transform: translate3d(0, -4px, 0) scale(1.015); }
 
     @keyframes cardPop {
-      0% { opacity: 0; transform: scale(0.82) translate3d(0, 18px, 0); }
-      70% { transform: scale(1.02) translate3d(0, -2px, 0); }
+      0% { opacity: 0; transform: scale(0.86) translate3d(0, 14px, 0); }
+      70% { transform: scale(1.015) translate3d(0, -2px, 0); }
       100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
+    }
+
+    @keyframes trollCardPop {
+      0% { opacity: 0; transform: scale(0.55) rotate(-8deg) translate3d(0, 22px, 0); }
+      45% { opacity: 1; transform: scale(1.1) rotate(5deg) translate3d(0, -6px, 0); }
+      75% { transform: scale(0.96) rotate(-3deg) translate3d(0, 2px, 0); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg) translate3d(0, 0, 0); }
     }
 
     .r-common { border-color: rgba(148, 163, 184, 0.45); }
@@ -932,7 +973,7 @@
       border-radius: 13px;
       font-weight: 800;
       font-size: 0.94rem;
-      transition: transform 0.18s var(--ease-fresh), background 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
+      transition: transform 0.14s var(--ease-fresh), background 0.14s var(--ease-fresh), border-color 0.14s var(--ease-fresh);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -968,7 +1009,7 @@
       border: 1px solid var(--border);
       color: var(--text);
       cursor: pointer;
-      transition: background 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
+      transition: background 0.14s var(--ease-fresh), border-color 0.14s var(--ease-fresh);
     }
 
     .f-pill.active { background: var(--primary); border-color: var(--primary); }
@@ -985,7 +1026,7 @@
       border-radius: 12px;
       font-size: 0.88rem;
       outline: none;
-      transition: border-color 0.18s var(--ease-fresh);
+      transition: border-color 0.16s var(--ease-fresh);
     }
 
     .search-box:focus { border-color: var(--primary); }
@@ -1029,7 +1070,7 @@
       border-radius: 13px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh);
+      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
       position: relative;
       content-visibility: auto;
       contain-intrinsic-size: 165px;
@@ -1059,12 +1100,11 @@
     .dex-row1 { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
     .dex-name { font-size: 0.88rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
-    /* ================= MODALS & REDESIGNED INVENTORY / ACHIEVEMENTS / DROP STATS ================= */
+    /* ================= FAST, ZERO-BLUR MODALS ================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 6, 12, 0.88);
-      backdrop-filter: blur(6px);
+      background: rgba(4, 6, 12, 0.86);
       display: none;
       place-items: center;
       padding: 18px 14px;
@@ -1072,7 +1112,7 @@
       overflow-y: auto;
     }
 
-    .modal-backdrop.open { display: grid; animation: freshFadeIn 0.2s var(--ease-fresh) both; }
+    .modal-backdrop.open { display: grid; }
 
     .modal-box {
       width: 100%;
@@ -1083,8 +1123,9 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 22px;
       padding: 20px;
-      box-shadow: 0 26px 64px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       margin: auto;
+      contain: layout style;
     }
 
     .inspect-modal-box {
@@ -1217,13 +1258,12 @@
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      transition: transform 0.18s var(--ease-fresh), border-color 0.18s var(--ease-fresh), box-shadow 0.18s var(--ease-fresh);
+      transition: transform 0.15s var(--ease-fresh), border-color 0.15s var(--ease-fresh);
     }
 
     .inv-demon-card:hover {
-      transform: translate3d(0, -3px, 0);
+      transform: translate3d(0, -2px, 0);
       border-color: rgba(255, 255, 255, 0.35);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
     }
 
     .inv-demon-media {
@@ -1306,10 +1346,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
     }
-
-    .ach-row:hover { transform: translate3d(0, -1px, 0); }
 
     .ach-row.done {
       border-color: rgba(34, 197, 94, 0.65);
@@ -1325,52 +1362,6 @@
       font-weight: 900;
       font-size: 0.8rem;
       white-space: nowrap;
-    }
-
-    /* Drop Stats UI */
-    .stats-hero-card {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.16));
-      border: 1px solid rgba(96, 165, 250, 0.45);
-      border-radius: 16px;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .stat-tier-card {
-      background: linear-gradient(145deg, rgba(22, 31, 54, 0.92), rgba(13, 18, 32, 0.96));
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .stat-tier-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.86rem;
-    }
-
-    .stat-bar-track {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-
-    .stat-bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.3s var(--ease-fresh);
     }
 
     .ext-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
@@ -1460,7 +1451,6 @@
       <button class="nav-card-btn" id="openInvBtn">🎒 Inventory <span class="badge-count" id="packBadge">0</span></button>
       <button class="nav-card-btn trader-btn" id="openTraderBtn">🤝 Trader <span class="badge-count" id="roomsBadge">0/10</span></button>
       <button class="nav-card-btn" id="openAchBtn">🏆 Achievements <span class="badge-count" id="achBadge">0</span></button>
-      <button class="nav-card-btn" id="openStatsBtn">📊 Drop Stats</button>
     </nav>
 
     <!-- DEDICATED ORB SHOP SECTION -->
@@ -1732,20 +1722,6 @@
     </div>
   </div>
 
-  <!-- STATS MODAL -->
-  <div class="modal-backdrop" id="statsModal">
-    <div class="modal-box" style="max-width:560px;">
-      <div class="modal-head">
-        <div>
-          <h3 style="font-size:1.25rem; font-weight:900;">📊 Drop Statistics</h3>
-          <span style="font-size:0.75rem; color:var(--muted);">Lifetime summon breakdown by rarity</span>
-        </div>
-        <button type="button" class="modal-close-btn" id="closeStatsModalBtn" aria-label="Close Stats">✕</button>
-      </div>
-      <div id="statsContent"></div>
-    </div>
-  </div>
-
   <!-- LEVEL INSPECT MODAL -->
   <div class="modal-backdrop" id="inspectModal">
     <div class="modal-box inspect-modal-box" id="inspectBox">
@@ -1780,11 +1756,11 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v10";
+    const SAVE_KEY = "aredl_gacha_en_save_v11";
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
-    const MAX_PARTICLES = 64;
+    const MAX_PARTICLES = 56;
     const NO_DUP_DURATION_MS = 90000;
     const TOKEN_INTERVAL_MS = 300000;
     const TOKEN_REWARD_AMOUNT = 10;
@@ -1798,14 +1774,14 @@
     const TRADE_BACKEND_URL = "https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com";
 
     const RARITY_TIERS = {
-      apex:         { label: "APEX TOP 1",    weight: 0.0001, orbs: 250000, color: "#ffd700", animMs: 1550, valueScore: 1000000 },
-      transcendent: { label: "TRANSCENDENT",  weight: 0.015,  orbs: 25000,  color: "#00f5d4", animMs: 1300, valueScore: 150000 },
-      divine:       { label: "DIVINE",        weight: 0.085,  orbs: 6000,   color: "#ff2a6d", animMs: 1100, valueScore: 45000 },
-      mythic:       { label: "MYTHIC",        weight: 0.35,   orbs: 1800,   color: "#fb7185", animMs: 920,  valueScore: 15000 },
-      legendary:    { label: "LEGENDARY",     weight: 1.05,   orbs: 650,    color: "#fbbf24", animMs: 780,  valueScore: 5500 },
-      epic:         { label: "EPIC",          weight: 8.5,    orbs: 220,    color: "#c084fc", animMs: 640,  valueScore: 1600 },
-      rare:         { label: "RARE",          weight: 28.0,   orbs: 85,     color: "#38bdf8", animMs: 500,  valueScore: 500 },
-      common:       { label: "COMMON",        weight: 62.0,   orbs: 30,     color: "#94a3b8", animMs: 420,  valueScore: 150 }
+      apex:         { label: "APEX TOP 1",    weight: 0.0001, orbs: 250000, color: "#ffd700", animMs: 1350, valueScore: 1000000 },
+      transcendent: { label: "TRANSCENDENT",  weight: 0.015,  orbs: 25000,  color: "#00f5d4", animMs: 1150, valueScore: 150000 },
+      divine:       { label: "DIVINE",        weight: 0.085,  orbs: 6000,   color: "#ff2a6d", animMs: 980,  valueScore: 45000 },
+      mythic:       { label: "MYTHIC",        weight: 0.35,   orbs: 1800,   color: "#fb7185", animMs: 840,  valueScore: 15000 },
+      legendary:    { label: "LEGENDARY",     weight: 1.05,   orbs: 650,    color: "#fbbf24", animMs: 720,  valueScore: 5500 },
+      epic:         { label: "EPIC",          weight: 8.5,    orbs: 220,    color: "#c084fc", animMs: 600,  valueScore: 1600 },
+      rare:         { label: "RARE",          weight: 28.0,   orbs: 85,     color: "#38bdf8", animMs: 480,  valueScore: 500 },
+      common:       { label: "COMMON",        weight: 62.0,   orbs: 30,     color: "#94a3b8", animMs: 400,  valueScore: 150 }
     };
 
     const TIER_ORDER = ["common", "rare", "epic", "legendary", "mythic", "divine", "transcendent", "apex"];
@@ -1888,8 +1864,8 @@
       return cleaned || fallback;
     }
 
-    let isPageActiveForTokens = !document.hidden && (typeof document.hasFocus === "function" ? document.hasFocus() : true);
-    let lastTokenActiveSampleMs = Date.now();
+    let isPageActiveForTokens = !document.hidden;
+    let lastTokenSampleMs = Date.now();
 
     function loadSafeProfile() {
       const defaults = {
@@ -1987,28 +1963,30 @@
       }, 2200);
     }
 
-    function syncTokenActiveState(now = Date.now()) {
-      const nextActive = !document.hidden && (typeof document.hasFocus === "function" ? document.hasFocus() : true);
+    function computeCurrentCycleElapsedMs(now = Date.now()) {
+      let elapsed = Number(profile.tokenCycleElapsedMs) || 0;
+      if (!Number.isFinite(elapsed) || elapsed < 0) elapsed = 0;
+      if (isPageActiveForTokens && !document.hidden) {
+        elapsed += Math.max(0, now - lastTokenSampleMs);
+      }
+      return elapsed;
+    }
+
+    function handleVisibilityTransition(now = Date.now()) {
+      const nextActive = !document.hidden;
       if (isPageActiveForTokens && !nextActive) {
-        const delta = Math.max(0, now - lastTokenActiveSampleMs);
-        profile.tokenCycleElapsedMs = (Number(profile.tokenCycleElapsedMs) || 0) + delta;
+        const delta = Math.max(0, now - lastTokenSampleMs);
+        profile.tokenCycleElapsedMs = Math.min(TOKEN_INTERVAL_MS - 1, (Number(profile.tokenCycleElapsedMs) || 0) + delta);
         saveProfile();
       }
       isPageActiveForTokens = nextActive;
-      lastTokenActiveSampleMs = now;
+      lastTokenSampleMs = now;
     }
 
     function tickTokensByTime() {
       const now = Date.now();
-      let elapsedInCycle = Number(profile.tokenCycleElapsedMs) || 0;
-
-      if (isPageActiveForTokens) {
-        const activeDelta = Math.max(0, now - lastTokenActiveSampleMs);
-        lastTokenActiveSampleMs = now;
-        elapsedInCycle += activeDelta;
-      } else {
-        lastTokenActiveSampleMs = now;
-      }
+      let elapsedInCycle = computeCurrentCycleElapsedMs(now);
+      lastTokenSampleMs = now;
 
       if (elapsedInCycle >= TOKEN_INTERVAL_MS) {
         const cycles = Math.floor(elapsedInCycle / TOKEN_INTERVAL_MS);
@@ -2030,12 +2008,8 @@
     }
 
     function getMsUntilNextTokens() {
-      const now = Date.now();
-      let elapsedInCycle = Number(profile.tokenCycleElapsedMs) || 0;
-      if (isPageActiveForTokens) {
-        elapsedInCycle += Math.max(0, now - lastTokenActiveSampleMs);
-      }
-      const clamped = Math.max(0, Math.min(TOKEN_INTERVAL_MS, elapsedInCycle));
+      const elapsed = computeCurrentCycleElapsedMs(Date.now());
+      const clamped = Math.max(0, Math.min(TOKEN_INTERVAL_MS, elapsed));
       return Math.max(0, TOKEN_INTERVAL_MS - clamped);
     }
 
@@ -2082,7 +2056,7 @@
     function playSummonSFX(bestRarity, isTroll = false) {
       if (!profile.settings.sfx) return;
       if (isTroll) {
-        [523, 659, 784, 1046, 220, 165].forEach((f, i) => playTone(f, i < 4 ? "triangle" : "sawtooth", 0.25, 0.2, i * 0.07));
+        [587.33, 783.99, 987.77, 1174.66, 220, 146.83].forEach((f, i) => playTone(f, i < 4 ? "triangle" : "sawtooth", 0.24, 0.2, i * 0.055));
         return;
       }
       if (bestRarity === "apex" || bestRarity === "transcendent") {
@@ -2095,7 +2069,6 @@
       }
     }
 
-    // Ultra-lightweight pooled Canvas particle engine
     const canvas = document.getElementById("particlesCanvas");
     const ctx = canvas.getContext("2d", { alpha: true });
     const particlePool = Array.from({ length: MAX_PARTICLES }, () => ({
@@ -2110,7 +2083,7 @@
     function resizeCanvas() {
       viewW = window.innerWidth;
       viewH = window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(viewW * dpr);
       canvas.height = Math.floor(viewH * dpr);
       canvas.style.width = `${viewW}px`;
@@ -2125,22 +2098,22 @@
     }, { passive: true });
     resizeCanvas();
 
-    function spawnParticles(color, count = 32, originY = null) {
+    function spawnParticles(color, count = 28, originY = null) {
       const centerX = viewW * 0.5;
       const centerY = typeof originY === "number" ? originY : viewH * 0.44;
-      const targetSpawn = Math.min(count, 48);
+      const targetSpawn = Math.min(count, MAX_PARTICLES);
       let spawned = 0;
 
       for (let i = 0; i < MAX_PARTICLES && spawned < targetSpawn; i++) {
         const p = particlePool[i];
         if (!p.active) {
           const ang = (Math.PI * 2 * spawned) / targetSpawn + (Math.random() - 0.5) * 0.45;
-          const spd = Math.random() * 6.2 + 2.2;
+          const spd = Math.random() * 6.5 + 2.4;
           p.active = true;
           p.x = centerX + (Math.random() - 0.5) * Math.min(viewW * 0.3, 180);
           p.y = centerY + (Math.random() - 0.5) * 44;
           p.vx = Math.cos(ang) * spd;
-          p.vy = Math.sin(ang) * spd - 2.6;
+          p.vy = Math.sin(ang) * spd - 2.8;
           p.r = Math.random() * 2.8 + 1.6;
           p.color = color;
           p.life = 1;
@@ -2198,7 +2171,7 @@
     }
 
     document.addEventListener("visibilitychange", () => {
-      syncTokenActiveState(Date.now());
+      handleVisibilityTransition(Date.now());
       if (document.hidden) {
         for (let i = 0; i < MAX_PARTICLES; i++) particlePool[i].active = false;
         activeParticleCount = 0;
@@ -2215,23 +2188,10 @@
       }
     });
 
-    window.addEventListener("focus", () => {
-      syncTokenActiveState(Date.now());
-      tickTokensByTime();
-      uiDirty = true;
-      refreshTimersUI();
-    });
-
-    window.addEventListener("blur", () => {
-      syncTokenActiveState(Date.now());
-      refreshTimersUI();
-    });
-
     window.addEventListener("beforeunload", () => {
-      syncTokenActiveState(Date.now());
+      handleVisibilityTransition(Date.now());
     });
 
-    // Image loading logic preserved identically
     function extractYtId(raw) {
       if (!raw) return "";
       const str = String(raw);
@@ -2380,7 +2340,6 @@
         ...avoidDuplicateIds
       ]);
 
-      // +2% extra duplicate chance when not under No Duplicate shield and owned demons exist
       if (!noDupOn && ownedIds.length > 0 && Math.random() < EXTRA_DUP_CHANCE) {
         const dupPool = ownedIds.map(id => demonMap[id]).filter(d => !avoidDuplicateIds.includes(d.id));
         if (dupPool.length > 0) {
@@ -2501,23 +2460,24 @@
 
       const bestTier = TIER_ORDER[bestTierIndex];
       const animDuration = anyTroll
-        ? RARITY_TIERS.apex.animMs
-        : Math.min(1550, RARITY_TIERS[bestTier].animMs + (times > 1 ? 220 : 100));
+        ? 1550
+        : (times > 1 ? 680 : 540);
 
       if (!profile.settings.skip) {
-        playTone(anyTroll ? 659 : 280, "triangle", animDuration / 1000, 0.16);
-        const orbCls = anyTroll || bestTierIndex >= 4
+        playTone(anyTroll ? 659 : 310, "triangle", animDuration / 1000, 0.16);
+        const orbCls = anyTroll
           ? "dramatic"
           : (times > 1 ? "multi-burst" : "");
+        const loadingColor = anyTroll ? "#ffd700" : "#93c5fd";
+        const loadingLabel = anyTroll
+          ? "⚡ WILD SURGE DETECTED... HOLD ON!"
+          : (times > 1 ? `🔥 SUMMONING x${times}...` : "⚡ SUMMONING...");
+
         stageArena.innerHTML = `
           <div class="orb-loader">
             <div class="gd-orb ${orbCls}"></div>
-            <span style="font-weight:900; font-size:1.02rem; color:${anyTroll ? "#ffd700" : RARITY_TIERS[bestTier].color}; letter-spacing:0.6px;">
-              ${anyTroll
-                ? "⚡ ULTRA RARE / APEX AURA DETECTED... HOLD ON!"
-                : (times > 1
-                  ? `🔥 UNLEASHING x${times} SUMMON RIFT · BEST TIER: ${RARITY_TIERS[bestTier].label}...`
-                  : `⚡ CHANNELING ${RARITY_TIERS[bestTier].label} SUMMON...`)}
+            <span style="font-weight:900; font-size:1.02rem; color:${loadingColor}; letter-spacing:0.6px;">
+              ${loadingLabel}
             </span>
           </div>
         `;
@@ -2533,17 +2493,26 @@
       const effectColor = anyTroll ? "#ffd700" : RARITY_TIERS[bestTier].color;
       const arenaRect = stageArena.getBoundingClientRect();
       const originY = Math.max(110, Math.min(viewH * 0.72, arenaRect.top + arenaRect.height * 0.44));
-      spawnParticles(effectColor, anyTroll || bestTierIndex >= 5 ? 48 : (times > 1 ? 36 : 24), originY);
+      spawnParticles(effectColor, anyTroll ? 44 : (times > 1 ? 30 : 20), originY);
 
-      if (anyTroll || bestTier === "apex" || bestTier === "transcendent" || bestTier === "divine" || times > 1) {
+      if (anyTroll) {
+        document.body.classList.remove("troll-shake", "shake");
+        void document.body.offsetWidth;
+        document.body.classList.add("troll-shake");
+
+        const flash = document.getElementById("flashOverlay");
+        flash.style.background = "#ffd700";
+        flash.style.opacity = "0.32";
+        setTimeout(() => { flash.style.opacity = "0"; }, 180);
+      } else if (bestTier === "apex" || bestTier === "transcendent" || bestTier === "divine" || times > 1) {
         document.body.classList.remove("shake");
         void document.body.offsetWidth;
         document.body.classList.add("shake");
 
         const flash = document.getElementById("flashOverlay");
         flash.style.background = effectColor;
-        flash.style.opacity = bestTierIndex >= 5 || anyTroll ? "0.36" : "0.18";
-        setTimeout(() => { flash.style.opacity = "0"; }, 160);
+        flash.style.opacity = bestTierIndex >= 5 ? "0.32" : "0.16";
+        setTimeout(() => { flash.style.opacity = "0"; }, 150);
       }
 
       renderStageCards(pullOutputs, !profile.settings.skip);
@@ -2596,7 +2565,9 @@
             const d = item.demon;
             const imgs = getImageSources(d);
             const isFav = profile.favorites.includes(d.id);
-            const delay = animate ? `style="animation-delay:${Math.min(idx * 32, 320)}ms"` : `style="animation:none"`;
+            const animRule = !animate
+              ? "animation:none"
+              : (item.isTroll ? `animation-delay:${Math.min(idx * 32, 320)}ms` : `animation-delay:${Math.min(idx * 32, 320)}ms`);
             let statusBadge = "";
             if (item.isTroll) {
               statusBadge = `<span class="card-status-badge badge-troll">🤡 TROLL COMMON</span>`;
@@ -2608,7 +2579,7 @@
             const orbBadge = item.orbsEarned > 0 ? `<span class="card-orbs-gain">+${item.orbsEarned} 💠</span>` : "";
 
             return `
-              <article class="pull-card r-${d.rarity}" ${delay} onclick="openInspectModal('${d.id}', false)">
+              <article class="pull-card ${item.isTroll && animate ? "troll-pop" : ""} r-${d.rarity}" style="${animRule}" onclick="openInspectModal('${d.id}', false)">
                 <div class="card-media">
                   <img src="${imgs.primary}" alt="${d.name}"
                     onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
@@ -2656,8 +2627,12 @@
       const clock = formatClockMMSS(msLeft);
       const pct = Math.max(0, Math.min(100, ((TOKEN_INTERVAL_MS - msLeft) / TOKEN_INTERVAL_MS) * 100));
 
+      document.getElementById("tokensCount").textContent = profile.tokens.toLocaleString();
       document.getElementById("tokenTimerHud").textContent = isPageActiveForTokens ? clock : `${clock} ⏸`;
       document.getElementById("tokenProgressBar").style.width = `${pct.toFixed(1)}%`;
+
+      const invTokens = document.getElementById("invTokensBalance");
+      if (invTokens) invTokens.textContent = `🪙 ${profile.tokens.toLocaleString()} Tokens`;
 
       const invTimer = document.getElementById("invTokenTimer");
       if (invTimer) invTimer.textContent = isPageActiveForTokens ? clock : `${clock} (Paused)`;
@@ -2719,8 +2694,13 @@
     }
 
     setInterval(() => {
-      syncTokenActiveState(Date.now());
-      tickTokensByTime();
+      if (document.hidden) {
+        isPageActiveForTokens = false;
+        lastTokenSampleMs = Date.now();
+      } else {
+        isPageActiveForTokens = true;
+        tickTokensByTime();
+      }
       pruneExpiredRooms();
       refreshTimersUI();
     }, 500);
@@ -3652,42 +3632,6 @@
       openModal("achModal");
     }
 
-    function openStatsModal() {
-      const totalPulls = profile.pulls || 0;
-      const headerRow = `
-        <div class="stats-hero-card">
-          <div>
-            <span style="font-size:0.74rem; color:#93c5fd; font-weight:800; letter-spacing:0.5px;">TOTAL SUMMON ROLLS</span>
-            <div style="font-size:1.45rem; font-weight:900; color:#fff;">${totalPulls.toLocaleString()}</div>
-          </div>
-          <div style="text-align:right;">
-            <span style="font-size:0.74rem; color:var(--orb); font-weight:800;">UNIQUE DEX</span>
-            <div style="font-size:1.1rem; font-weight:900; color:var(--orb);">${Object.keys(profile.owned).length} / ${allDemons.length}</div>
-          </div>
-        </div>
-      `;
-      const rows = [...TIER_ORDER].reverse().map(tier => {
-        const count = profile.rarityCounts[tier] || 0;
-        const pctNum = totalPulls > 0 ? (count / totalPulls) * 100 : 0;
-        const pctText = pctNum.toFixed(2);
-        const barWidth = totalPulls > 0 ? Math.max(count > 0 ? 4 : 0, Math.min(100, pctNum)) : 0;
-        const color = RARITY_TIERS[tier].color;
-        return `
-          <div class="stat-tier-card" style="border-color:${count > 0 ? color + "44" : "rgba(255,255,255,0.08)"};">
-            <div class="stat-tier-top">
-              <span class="rarity-pill rp-${tier}">${RARITY_TIERS[tier].label}</span>
-              <strong style="color:#f8fafc;">${count.toLocaleString()} drops <span style="color:var(--muted); font-weight:700;">(${pctText}%)</span></strong>
-            </div>
-            <div class="stat-bar-track">
-              <div class="stat-bar-fill" style="width:${barWidth}%; background:${color};"></div>
-            </div>
-          </div>
-        `;
-      }).join("");
-      document.getElementById("statsContent").innerHTML = headerRow + rows;
-      openModal("statsModal");
-    }
-
     function openInspectModal(id, fromSearch = false) {
       const d = demonMap[id];
       if (!d) return;
@@ -3776,10 +3720,6 @@
       e.stopPropagation();
       closeModal("achModal");
     });
-    document.getElementById("closeStatsModalBtn").addEventListener("click", e => {
-      e.stopPropagation();
-      closeModal("statsModal");
-    });
     document.getElementById("topCloseInspectModalBtn").addEventListener("click", e => {
       e.stopPropagation();
       closeModal("inspectModal");
@@ -3815,7 +3755,6 @@
       showSection("home");
     });
     document.getElementById("openAchBtn").addEventListener("click", openAchModal);
-    document.getElementById("openStatsBtn").addEventListener("click", openStatsModal);
 
     document.getElementById("saveDisplayNameBtn").addEventListener("click", () => {
       profile.displayName = sanitizeName(document.getElementById("displayNameInput").value, "Player");
@@ -3983,7 +3922,8 @@
       if (!confirm("Reset all your Tokens, Orbs, Items, Unlocked Demons, Rooms, and Achievements?")) return;
       stopFiveSecCountdown();
       activeRoomId = null;
-      lastTokenActiveSampleMs = Date.now();
+      lastTokenSampleMs = Date.now();
+      isPageActiveForTokens = !document.hidden;
       profile = {
         displayName: profile.displayName || "Player",
         tokens: 0,
@@ -4023,7 +3963,8 @@
       renderDexGrid();
     });
 
-    syncTokenActiveState(Date.now());
+    isPageActiveForTokens = !document.hidden;
+    lastTokenSampleMs = Date.now();
     tickTokensByTime();
     pruneExpiredRooms();
     syncToggleButtons();
