@@ -1743,7 +1743,7 @@
           <p id="modalCount" style="font-size:0.86rem; color:#e2e8f0;"></p>
           <div class="ext-links" id="modalLinks">
             <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener noreferrer">▶ Verification</a>
-            <a class="ext-link-btn link-aredl" id="linkAredl" href="#" target="_blank" rel="noopener noreferrer">🏆 AREDL Page</a>
+            <a class="ext-link-btn link-aredl" href="#" id="linkAredl" target="_blank" rel="noopener noreferrer">🏆 AREDL Page</a>
             <a class="ext-link-btn link-gdb" href="#" id="linkGdb" target="_blank" rel="noopener noreferrer">🧊 GDBrowser</a>
           </div>
           <button type="button" class="btn-main" style="margin-top:8px;" id="closeInspectModalBtn">Close</button>
@@ -1756,8 +1756,8 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v11";
-    const FIRST_VISIT_KEY = "aredl_gacha_first_visit_claimed_v1";
+    const SAVE_KEY = "aredl_gacha_en_save_v12";
+    const STARTER_GRANTED_KEY = "aredl_gacha_starter_granted_v2";
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
@@ -1866,43 +1866,14 @@
       return cleaned || fallback;
     }
 
-    function hasClaimedFirstVisitFlag() {
-      try {
-        if (localStorage.getItem(FIRST_VISIT_KEY) === "1") return true;
-        const rawSave = localStorage.getItem(SAVE_KEY);
-        if (rawSave) {
-          const parsed = JSON.parse(rawSave);
-          if (parsed && parsed.starterBonusClaimed === true) {
-            localStorage.setItem(FIRST_VISIT_KEY, "1");
-            return true;
-          }
-        }
-      } catch (_) {}
-      return false;
-    }
-
-    function markFirstVisitClaimed() {
-      try {
-        localStorage.setItem(FIRST_VISIT_KEY, "1");
-      } catch (_) {}
-    }
-
     let isPageActiveForTokens = !document.hidden;
     let lastTokenSampleMs = Date.now();
-    let justGrantedStarterBonus = false;
+    let starterBonusJustAwarded = false;
 
     function loadSafeProfile() {
-      const alreadyVisited = hasClaimedFirstVisitFlag();
-      const initialTokens = alreadyVisited ? 0 : STARTER_TOKENS;
-      if (!alreadyVisited) {
-        markFirstVisitClaimed();
-        justGrantedStarterBonus = true;
-      }
-
       const defaults = {
         displayName: "Player",
-        starterBonusClaimed: true,
-        tokens: initialTokens,
+        tokens: 0,
         tokenCycleElapsedMs: 0,
         orbs: 500,
         pulls: 0,
@@ -1919,36 +1890,47 @@
         settings: { sfx: true, skip: false, listView: false }
       };
 
+      let profileObj = defaults;
+
       try {
         const raw = localStorage.getItem(SAVE_KEY);
-        if (!raw) return defaults;
-        const parsed = JSON.parse(raw);
-        if (!parsed || typeof parsed !== "object") return defaults;
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            profileObj = {
+              displayName: sanitizeName(parsed.displayName, "Player"),
+              tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.min(TOKEN_CAP, Math.floor(parsed.tokens))) : 0,
+              tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
+                ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
+                : 0,
+              orbs: typeof parsed.orbs === "number" && Number.isFinite(parsed.orbs) ? Math.max(0, Math.floor(parsed.orbs)) : 500,
+              pulls: typeof parsed.pulls === "number" && Number.isFinite(parsed.pulls) ? Math.max(0, Math.floor(parsed.pulls)) : 0,
+              tradesCompleted: typeof parsed.tradesCompleted === "number" && Number.isFinite(parsed.tradesCompleted) ? Math.max(0, Math.floor(parsed.tradesCompleted)) : 0,
+              owned: parsed.owned && typeof parsed.owned === "object" ? parsed.owned : {},
+              favorites: Array.isArray(parsed.favorites) ? parsed.favorites.map(String) : [],
+              packs: Object.assign({ no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, parsed.packs || {}),
+              activeBoost: parsed.activeBoost && typeof parsed.activeBoost === "object" ? parsed.activeBoost : null,
+              noDupUntil: typeof parsed.noDupUntil === "number" ? parsed.noDupUntil : 0,
+              lastPullIds: Array.isArray(parsed.lastPullIds) ? parsed.lastPullIds.map(String) : [],
+              unlockedAch: Array.isArray(parsed.unlockedAch) ? parsed.unlockedAch.map(String) : [],
+              tradeRooms: Array.isArray(parsed.tradeRooms) ? parsed.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [],
+              rarityCounts: Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, parsed.rarityCounts || {}),
+              settings: Object.assign({ sfx: true, skip: false, listView: false }, parsed.settings || {})
+            };
+          }
+        }
+      } catch (_) {}
 
-        return {
-          displayName: sanitizeName(parsed.displayName, "Player"),
-          starterBonusClaimed: true,
-          tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.min(TOKEN_CAP, Math.floor(parsed.tokens))) : 0,
-          tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
-            ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
-            : 0,
-          orbs: typeof parsed.orbs === "number" && Number.isFinite(parsed.orbs) ? Math.max(0, Math.floor(parsed.orbs)) : 500,
-          pulls: typeof parsed.pulls === "number" && Number.isFinite(parsed.pulls) ? Math.max(0, Math.floor(parsed.pulls)) : 0,
-          tradesCompleted: typeof parsed.tradesCompleted === "number" && Number.isFinite(parsed.tradesCompleted) ? Math.max(0, Math.floor(parsed.tradesCompleted)) : 0,
-          owned: parsed.owned && typeof parsed.owned === "object" ? parsed.owned : {},
-          favorites: Array.isArray(parsed.favorites) ? parsed.favorites.map(String) : [],
-          packs: Object.assign({ no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, parsed.packs || {}),
-          activeBoost: parsed.activeBoost && typeof parsed.activeBoost === "object" ? parsed.activeBoost : null,
-          noDupUntil: typeof parsed.noDupUntil === "number" ? parsed.noDupUntil : 0,
-          lastPullIds: Array.isArray(parsed.lastPullIds) ? parsed.lastPullIds.map(String) : [],
-          unlockedAch: Array.isArray(parsed.unlockedAch) ? parsed.unlockedAch.map(String) : [],
-          tradeRooms: Array.isArray(parsed.tradeRooms) ? parsed.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [],
-          rarityCounts: Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, parsed.rarityCounts || {}),
-          settings: Object.assign({ sfx: true, skip: false, listView: false }, parsed.settings || {})
-        };
-      } catch (_) {
-        return defaults;
-      }
+      try {
+        const alreadyGranted = localStorage.getItem(STARTER_GRANTED_KEY) === "1";
+        if (!alreadyGranted) {
+          localStorage.setItem(STARTER_GRANTED_KEY, "1");
+          profileObj.tokens = Math.min(TOKEN_CAP, (Number(profileObj.tokens) || 0) + STARTER_TOKENS);
+          starterBonusJustAwarded = true;
+        }
+      } catch (_) {}
+
+      return profileObj;
     }
 
     let profile = loadSafeProfile();
@@ -1985,9 +1967,7 @@
 
     function saveProfile() {
       try {
-        profile.starterBonusClaimed = true;
         localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
-        markFirstVisitClaimed();
       } catch (_) {}
     }
 
@@ -1998,7 +1978,7 @@
       if (toastTimeout) clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
-      }, 2200);
+      }, 2400);
     }
 
     function computeCurrentCycleElapsedMs(now = Date.now()) {
@@ -3965,10 +3945,9 @@
       activeRoomId = null;
       lastTokenSampleMs = Date.now();
       isPageActiveForTokens = !document.hidden;
-      markFirstVisitClaimed();
+      try { localStorage.setItem(STARTER_GRANTED_KEY, "1"); } catch (_) {}
       profile = {
         displayName: profile.displayName || "Player",
-        starterBonusClaimed: true,
         tokens: 0,
         tokenCycleElapsedMs: 0,
         orbs: 500,
@@ -4011,12 +3990,13 @@
     tickTokensByTime();
     pruneExpiredRooms();
     syncToggleButtons();
+    updateAllUI();
     loadAREDL(false);
 
-    if (justGrantedStarterBonus) {
+    if (starterBonusJustAwarded) {
       setTimeout(() => {
         showToast(`Welcome! +${STARTER_TOKENS} starter Tokens (one-time gift)`);
-      }, 250);
+      }, 200);
     }
   </script>
 </body>
