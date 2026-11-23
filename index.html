@@ -106,6 +106,17 @@
       100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); border-color: rgba(250, 204, 21, 0.45); }
     }
 
+    .orb-icon {
+      width: 1.18em;
+      height: 1.18em;
+      object-fit: contain;
+      display: inline-block;
+      vertical-align: -0.22em;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.55));
+      flex-shrink: 0;
+    }
+
     .hud-pill.tokens-pill.token-gain-glow {
       animation: tokenSoftGlow 1.1s var(--ease-fresh);
     }
@@ -150,7 +161,10 @@
       opacity: 0;
       transform: translate3d(0, -10px, 0) scale(0.96);
       pointer-events: none;
-      transition: opacity 0.16s var(--ease-fresh), transform 0.16s var(--ease-fresh);
+      transition: opacity 0.14s var(--ease-fresh), transform 0.14s var(--ease-fresh);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .mini-toast.show {
@@ -200,7 +214,7 @@
       border-radius: 999px;
       font-size: 0.82rem;
       color: var(--muted);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
       min-height: var(--touch-min);
@@ -413,6 +427,9 @@
       font-weight: 900;
       color: var(--orb);
       box-shadow: 0 0 24px rgba(0, 229, 255, 0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .shop-grid-cards {
@@ -600,6 +617,7 @@
       color: #e2e8f0;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 12px;
@@ -871,7 +889,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 14px;
       padding: 10px 14px;
       border-radius: 13px;
@@ -880,7 +898,30 @@
       animation: freshFadeIn 0.22s var(--ease-fresh) both;
     }
 
+    .batch-orbs-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 229, 255, 0.14);
+      border: 1px solid rgba(0, 229, 255, 0.55);
+      color: var(--orb);
+      padding: 5px 11px;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.18);
+    }
+
+    .results-stage-row {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
     .results-grid {
+      flex: 1;
+      min-width: 0;
       width: 100%;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
@@ -888,6 +929,39 @@
     }
 
     .results-grid.single-pull { max-width: 440px; margin: 0 auto; }
+
+    .side-orbs-box {
+      flex-shrink: 0;
+      background: linear-gradient(160deg, rgba(0, 229, 255, 0.18), rgba(14, 22, 42, 0.95));
+      border: 1.5px solid rgba(0, 229, 255, 0.65);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 106px;
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.22);
+      animation: freshFadeIn 0.25s var(--ease-fresh) both;
+    }
+
+    .side-orbs-box span {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: #bae6fd;
+      font-weight: 800;
+    }
+
+    .side-orbs-box strong {
+      font-size: 1rem;
+      color: var(--orb);
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
 
     .pull-card {
       background: var(--bg-card);
@@ -975,6 +1049,9 @@
       font-weight: 800;
       padding: 2px 7px;
       border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .card-body { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
@@ -1049,6 +1126,23 @@
     }
 
     .dex-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .rarity-breakdown-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .rarity-stat-chip {
+      background: rgba(8, 12, 22, 0.85);
+      border: 1px solid var(--border);
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
     .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 
     .f-pill {
@@ -1419,6 +1513,9 @@
       font-weight: 900;
       font-size: 0.8rem;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .ext-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
@@ -1450,6 +1547,8 @@
     @media (max-width: 780px) {
       .quick-nav { grid-template-columns: repeat(2, 1fr); }
       .trade-sides { grid-template-columns: 1fr; }
+      .results-stage-row { flex-direction: column; }
+      .side-orbs-box { width: 100%; flex-direction: row; justify-content: space-between; }
     }
 
     @media (max-width: 680px) {
@@ -1480,17 +1579,17 @@
       <div class="hud-pill tokens-pill" id="tokensHudPill">
         <div style="display:flex; justify-content:space-between; width:100%; gap:8px;">
           <span>🪙 Tokens: <strong id="tokensCount">0</strong></span>
-          <span>⏳ <strong id="tokenTimerHud">01:30</strong></span>
+          <span>⏳ <strong id="tokenTimerHud">05:00</strong></span>
         </div>
         <div class="token-progress-track">
           <div class="token-progress-fill" id="tokenProgressBar"></div>
         </div>
       </div>
-      <div class="hud-pill orbs">💠 Orbs: <strong id="orbsCount">0</strong></div>
+      <div class="hud-pill orbs"><span class="orb-icon-slot"></span> Orbs: <strong id="orbsCount">0</strong></div>
       <div class="hud-pill">🎲 Rolls: <strong id="pullsCount">0</strong></div>
       <div class="hud-pill">📚 Dex: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
       <button class="icon-btn active-toggle" id="soundToggleBtn" aria-label="Toggle Sound Effects">🔊 SFX: ON</button>
-      <button class="icon-btn" id="skipToggleBtn" aria-label="Toggle Skip Animations">⏩ Skip: OFF</button>
+      <button class="icon-btn" id="viewModeBtn">☷ View: Grid</button>
     </div>
   </header>
 
@@ -1525,7 +1624,7 @@
             <span style="font-size:0.76rem; color:var(--muted);">Luck surges, Token boosters, Token packs & No Duplicate shields</span>
           </div>
         </div>
-        <div class="shop-balance-chip" id="shopOrbsBalance">💠 0 Orbs</div>
+        <div class="shop-balance-chip" id="shopOrbsBalance">0 Orbs</div>
       </div>
       <div id="shopPacksList"></div>
       <div id="shopItemDetailView" style="display:none;"></div>
@@ -1539,7 +1638,10 @@
           <button class="icon-btn" id="backToRoomsBtn" style="display:none;">← Rooms List</button>
           <h2 style="font-size:1.25rem; font-weight:900;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h2>
         </div>
-        <span class="micro-tag" id="traderHeaderNameTag"></span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="icon-btn" id="refreshLiveRoomsBtn">🔄 Live Sync</button>
+          <span class="micro-tag" id="traderHeaderNameTag"></span>
+        </div>
       </div>
 
       <div class="display-name-bar">
@@ -1550,7 +1652,7 @@
       </div>
 
       <div class="notice-box" id="traderBackendNotice">
-        <strong>Trade Rules:</strong> Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
+        <strong>Trade Rules:</strong> Live room sync active while in Trader. Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
       </div>
 
       <div id="traderLobbyView">
@@ -1580,8 +1682,8 @@
         </div>
 
         <div class="trade-summary-strip" id="tradeSummaryStrip">
-          <span>You give: <strong>0 demons · 0 💠 · 0 🪙</strong></span>
-          <span>You get: <strong>0 demons · 0 💠 · 0 🪙</strong></span>
+          <span>You give: <strong>0 demons · 0 Orbs · 0 🪙</strong></span>
+          <span>You get: <strong>0 demons · 0 Orbs · 0 🪙</strong></span>
         </div>
 
         <div class="unfair-warning-box" id="unfairTradeWarningBox" style="display:none;">
@@ -1658,6 +1760,7 @@
         </div>
 
         <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+          <button class="icon-btn" id="clearRejectedBtn">Clear Rejected (✕)</button>
           <button class="icon-btn" id="clearTradeBtn">Clear All</button>
         </div>
       </div>
@@ -1668,7 +1771,7 @@
       <section class="summon-stage" id="summonStage">
         <div class="stage-header">
           <span id="syncStatus">Syncing AREDL Extreme Demon database...</span>
-          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +2 every 1:30 (active tab)</strong>
+          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +10 every 5m (active tab)</strong>
         </div>
 
         <div class="active-buffs-wrap">
@@ -1686,7 +1789,7 @@
           </div>
           <div class="alert-strip warning-banner" id="tokenShortageBanner" style="display:none;">
             <span id="tokenShortageText">Not enough tokens.</span>
-            <strong id="tokenShortageTimer">01:30</strong>
+            <strong id="tokenShortageTimer">05:00</strong>
           </div>
         </div>
 
@@ -1699,7 +1802,7 @@
         <div class="summon-controls">
           <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Roll x1 (1 🪙)</button>
           <button class="btn-main btn-roll-5" id="pull5Btn" disabled>🔥 Roll x5 (5 🪙)</button>
-          <button class="btn-main btn-roll-orb" id="pullOrbBtn" disabled>💠 Orb Roll (10K 💠)</button>
+          <button class="btn-main btn-roll-orb" id="pullOrbBtn" disabled>Orb Roll (10K)</button>
           <button class="btn-main" id="syncBtn">🔄 Sync AREDL</button>
           <button class="btn-main btn-danger" id="resetBtn">🗑️ Reset</button>
         </div>
@@ -1713,9 +1816,10 @@
           </div>
           <div style="display:flex; gap:8px;">
             <button class="icon-btn" id="scrollTopDexBtn">↑ Top</button>
-            <button class="icon-btn" id="viewModeBtn">☷ View: Grid</button>
           </div>
         </div>
+
+        <div class="rarity-breakdown-bar" id="rarityBreakdownBar"></div>
 
         <div class="filter-pills" id="filterBar">
           <button class="f-pill active" data-filter="all">All</button>
@@ -1758,7 +1862,7 @@
           <strong style="font-size:1.35rem; color:var(--token);" id="invTokensBalance">🪙 0 Tokens</strong>
         </div>
         <div style="text-align:right; font-size:0.8rem; color:#e2e8f0;">
-          Next +2 Tokens in: <strong style="color:var(--token);" id="invTokenTimer">01:30</strong>
+          Next +10 Tokens in: <strong style="color:var(--token);" id="invTokenTimer">05:00</strong>
         </div>
       </div>
 
@@ -1811,8 +1915,8 @@
           <p id="modalCount" style="font-size:0.86rem; color:#e2e8f0;"></p>
           <div class="ext-links" id="modalLinks">
             <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener noreferrer">▶ Verification</a>
-            <a class="ext-link-btn link-aredl" href="#" id="linkAredl" target="_blank" rel="noopener noreferrer">🏆 AREDL Page</a>
-            <a class="ext-link-btn link-gdb" href="#" id="linkGdb" target="_blank" rel="noopener noreferrer">🧊 GDBrowser</a>
+            <a class="ext-link-btn link-aredl" href="#" target="_blank" rel="noopener noreferrer" id="linkAredl">🏆 AREDL Page</a>
+            <a class="ext-link-btn link-gdb" href="#" target="_blank" rel="noopener noreferrer" id="linkGdb">🧊 GDBrowser</a>
           </div>
           <button type="button" class="btn-main" style="margin-top:8px;" id="closeInspectModalBtn">Close</button>
         </div>
@@ -1824,15 +1928,27 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v13";
+    const SAVE_KEY = "aredl_gacha_en_save_v14";
     const STARTER_GRANTED_KEY = "aredl_gacha_starter_granted_v2";
+
+    const ORB_SPRITE_SRC = "image_generation_content/15459961638449512081";
+
+    function orbImgHtml() {
+      return `<img class="orb-icon" src="${ORB_SPRITE_SRC}" alt="Orbs" />`;
+    }
+
+    function hydrateOrbIcons() {
+      document.querySelectorAll(".orb-icon-slot").forEach(el => {
+        el.innerHTML = orbImgHtml();
+      });
+    }
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
     const MAX_PARTICLES = 56;
     const NO_DUP_DURATION_MS = 90000;
-    const TOKEN_INTERVAL_MS = 90000;
-    const TOKEN_REWARD_AMOUNT = 2;
+    const TOKEN_INTERVAL_MS = 300000;
+    const TOKEN_REWARD_AMOUNT = 10;
     const STARTER_TOKENS = 5;
     const ROOM_LIFETIME_MS = 600000;
     const ROOM_WARNING_MS = 30000;
@@ -1957,9 +2073,50 @@
       { id: "first_trade", title: "Deal Maker", desc: "Complete your first demon trade.", reward: 1500, check: p => p.tradesCompleted >= 1 }
     ];
 
+    /* ================= PROFANITY BLOCKER (IDEA #34) ================= */
+    const BLOCKED_BAD_WORDS = [
+      "puta", "puto", "putita", "putito", "mierda", "cabron", "cabrona", "pendejo", "pendeja",
+      "imbecil", "idiota", "estupido", "estupida", "zorra", "culero", "culera", "culo", "verga",
+      "pinga", "cojones", "joder", "jodido", "maricon", "marica", "malparido", "gonorrea",
+      "hijueputa", "hp", "chingar", "chingada", "chingon", "bitch", "fuck", "fucker", "fucking",
+      "shit", "shitty", "asshole", "bastard", "dick", "cunt", "whore", "slut", "nigger", "nigga",
+      "faggot", "retard", "retarded", "pussy", "motherfucker", "boludo", "pelotudo", "concha"
+    ];
+
+    function normalizeForProfanityCheck(raw) {
+      let s = String(raw || "").toLowerCase();
+      s = s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      s = s
+        .replace(/0/g, "o")
+        .replace(/1|!/g, "i")
+        .replace(/3/g, "e")
+        .replace(/4|@/g, "a")
+        .replace(/5|\$/g, "s")
+        .replace(/7/g, "t")
+        .replace(/8/g, "b")
+        .replace(/9/g, "g");
+      s = s.replace(/[^a-z]/g, "");
+      s = s.replace(/(.)\1{2,}/g, "$1$1");
+      return s;
+    }
+
+    function containsBadWord(rawText) {
+      const compact = normalizeForProfanityCheck(rawText);
+      if (!compact) return false;
+      for (const bad of BLOCKED_BAD_WORDS) {
+        if (compact.includes(bad)) return true;
+      }
+      return false;
+    }
+
     function sanitizeName(raw, fallback = "Player") {
-      const cleaned = String(raw || "").replace(/[<>]/g, "").trim().slice(0, 24);
-      return cleaned || fallback;
+      const cleaned = String(raw || "")
+        .replace(/[<>]/g, "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .slice(0, 24);
+      if (!cleaned || containsBadWord(cleaned)) return fallback;
+      return cleaned;
     }
 
     function getLocalDayKey(ts = Date.now()) {
@@ -1996,12 +2153,13 @@
         activeBoost: null,
         noDupUntil: 0,
         lastPullIds: [],
+        lastPullOrbsTotal: 0,
         unlockedAch: [],
         tradeRooms: [],
         streakDays: 0,
         lastRollDayKey: "",
         rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
-        settings: { sfx: true, skip: false, listView: false }
+        settings: { sfx: true, listView: false }
       };
 
       let profileObj = defaults;
@@ -2027,12 +2185,13 @@
               activeBoost: parsed.activeBoost && typeof parsed.activeBoost === "object" ? parsed.activeBoost : null,
               noDupUntil: typeof parsed.noDupUntil === "number" ? parsed.noDupUntil : 0,
               lastPullIds: Array.isArray(parsed.lastPullIds) ? parsed.lastPullIds.map(String) : [],
+              lastPullOrbsTotal: typeof parsed.lastPullOrbsTotal === "number" ? Math.max(0, Math.floor(parsed.lastPullOrbsTotal)) : 0,
               unlockedAch: Array.isArray(parsed.unlockedAch) ? parsed.unlockedAch.map(String) : [],
               tradeRooms: Array.isArray(parsed.tradeRooms) ? parsed.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [],
               streakDays: typeof parsed.streakDays === "number" && Number.isFinite(parsed.streakDays) ? Math.max(0, Math.floor(parsed.streakDays)) : 0,
               lastRollDayKey: typeof parsed.lastRollDayKey === "string" ? parsed.lastRollDayKey : "",
               rarityCounts: Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, parsed.rarityCounts || {}),
-              settings: Object.assign({ sfx: true, skip: false, listView: false }, parsed.settings || {})
+              settings: Object.assign({ sfx: true, listView: false }, parsed.settings || {})
             };
           }
         }
@@ -2088,14 +2247,14 @@
       } catch (_) {}
     }
 
-    function showToast(msg) {
+    function showToast(msg, durationMs = 2400) {
       const toast = document.getElementById("miniToast");
-      toast.textContent = msg;
+      toast.innerHTML = msg;
       toast.classList.add("show");
       if (toastTimeout) clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
-      }, 2400);
+      }, durationMs);
     }
 
     function triggerTokenSoftGlow() {
@@ -2201,7 +2360,7 @@
         profile.tokens += 15;
         profile.orbs += 15000;
         triggerTokenSoftGlow();
-        showToast("7-Day Roll Streak complete! +15 🪙 & +15,000 💠");
+        showToast(`7-Day Roll Streak complete! +15 🪙 & +15,000 ${orbImgHtml()}`);
       }
     }
 
@@ -2371,6 +2530,7 @@
 
     window.addEventListener("beforeunload", () => {
       handleVisibilityTransition(Date.now());
+      saveProfile();
     });
 
     function extractYtId(raw) {
@@ -2465,7 +2625,11 @@
       if (profile.lastPullIds && profile.lastPullIds.length > 0) {
         const restored = profile.lastPullIds.map(id => demonMap[id]).filter(Boolean);
         if (restored.length > 0) {
-          renderStageCards(restored.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })), false);
+          renderStageCards(
+            restored.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })),
+            false,
+            profile.lastPullOrbsTotal || 0
+          );
         }
       } else if (allDemons.length > 0) {
         document.getElementById("stageArena").innerHTML = `
@@ -2605,7 +2769,7 @@
       document.getElementById("tokenShortageText").textContent =
         `Not enough tokens for x${needed}! Need ${needed} tokens (missing ${missing}).`;
       document.getElementById("tokenShortageTimer").textContent =
-        `+${TOKEN_REWARD_AMOUNT} in ${formatClockMMSS(getMsUntilNextTokens())}`;
+        `+10 in ${formatClockMMSS(getMsUntilNextTokens())}`;
       banner.style.display = "flex";
       showToast(`Missing ${missing} token(s) for x${needed}!`);
     }
@@ -2616,7 +2780,7 @@
 
       if (payWithOrbs) {
         if (profile.orbs < SINGLE_PITY_COST_ORBS) {
-          showToast(`Need ${SINGLE_PITY_COST_ORBS.toLocaleString()} Orbs for Orb Roll!`);
+          showToast(`Need ${SINGLE_PITY_COST_ORBS.toLocaleString()} ${orbImgHtml()} for Orb Roll!`);
           return;
         }
       } else if (profile.tokens < times) {
@@ -2698,7 +2862,7 @@
         profile.tokens += SINGLE_PITY_REWARD_TOKENS;
         profile.orbs += SINGLE_PITY_REWARD_ORBS;
         triggerTokenSoftGlow();
-        showToast(`20x Single-Roll Pity! Guaranteed ${RARITY_TIERS[pullOutputs[0].demon.rarity].label} + ${SINGLE_PITY_REWARD_TOKENS} 🪙 & ${SINGLE_PITY_REWARD_ORBS.toLocaleString()} 💠!`);
+        showToast(`20x Single-Roll Pity! +${SINGLE_PITY_REWARD_TOKENS} 🪙 & +${SINGLE_PITY_REWARD_ORBS.toLocaleString()} ${orbImgHtml()}`);
       }
 
       pullOutputs.sort((a, b) => TIER_ORDER.indexOf(b.demon.rarity) - TIER_ORDER.indexOf(a.demon.rarity) || a.demon.rank - b.demon.rank);
@@ -2706,30 +2870,31 @@
       const bestTier = TIER_ORDER[bestTierIndex];
       const animDuration = anyTroll
         ? 1550
-        : (times > 1 ? 680 : 540);
+        : (times > 1 ? 720 : 560);
 
-      if (!profile.settings.skip) {
-        playTone(anyTroll ? 659 : 310, "triangle", animDuration / 1000, 0.16);
-        const orbCls = anyTroll
-          ? "dramatic"
-          : (times > 1 ? "multi-burst" : "");
-        const loadingColor = anyTroll ? "#ffd700" : "#93c5fd";
-        const loadingLabel = anyTroll
-          ? "⚡ WILD SURGE DETECTED... HOLD ON!"
-          : (times > 1 ? `🔥 ROLLING x${times}...` : "⚡ SUMMONING...");
+      // No skip allowed for x1 or x5 pulls
+      playTone(anyTroll ? 659 : 310, "triangle", animDuration / 1000, 0.16);
+      const orbCls = anyTroll
+        ? "dramatic"
+        : (times > 1 ? "multi-burst" : "");
+      const loadingColor = anyTroll ? "#ffd700" : "#93c5fd";
+      const loadingLabel = anyTroll
+        ? "⚡ WILD SURGE DETECTED... HOLD ON!"
+        : (times > 1 ? `🔥 ROLLING x${times}...` : "⚡ SUMMONING...");
 
-        stageArena.innerHTML = `
-          <div class="orb-loader">
-            <div class="gd-orb ${orbCls}"></div>
-            <span style="font-weight:900; font-size:1.02rem; color:${loadingColor}; letter-spacing:0.6px;">
-              ${loadingLabel}
-            </span>
-          </div>
-        `;
-        await new Promise(r => setTimeout(r, animDuration));
-      }
+      stageArena.innerHTML = `
+        <div class="orb-loader">
+          <div class="gd-orb ${orbCls}"></div>
+          <span style="font-weight:900; font-size:1.02rem; color:${loadingColor}; letter-spacing:0.6px;">
+            ${loadingLabel}
+          </span>
+        </div>
+      `;
+      await new Promise(r => setTimeout(r, animDuration));
 
+      const totalOrbsGain = pullOutputs.reduce((s, x) => s + (x.orbsEarned || 0), 0);
       profile.lastPullIds = pullOutputs.map(x => x.demon.id);
+      profile.lastPullOrbsTotal = totalOrbsGain;
       checkAchievements();
       saveProfile();
       uiDirty = true;
@@ -2760,7 +2925,7 @@
         setTimeout(() => { flash.style.opacity = "0"; }, 150);
       }
 
-      renderStageCards(pullOutputs, !profile.settings.skip);
+      renderStageCards(pullOutputs, true, totalOrbsGain);
       updateAllUI();
 
       isRolling = false;
@@ -2772,10 +2937,14 @@
       const pull1Btn = document.getElementById("pull1Btn");
       const pull5Btn = document.getElementById("pull5Btn");
       const pullOrbBtn = document.getElementById("pullOrbBtn");
+      const syncBtn = document.getElementById("syncBtn");
+      const resetBtn = document.getElementById("resetBtn");
 
       pull1Btn.disabled = !ready;
       pull5Btn.disabled = !ready;
       pullOrbBtn.disabled = !ready || profile.orbs < SINGLE_PITY_COST_ORBS;
+      syncBtn.disabled = isRolling;
+      resetBtn.disabled = isRolling;
 
       if (profile.tokens < 5) {
         const need5 = 5 - profile.tokens;
@@ -2785,69 +2954,85 @@
       }
 
       pull1Btn.innerHTML = `⚡ Roll x1 (1 🪙)`;
-      pullOrbBtn.innerHTML = `💠 Orb Roll (10K 💠)`;
+      pullOrbBtn.innerHTML = `${orbImgHtml()} Orb Roll (10K)`;
     }
 
-    function renderStageCards(pullOutputs, animate) {
+    function renderStageCards(pullOutputs, animate, batchOrbsGain = 0) {
       const stageArena = document.getElementById("stageArena");
       const isSingle = pullOutputs.length === 1;
-      const totalOrbsGain = pullOutputs.reduce((s, x) => s + (x.orbsEarned || 0), 0);
       const newCount = pullOutputs.filter(x => !x.isDup && x.orbsEarned > 0).length;
       const best = pullOutputs.reduce((prev, curr) => (curr.demon.rank < prev.demon.rank ? curr : prev), pullOutputs[0]).demon;
 
-      const summaryHtml = totalOrbsGain > 0
+      const summaryHtml = batchOrbsGain > 0
         ? `
           <div class="summon-spotlight-bar">
             <span style="font-size:0.84rem; font-weight:900; color:${RARITY_TIERS[best.rarity].color};">
               ✨ Spotlight: #${best.rank} ${best.name} (${RARITY_TIERS[best.rarity].label})
             </span>
-            <span style="font-size:0.8rem; font-weight:800; color:var(--orb);">
-              +${totalOrbsGain.toLocaleString()} 💠 · ${newCount} New <span class="micro-tag">PITY x1: ${sessionSingleUnluckyStreak}/${SINGLE_PITY_THRESHOLD}</span>
-            </span>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <span class="batch-orbs-box">${orbImgHtml()} +${batchOrbsGain.toLocaleString()} Orbs</span>
+              <span style="font-size:0.78rem; font-weight:800; color:#cbd5e1;">
+                ${newCount} New <span class="micro-tag">PITY x1: ${sessionSingleUnluckyStreak}/${SINGLE_PITY_THRESHOLD}</span>
+              </span>
+            </div>
           </div>
+        `
+        : "";
+
+      const sideOrbsBoxHtml = batchOrbsGain > 0
+        ? `
+          <aside class="side-orbs-box" title="Orbs gained from this summon">
+            <span>Orbs Won</span>
+            <strong>${orbImgHtml()} +${batchOrbsGain.toLocaleString()}</strong>
+          </aside>
         `
         : "";
 
       stageArena.innerHTML = `
         ${summaryHtml}
-        <div class="results-grid ${isSingle ? "single-pull" : ""}">
-          ${pullOutputs.map((item, idx) => {
-            const d = item.demon;
-            const imgs = getImageSources(d);
-            const isFav = profile.favorites.includes(d.id);
-            const animRule = !animate ? "animation:none" : `animation-delay:${Math.min(idx * 32, 320)}ms`;
-            let statusBadge = "";
-            if (item.isTroll) {
-              statusBadge = `<span class="card-status-badge badge-troll">🤡 TROLL COMMON</span>`;
-            } else if (item.isPity) {
-              statusBadge = `<span class="card-status-badge badge-pity">✨ 20X PITY</span>`;
-            } else if (item.orbsEarned > 0) {
-              statusBadge = item.isDup
-                ? `<span class="card-status-badge badge-dup">DUPLICATE</span>`
-                : `<span class="card-status-badge badge-new">★ NEW!</span>`;
-            }
-            const orbBadge = item.orbsEarned > 0 ? `<span class="card-orbs-gain">+${item.orbsEarned} 💠</span>` : "";
+        <div class="results-stage-row">
+          <div class="results-grid ${isSingle ? "single-pull" : ""}">
+            ${pullOutputs.map((item, idx) => {
+              const d = item.demon;
+              const imgs = getImageSources(d);
+              const isFav = profile.favorites.includes(d.id);
+              const animRule = !animate ? "animation:none" : `animation-delay:${Math.min(idx * 32, 320)}ms`;
+              let statusBadge = "";
+              if (item.isTroll) {
+                statusBadge = `<span class="card-status-badge badge-troll">🤡 TROLL COMMON</span>`;
+              } else if (item.isPity) {
+                statusBadge = `<span class="card-status-badge badge-pity">✨ 20X PITY</span>`;
+              } else if (item.orbsEarned > 0) {
+                statusBadge = item.isDup
+                  ? `<span class="card-status-badge badge-dup">DUPLICATE</span>`
+                  : `<span class="card-status-badge badge-new">★ NEW!</span>`;
+              }
+              const orbBadge = item.orbsEarned > 0
+                ? `<span class="card-orbs-gain">${orbImgHtml()} +${item.orbsEarned}</span>`
+                : "";
 
-            return `
-              <article class="pull-card ${item.isTroll && animate ? "troll-pop" : ""} r-${d.rarity}" style="${animRule}" onclick="openInspectModal('${d.id}', false)">
-                <div class="card-media">
-                  <img src="${imgs.primary}" alt="${d.name}"
-                    onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
-                  <span class="card-rank-badge">#${d.rank}</span>
-                  ${statusBadge}
-                  ${orbBadge}
-                </div>
-                <div class="card-body">
-                  <div class="card-top-meta">
-                    <span class="rarity-pill rp-${d.rarity}">${RARITY_TIERS[d.rarity].label}</span>
-                    <button class="fav-star ${isFav ? "active" : ""}" onclick="event.stopPropagation(); toggleFavorite('${d.id}')">★</button>
+              return `
+                <article class="pull-card ${item.isTroll && animate ? "troll-pop" : ""} r-${d.rarity}" style="${animRule}" onclick="openInspectModal('${d.id}', false)">
+                  <div class="card-media">
+                    <img src="${imgs.primary}" alt="${d.name}"
+                      onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+                    <span class="card-rank-badge">#${d.rank}</span>
+                    ${statusBadge}
+                    ${orbBadge}
                   </div>
-                  <div class="card-title">${d.name}</div>
-                  <div class="card-creator">by ${d.creator}</div>
-                </div>
-              </article>
-            `;
-          }).join("")}
+                  <div class="card-body">
+                    <div class="card-top-meta">
+                      <span class="rarity-pill rp-${d.rarity}">${RARITY_TIERS[d.rarity].label}</span>
+                      <button class="fav-star ${isFav ? "active" : ""}" onclick="event.stopPropagation(); toggleFavorite('${d.id}')">★</button>
+                    </div>
+                    <div class="card-title">${d.name}</div>
+                    <div class="card-creator">by ${d.creator}</div>
+                  </div>
+                </article>
+              `;
+            }).join("")}
+          </div>
+          ${sideOrbsBoxHtml}
         </div>
       `;
 
@@ -2869,7 +3054,7 @@
           profile.unlockedAch.push(ach.id);
           profile.orbs += ach.reward;
           playTone(987.77, "triangle", 0.25, 0.16);
-          showToast(`🏆 Achievement Unlocked: ${ach.title} (+${ach.reward.toLocaleString()} 💠)`);
+          showToast(`🏆 Achievement Unlocked: ${ach.title} (+${ach.reward.toLocaleString()} ${orbImgHtml()})`);
         }
       }
     }
@@ -2910,12 +3095,24 @@
 
       const shortageBanner = document.getElementById("tokenShortageBanner");
       if (shortageBanner.style.display === "flex") {
-        document.getElementById("tokenShortageTimer").textContent = `+${TOKEN_REWARD_AMOUNT} in ${clock}`;
+        document.getElementById("tokenShortageTimer").textContent = `+10 in ${clock}`;
       }
 
       if (activeRoomId) {
         refreshActiveRoomTimer();
       }
+    }
+
+    function renderRarityBreakdown() {
+      const bar = document.getElementById("rarityBreakdownBar");
+      if (!bar) return;
+      const ownedSet = new Set(Object.keys(profile.owned).filter(id => (profile.owned[id] || 0) > 0));
+      const orderDesc = [...TIER_ORDER].reverse();
+      bar.innerHTML = orderDesc.map(tier => {
+        const pool = poolsByRarity[tier] || [];
+        const unlockedInTier = pool.filter(d => ownedSet.has(d.id)).length;
+        return `<span class="rarity-stat-chip" style="color:${RARITY_TIERS[tier].color};">${RARITY_TIERS[tier].label}: ${unlockedInTier}/${pool.length}</span>`;
+      }).join("");
     }
 
     function updateAllUI() {
@@ -2948,6 +3145,7 @@
 
       refreshTimersUI();
       updateSummonButtonsState();
+      renderRarityBreakdown();
 
       if (uiDirty && currentSection === "home") {
         uiDirty = false;
@@ -2966,6 +3164,18 @@
       pruneExpiredRooms();
       refreshTimersUI();
     }, 500);
+
+    // Live rooms sync while inside Trader
+    setInterval(() => {
+      if (!document.hidden && currentSection === "trader" && TRADE_BACKEND_URL) {
+        syncRoomsFromBackend().then(() => {
+          if (currentSection === "trader" && !activeRoomId) {
+            renderTraderLobby();
+            document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
+          }
+        });
+      }
+    }, 2200);
 
     function renderDexGrid() {
       const dexGrid = document.getElementById("dexGrid");
@@ -3058,7 +3268,7 @@
 
     function openShopSection() {
       selectedShopItemId = null;
-      document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
+      document.getElementById("shopOrbsBalance").innerHTML = `${orbImgHtml()} ${profile.orbs.toLocaleString()} Orbs`;
       document.getElementById("backToShopListBtn").style.display = "none";
       document.getElementById("shopItemDetailView").style.display = "none";
       const listEl = document.getElementById("shopPacksList");
@@ -3081,8 +3291,8 @@
             </div>
             <div class="shop-card-footer">
               <div>
-                <div style="font-weight:900; color:var(--orb); font-size:0.95rem;">💠 ${item.cost.toLocaleString()}</div>
-                <span style="font-size:0.72rem; color:#93c5fd; font-weight:700;">Owned: x${qty}</span>
+                <div style="font-weight:900; color:var(--orb); font-size:0.95rem; display:inline-flex; align-items:center; gap:5px;">${orbImgHtml()} ${item.cost.toLocaleString()}</div>
+                <span style="display:block; font-size:0.72rem; color:#93c5fd; font-weight:700;">Owned: x${qty}</span>
               </div>
               <span style="font-size:0.78rem; font-weight:800; color:#e2e8f0;">Inspect →</span>
             </div>
@@ -3113,17 +3323,17 @@
               <div class="shop-card-icon" style="border-color:${accentColor}66;">${icon}</div>
               <h4 style="font-size:1.25rem; font-weight:900; color:${accentColor};">${item.name}</h4>
             </div>
-            <span class="shop-balance-chip">💠 ${item.cost.toLocaleString()} Orbs</span>
+            <span class="shop-balance-chip">${orbImgHtml()} ${item.cost.toLocaleString()} Orbs</span>
           </div>
           <p style="font-size:0.9rem; color:#e2e8f0; line-height:1.5;">
             <strong>Effect:</strong> ${item.effectDesc}
           </p>
           <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:0.82rem; color:var(--muted); background:rgba(7,10,19,0.72); padding:10px 14px; border-radius:12px;">
             <span>In Inventory: <strong style="color:#fff;">x${ownedQty}</strong></span>
-            <span>Your Orbs: <strong style="color:var(--orb);">💠 ${profile.orbs.toLocaleString()}</strong></span>
+            <span style="display:inline-flex; align-items:center; gap:5px;">Your Orbs: <strong style="color:var(--orb); display:inline-flex; align-items:center; gap:4px;">${orbImgHtml()} ${profile.orbs.toLocaleString()}</strong></span>
           </div>
           <button class="buy-btn" style="width:100%; padding:13px;" ${!canAfford ? "disabled" : ""} onclick="buyShopItem('${item.id}')">
-            ${canAfford ? `Buy ${item.name} (💠 ${item.cost.toLocaleString()})` : "Not Enough Orbs"}
+            ${canAfford ? `Buy ${item.name} (${orbImgHtml()} ${item.cost.toLocaleString()})` : "Not Enough Orbs"}
           </button>
         </div>
       `;
@@ -3139,7 +3349,7 @@
       playTone(660, "triangle", 0.22, 0.16);
       showToast(`Bought ${item.name}!`);
       updateAllUI();
-      document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
+      document.getElementById("shopOrbsBalance").innerHTML = `${orbImgHtml()} ${profile.orbs.toLocaleString()} Orbs`;
       openShopItemDetail(item.id);
     }
 
@@ -3315,7 +3525,11 @@
         showToast(`Maximum of ${MAX_TRADE_ROOMS} rooms reached.`);
         return;
       }
-      const typedName = document.getElementById("newRoomNameInput").value.trim();
+      const typedName = document.getElementById("newRoomNameInput").value.replace(/\s+/g, " ").trim().slice(0, 32);
+      if (typedName && containsBadWord(typedName)) {
+        showToast("Room name blocked: inappropriate word detected.");
+        return;
+      }
       const name = sanitizeName(typedName, `Trade Room #${profile.tradeRooms.length + 1}`).slice(0, 32);
       const now = Date.now();
       const room = sanitizeRoomPayload({
@@ -3440,8 +3654,14 @@
         mySelectedOffer.splice(idx, 1);
         mySlotStates.splice(idx, 1);
       } else {
-        if (mySelectedOffer.length >= MAX_TRADE_ITEMS) return;
-        if (countSelectedInMyOffer(id) >= ownedQty) return;
+        if (mySelectedOffer.length >= MAX_TRADE_ITEMS) {
+          showToast(`Max ${MAX_TRADE_ITEMS} demons per offer.`);
+          return;
+        }
+        if (countSelectedInMyOffer(id) >= ownedQty) {
+          showToast("No extra copies available in inventory.");
+          return;
+        }
         mySelectedOffer.push(id);
         mySlotStates.push("pending");
       }
@@ -3457,7 +3677,10 @@
         theirSelectedOffer.splice(idx, 1);
         theirSlotStates.splice(idx, 1);
       } else {
-        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) return;
+        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) {
+          showToast(`Max ${MAX_TRADE_ITEMS} demons per offer.`);
+          return;
+        }
         theirSelectedOffer.push(id);
         theirSlotStates.push("pending");
       }
@@ -3482,6 +3705,32 @@
         theirSelectedOffer.splice(index, 1);
         theirSlotStates.splice(index, 1);
       }
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    function clearRejectedSlots() {
+      if (fiveSecInterval) return;
+      const nextMy = [];
+      const nextMySt = [];
+      mySelectedOffer.forEach((id, i) => {
+        if (mySlotStates[i] !== "rejected") {
+          nextMy.push(id);
+          nextMySt.push(mySlotStates[i] || "pending");
+        }
+      });
+      const nextTheir = [];
+      const nextTheirSt = [];
+      theirSelectedOffer.forEach((id, i) => {
+        if (theirSlotStates[i] !== "rejected") {
+          nextTheir.push(id);
+          nextTheirSt.push(theirSlotStates[i] || "pending");
+        }
+      });
+      mySelectedOffer = nextMy;
+      mySlotStates = nextMySt;
+      theirSelectedOffer = nextTheir;
+      theirSlotStates = nextTheirSt;
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     }
@@ -3545,12 +3794,19 @@
       const activeMyCount = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected").length;
       const activeTheirCount = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected").length;
 
-      document.getElementById("myOfferCount").textContent = `${activeMyCount}/${MAX_TRADE_ITEMS}`;
-      document.getElementById("theirOfferCount").textContent = `${activeTheirCount}/${MAX_TRADE_ITEMS}`;
+      const myVal = computeSideValue("my");
+      const theirVal = computeSideValue("their");
+      let balanceLabel = "Even / Empty";
+      if (myVal > 0 || theirVal > 0) {
+        if (theirVal > myVal * 1.15) balanceLabel = "Favorable to You";
+        else if (myVal > theirVal * 1.15) balanceLabel = "Risky / Heavy on You";
+        else balanceLabel = "Balanced";
+      }
 
       document.getElementById("tradeSummaryStrip").innerHTML = `
-        <span>You give: <strong>${activeMyCount} demon(s) · ${myOfferOrbs.toLocaleString()} 💠 · ${myOfferTokens.toLocaleString()} 🪙</strong></span>
-        <span>You get: <strong>${activeTheirCount} demon(s) · ${theirOfferOrbs.toLocaleString()} 💠 · ${theirOfferTokens.toLocaleString()} 🪙</strong></span>
+        <span>You give: <strong>${activeMyCount} demon(s) · ${orbImgHtml()} ${myOfferOrbs.toLocaleString()} · ${myOfferTokens.toLocaleString()} 🪙</strong></span>
+        <span>Balance: <strong>${balanceLabel}</strong></span>
+        <span>You get: <strong>${activeTheirCount} demon(s) · ${orbImgHtml()} ${theirOfferOrbs.toLocaleString()} · ${theirOfferTokens.toLocaleString()} 🪙</strong></span>
       `;
 
       const unfairNow = isTradeUnfairToUser();
@@ -3559,7 +3815,7 @@
 
       const mySlots = document.getElementById("myOfferSlots");
       mySlots.innerHTML = mySelectedOffer.length === 0
-        ? `<span style="font-size:0.74rem; color:var(--muted);">No demons placed (you can also offer Orbs or Tokens)</span>`
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No demons placed (empty side unless Orbs/Tokens added)</span>`
         : mySelectedOffer.map((id, i) => {
             const d = demonMap[id];
             if (!d) return "";
@@ -3577,7 +3833,7 @@
 
       const theirSlots = document.getElementById("theirOfferSlots");
       theirSlots.innerHTML = theirSelectedOffer.length === 0
-        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed (you can set incoming Orbs or Tokens)</span>`
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed (empty side unless Orbs/Tokens added)</span>`
         : theirSelectedOffer.map((id, i) => {
             const d = demonMap[id];
             if (!d) return "";
@@ -3601,7 +3857,7 @@
         myPicker.innerHTML = myOwnedIds.map(id => {
           const d = demonMap[id];
           const used = countSelectedInMyOffer(id);
-          const avail = profile.owned[id] - used;
+          const avail = Math.max(0, profile.owned[id] - used);
           return `
             <div class="pick-item ${used > 0 ? "selected" : ""}" onclick="toggleMyOfferDemon('${id}')">
               <div style="font-weight:800;">#${d.rank} ${d.name}</div>
@@ -3682,13 +3938,13 @@
       }, 1000);
     }
 
-    function cancelFiveSecCountdown() {
+    function cancelFiveSecCountdown(cancellerLabel = profile.displayName) {
       stopFiveSecCountdown();
       myAgreed = false;
       theirAgreed = false;
       persistRoomOffers();
       renderTradeRoomWorkspace();
-      showToast("Trade countdown cancelled.");
+      showToast(`Cancelled by ${cancellerLabel}`, 1000);
     }
 
     async function finalizeAndVerifyTrade() {
@@ -3768,7 +4024,8 @@
 
         if (receivedDemons.length > 0) {
           profile.lastPullIds = receivedDemons.map(d => d.id);
-          renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })), true);
+          profile.lastPullOrbsTotal = 0;
+          renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })), true, 0);
         }
 
         playTone(784, "triangle", 0.28, 0.18);
@@ -3950,7 +4207,7 @@
               <div style="font-weight:900; font-size:0.95rem; color:${unlocked ? "#86efac" : "#f8fafc"};">${unlocked ? "✅" : "🔒"} ${a.title}</div>
               <div style="font-size:0.79rem; color:var(--muted); margin-top:2px;">${a.desc}</div>
             </div>
-            <span class="ach-reward-pill">+${a.reward.toLocaleString()} 💠</span>
+            <span class="ach-reward-pill">+${a.reward.toLocaleString()} ${orbImgHtml()}</span>
           </div>
         `;
       }).join("");
@@ -4003,8 +4260,8 @@
       document.getElementById("modalCreator").textContent = isOwned
         ? `Published by ${d.creator} · Level ID: ${d.levelId}`
         : (fromSearch ? `Searched preview · Published by ${d.creator} · ID: ${d.levelId} · Not owned yet` : "Not unlocked yet — summon it in the Gacha");
-      document.getElementById("modalCount").textContent = isOwned
-        ? `Copies owned: x${count} · Reward value: ${RARITY_TIERS[d.rarity].orbs.toLocaleString()} Orbs`
+      document.getElementById("modalCount").innerHTML = isOwned
+        ? `Copies owned: x${count} · Reward value: ${RARITY_TIERS[d.rarity].orbs.toLocaleString()} ${orbImgHtml()}`
         : "Status: Locked";
 
       const linksDiv = document.getElementById("modalLinks");
@@ -4060,4 +4317,320 @@
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
-        document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList
+        const openModals = document.querySelectorAll(".modal-backdrop.open");
+        if (openModals.length > 0) {
+          openModals.forEach(m => m.classList.remove("open"));
+          return;
+        }
+        if (currentSection === "trader" && activeRoomId) {
+          document.getElementById("backToRoomsBtn").click();
+        } else if (currentSection === "shop" && selectedShopItemId) {
+          openShopSection();
+        } else if (currentSection !== "home") {
+          stopFiveSecCountdown();
+          showSection("home");
+        }
+      }
+    });
+
+    document.querySelectorAll(".modal-backdrop").forEach(m => {
+      m.addEventListener("click", e => {
+        if (e.target === m) closeModal(m.id);
+      });
+    });
+
+    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1, false));
+    document.getElementById("pull5Btn").addEventListener("click", () => executePull(5, false));
+    document.getElementById("pullOrbBtn").addEventListener("click", () => executePull(1, true));
+    document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
+    document.getElementById("openShopBtn").addEventListener("click", openShopSection);
+    document.getElementById("backFromShopSectionBtn").addEventListener("click", () => showSection("home"));
+    document.getElementById("backToShopListBtn").addEventListener("click", openShopSection);
+    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
+    document.getElementById("openTraderBtn").addEventListener("click", openTraderSection);
+    document.getElementById("backFromTraderSectionBtn").addEventListener("click", () => {
+      stopFiveSecCountdown();
+      showSection("home");
+    });
+    document.getElementById("refreshLiveRoomsBtn").addEventListener("click", async () => {
+      await syncRoomsFromBackend();
+      if (activeRoomId) {
+        const updated = profile.tradeRooms.find(r => r.id === activeRoomId);
+        if (updated) {
+          theirSelectedOffer = [...(updated.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
+          theirSlotStates = normalizeStates(theirSelectedOffer, updated.theirSlotStates);
+          theirOfferOrbs = Math.max(0, Math.floor(Number(updated.theirOfferOrbs) || 0));
+          theirOfferTokens = Math.max(0, Math.floor(Number(updated.theirOfferTokens) || 0));
+          theirAgreed = Boolean(updated.theirAgreed);
+          renderTradeRoomWorkspace();
+          evaluateBothAgreedCountdown();
+        }
+      } else {
+        renderTraderLobby();
+      }
+      showToast("Live trade rooms synced!");
+    });
+    document.getElementById("openAchBtn").addEventListener("click", openAchModal);
+
+    document.getElementById("saveDisplayNameBtn").addEventListener("click", () => {
+      const rawInput = document.getElementById("displayNameInput").value.replace(/\s+/g, " ").trim().slice(0, 24);
+      if (rawInput && containsBadWord(rawInput)) {
+        showToast("Display name blocked: inappropriate word detected.");
+        return;
+      }
+      profile.displayName = sanitizeName(rawInput, "Player");
+      saveProfile();
+      syncDisplayNameUI();
+      if (activeRoomId) persistRoomOffers();
+      showToast(`Display name saved: ${profile.displayName}`);
+    });
+
+    document.getElementById("newRoomNameInput").addEventListener("input", e => {
+      document.getElementById("roomNameCounter").textContent = `${e.target.value.length}/32`;
+    });
+
+    document.getElementById("createRoomBtn").addEventListener("click", createTradeRoom);
+    document.getElementById("backToRoomsBtn").addEventListener("click", () => {
+      stopFiveSecCountdown();
+      activeRoomId = null;
+      document.getElementById("traderRoomView").style.display = "none";
+      document.getElementById("backToRoomsBtn").style.display = "none";
+      document.getElementById("traderLobbyView").style.display = "block";
+      renderTraderLobby();
+    });
+
+    function handleMyCurrencyInput(type, rawVal, inputEl) {
+      const parsed = Math.max(0, Math.floor(Number(rawVal) || 0));
+      const errEl = document.getElementById("myCurrencyError");
+      const maxAllowed = type === "orbs" ? profile.orbs : profile.tokens;
+
+      if (parsed > maxAllowed) {
+        const clamped = maxAllowed;
+        if (type === "orbs") myOfferOrbs = clamped;
+        else myOfferTokens = clamped;
+        inputEl.value = clamped;
+        inputEl.classList.add("invalid-currency");
+        const label = type === "orbs" ? "Orbs" : "Tokens";
+        errEl.textContent = `⚠️ You only have ${maxAllowed.toLocaleString()} ${label}! Capped to max available.`;
+        showToast(`Not enough ${label} (max ${maxAllowed.toLocaleString()})`);
+      } else {
+        if (type === "orbs") myOfferOrbs = parsed;
+        else myOfferTokens = parsed;
+        inputEl.value = parsed;
+        inputEl.classList.remove("invalid-currency");
+        errEl.textContent = "";
+      }
+
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    document.getElementById("myOfferOrbsInput").addEventListener("change", e => {
+      handleMyCurrencyInput("orbs", e.target.value, e.target);
+    });
+
+    document.getElementById("myOfferTokensInput").addEventListener("change", e => {
+      handleMyCurrencyInput("tokens", e.target.value, e.target);
+    });
+
+    document.getElementById("theirOfferOrbsInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
+      theirOfferOrbs = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("theirOfferTokensInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
+      theirOfferTokens = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("confirmUnfairAcceptBtn").addEventListener("click", () => {
+      unfairConfirmedByUser = true;
+      renderTradeRoomWorkspace();
+      showToast("Confirmed — you can say Yes now.");
+    });
+
+    document.getElementById("markUnfairNoBtn").addEventListener("click", () => {
+      unfairConfirmedByUser = false;
+      myAgreed = false;
+      stopFiveSecCountdown();
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+      showToast("Marked as NO automatically.");
+    });
+
+    document.getElementById("toggleMyYesBtn").addEventListener("click", () => {
+      if (myOfferOrbs > profile.orbs || myOfferTokens > profile.tokens) {
+        showToast("Fix your Orb/Token offer amount first.");
+        return;
+      }
+      if (isTradeUnfairToUser() && !unfairConfirmedByUser) {
+        showToast("Please choose 'I accept' on the unfair trade warning first.");
+        return;
+      }
+      const hadCountdown = Boolean(fiveSecInterval);
+      myAgreed = !myAgreed;
+      persistRoomOffers();
+      if (!myAgreed && hadCountdown) {
+        cancelFiveSecCountdown(profile.displayName);
+        return;
+      }
+      renderTradeRoomWorkspace();
+      evaluateBothAgreedCountdown();
+    });
+
+    document.getElementById("toggleTheirYesBtn").addEventListener("click", () => {
+      const hadCountdown = Boolean(fiveSecInterval);
+      theirAgreed = !theirAgreed;
+      persistRoomOffers();
+      if (!theirAgreed && hadCountdown) {
+        cancelFiveSecCountdown("Partner");
+        return;
+      }
+      renderTradeRoomWorkspace();
+      evaluateBothAgreedCountdown();
+    });
+
+    document.getElementById("cancelFiveSecBtn").addEventListener("click", () => cancelFiveSecCountdown(profile.displayName));
+
+    document.getElementById("clearRejectedBtn").addEventListener("click", clearRejectedSlots);
+
+    document.getElementById("clearTradeBtn").addEventListener("click", () => {
+      if (fiveSecInterval) return;
+      mySelectedOffer = [];
+      mySlotStates = [];
+      myOfferOrbs = 0;
+      myOfferTokens = 0;
+      theirSelectedOffer = [];
+      theirSlotStates = [];
+      theirOfferOrbs = 0;
+      theirOfferTokens = 0;
+      document.getElementById("myCurrencyError").textContent = "";
+      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
+      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
+    document.getElementById("theirSearchInput").addEventListener("input", e => {
+      theirSearchQuery = e.target.value.trim();
+      renderTradeRoomWorkspace();
+    });
+
+    ["displayNameInput", "newRoomNameInput", "theirSearchInput", "searchInput"].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("focus", () => {
+          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 180);
+        });
+      }
+    });
+
+    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
+      document.getElementById("dexGrid").scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("clearSearchBtn").addEventListener("click", () => {
+      document.getElementById("searchInput").value = "";
+      searchQuery = "";
+      renderDexGrid();
+    });
+
+    const soundBtn = document.getElementById("soundToggleBtn");
+    const viewBtn = document.getElementById("viewModeBtn");
+
+    function syncToggleButtons() {
+      soundBtn.textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+      soundBtn.classList.toggle("active-toggle", profile.settings.sfx);
+      viewBtn.textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
+    }
+
+    soundBtn.addEventListener("click", () => {
+      profile.settings.sfx = !profile.settings.sfx;
+      saveProfile();
+      syncToggleButtons();
+    });
+
+    viewBtn.addEventListener("click", () => {
+      profile.settings.listView = !profile.settings.listView;
+      saveProfile();
+      uiDirty = true;
+      syncToggleButtons();
+      renderDexGrid();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (isRolling) return;
+      if (!confirm("Reset all your Tokens, Orbs, Items, Unlocked Demons, Rooms, and Achievements?")) return;
+      stopFiveSecCountdown();
+      sessionSingleUnluckyStreak = 0;
+      activeRoomId = null;
+      lastTokenSampleMs = Date.now();
+      isPageActiveForTokens = !document.hidden;
+      try { localStorage.setItem(STARTER_GRANTED_KEY, "1"); } catch (_) {}
+      profile = {
+        displayName: profile.displayName || "Player",
+        tokens: 0,
+        tokenCycleElapsedMs: 0,
+        tokenBoosterUntil: 0,
+        orbs: 500,
+        pulls: 0,
+        tradesCompleted: 0,
+        owned: {},
+        favorites: [],
+        packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+        activeBoost: null,
+        noDupUntil: 0,
+        lastPullIds: [],
+        lastPullOrbsTotal: 0,
+        unlockedAch: [],
+        tradeRooms: [],
+        streakDays: 0,
+        lastRollDayKey: "",
+        rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+        settings: profile.settings
+      };
+      saveProfile();
+      uiDirty = true;
+      document.getElementById("tokenShortageBanner").style.display = "none";
+      document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Roll to begin!</p>`;
+      showToast("Progress reset.");
+      updateAllUI();
+    });
+
+    document.getElementById("filterBar").addEventListener("click", e => {
+      if (!e.target.classList.contains("f-pill")) return;
+      document.querySelectorAll(".f-pill").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      currentFilter = e.target.dataset.filter;
+      renderDexGrid();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", e => {
+      searchQuery = e.target.value.trim();
+      renderDexGrid();
+    });
+
+    hydrateOrbIcons();
+    isPageActiveForTokens = !document.hidden;
+    lastTokenSampleMs = Date.now();
+    tickTokensByTime();
+    pruneExpiredRooms();
+    syncToggleButtons();
+    updateAllUI();
+    loadAREDL(false);
+
+    if (starterBonusJustAwarded) {
+      setTimeout(() => {
+        showToast(`Welcome! +${STARTER_TOKENS} starter Tokens (one-time gift)`);
+      }, 200);
+    }
+  </script>
+</body>
+</html>
