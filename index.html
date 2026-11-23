@@ -18,7 +18,6 @@
       --primary: #3b82f6;
       --orb: #00e5ff;
 
-      /* Tier Colors */
       --c-common: #94a3b8;
       --c-rare: #38bdf8;
       --c-epic: #c084fc;
@@ -63,7 +62,6 @@
       40%, 60% { transform: translate3d(6px, 0, 0); }
     }
 
-    /* Particle Layer */
     #particlesCanvas {
       position: fixed;
       inset: 0;
@@ -81,7 +79,6 @@
       transition: opacity 0.45s ease;
     }
 
-    /* Top Navigation & HUD */
     .topbar {
       width: 100%;
       max-width: 1040px;
@@ -100,11 +97,7 @@
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
 
     .brand-icon {
       width: 42px;
@@ -118,25 +111,10 @@
       box-shadow: 0 0 18px rgba(255, 42, 109, 0.5);
     }
 
-    .brand h1 {
-      font-size: 1.25rem;
-      font-weight: 900;
-      letter-spacing: -0.4px;
-    }
+    .brand h1 { font-size: 1.25rem; font-weight: 900; letter-spacing: -0.4px; }
+    .brand span { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 600; }
 
-    .brand span {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .hud-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .hud-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
     .hud-pill {
       background: rgba(8, 11, 20, 0.85);
@@ -150,15 +128,8 @@
       gap: 6px;
     }
 
-    .hud-pill strong {
-      color: #fff;
-      font-weight: 800;
-    }
-
-    .hud-pill.orbs strong {
-      color: var(--orb);
-      text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
-    }
+    .hud-pill strong { color: #fff; font-weight: 800; }
+    .hud-pill.orbs strong { color: var(--orb); text-shadow: 0 0 10px rgba(0, 229, 255, 0.4); }
 
     .icon-btn {
       background: rgba(15, 20, 35, 0.9);
@@ -175,25 +146,15 @@
       transition: all 0.15s ease;
     }
 
-    .icon-btn:hover {
-      background: #232c47;
-    }
-
+    .icon-btn:hover { background: #232c47; }
     .icon-btn.active-toggle {
       border-color: var(--primary);
       background: rgba(59, 130, 246, 0.2);
       color: #93c5fd;
     }
 
-    .main-wrap {
-      width: 100%;
-      max-width: 1040px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
+    .main-wrap { width: 100%; max-width: 1040px; display: flex; flex-direction: column; gap: 18px; }
 
-    /* Top 1 Spotlight Banner */
     .top1-banner {
       background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 42, 109, 0.12), rgba(16, 20, 34, 0.92));
       border: 1px solid rgba(255, 215, 0, 0.35);
@@ -208,11 +169,7 @@
       box-shadow: 0 8px 25px rgba(255, 215, 0, 0.08);
     }
 
-    .top1-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .top1-left { display: flex; align-items: center; gap: 12px; }
 
     .top1-thumb {
       width: 96px;
@@ -236,26 +193,21 @@
       margin-bottom: 3px;
     }
 
-    /* Primary Action Bar (Shop, Inventory, Achievements, Stats) */
-    .quick-nav {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
+    .quick-nav { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 
     .nav-card-btn {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 12px 14px;
+      padding: 12px 12px;
       color: #fff;
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       transition: transform 0.15s, border-color 0.15s, background 0.15s;
     }
 
@@ -263,6 +215,11 @@
       background: #1b2238;
       border-color: rgba(255, 255, 255, 0.25);
       transform: translateY(-2px);
+    }
+
+    .nav-card-btn.trader-btn {
+      background: linear-gradient(135deg, rgba(0, 245, 212, 0.16), rgba(59, 130, 246, 0.16));
+      border-color: rgba(0, 245, 212, 0.45);
     }
 
     .badge-count {
@@ -274,7 +231,6 @@
       font-weight: 900;
     }
 
-    /* Summon Stage */
     .summon-stage {
       background: var(--bg-panel);
       backdrop-filter: blur(16px);
@@ -319,13 +275,7 @@
       position: relative;
     }
 
-    /* GD Orb Summon Animation */
-    .orb-loader {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
+    .orb-loader { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 
     .gd-orb {
       width: 84px;
@@ -351,11 +301,8 @@
       to { transform: scale(1.15); filter: brightness(1.35); }
     }
 
-    @keyframes spinRing {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
 
-    /* Pulled Cards Grid */
     .results-grid {
       width: 100%;
       display: grid;
@@ -363,10 +310,7 @@
       gap: 14px;
     }
 
-    .results-grid.single-pull {
-      max-width: 410px;
-      margin: 0 auto;
-    }
+    .results-grid.single-pull { max-width: 410px; margin: 0 auto; }
 
     .pull-card {
       background: var(--bg-card);
@@ -381,9 +325,7 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .pull-card:hover {
-      transform: translateY(-4px) scale(1.015);
-    }
+    .pull-card:hover { transform: translateY(-4px) scale(1.015); }
 
     @keyframes cardPop {
       0% { opacity: 0; transform: scale(0.76) translateY(20px); }
@@ -391,7 +333,6 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Rarity Borders & Glows */
     .r-common { border-color: rgba(148, 163, 184, 0.45); }
     .r-rare { border-color: var(--c-rare); box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
     .r-epic { border-color: var(--c-epic); box-shadow: 0 0 24px rgba(192, 132, 252, 0.4); }
@@ -413,22 +354,8 @@
       to { box-shadow: 0 0 65px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 42, 109, 0.9); }
     }
 
-    .card-media {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #070910;
-      overflow: hidden;
-    }
-
-    .card-media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      image-rendering: -webkit-optimize-contrast;
-    }
+    .card-media { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #070910; overflow: hidden; }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
 
     .card-rank-badge {
       position: absolute;
@@ -456,16 +383,8 @@
       text-transform: uppercase;
     }
 
-    .badge-new {
-      background: linear-gradient(135deg, #22c55e, #15803d);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(34, 197, 94, 0.5);
-    }
-
-    .badge-dup {
-      background: rgba(245, 158, 11, 0.9);
-      color: #090b10;
-    }
+    .badge-new { background: linear-gradient(135deg, #22c55e, #15803d); color: #fff; box-shadow: 0 2px 10px rgba(34, 197, 94, 0.5); }
+    .badge-dup { background: rgba(245, 158, 11, 0.9); color: #090b10; }
 
     .card-orbs-gain {
       position: absolute;
@@ -480,19 +399,8 @@
       border-radius: 6px;
     }
 
-    .card-body {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .card-top-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
+    .card-body { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+    .card-top-meta { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 
     .rarity-pill {
       font-size: 0.66rem;
@@ -512,37 +420,12 @@
     .rp-transcendent { background: rgba(0, 245, 212, 0.22); color: var(--c-transcendent); border: 1px solid rgba(0, 245, 212, 0.5); }
     .rp-apex { background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), rgba(255, 42, 109, 0.3)); color: #ffd700; border: 1px solid #ffd700; }
 
-    .fav-star {
-      background: none;
-      border: none;
-      font-size: 1.05rem;
-      cursor: pointer;
-      color: var(--muted);
-      padding: 0 2px;
-    }
+    .fav-star { background: none; border: none; font-size: 1.05rem; cursor: pointer; color: var(--muted); padding: 0 2px; }
+    .fav-star.active { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.7); }
 
-    .fav-star.active {
-      color: #fbbf24;
-      text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
-    }
+    .card-title { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-creator { font-size: 0.78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-creator {
-      font-size: 0.78rem;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Controls */
     .summon-controls {
       padding: 16px;
       background: rgba(8, 10, 18, 0.75);
@@ -571,21 +454,10 @@
     .btn-main:active:not(:disabled) { transform: scale(0.96); }
     .btn-main:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    .btn-roll-1 {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      border: none;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-    }
-
-    .btn-roll-10 {
-      background: linear-gradient(135deg, #9333ea, #ff2a6d);
-      border: none;
-      box-shadow: 0 6px 22px rgba(255, 42, 109, 0.4);
-    }
-
+    .btn-roll-1 { background: linear-gradient(135deg, #2563eb, #3b82f6); border: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4); }
+    .btn-roll-10 { background: linear-gradient(135deg, #9333ea, #ff2a6d); border: none; box-shadow: 0 6px 22px rgba(255, 42, 109, 0.4); }
     .btn-danger { color: #fca5a5; border-color: rgba(239, 68, 68, 0.35); }
 
-    /* Dex Section */
     .dex-panel {
       background: var(--bg-panel);
       backdrop-filter: blur(16px);
@@ -595,21 +467,8 @@
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
     }
 
-    .dex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .filter-pills {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
+    .dex-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 
     .f-pill {
       padding: 6px 11px;
@@ -622,10 +481,7 @@
       cursor: pointer;
     }
 
-    .f-pill.active {
-      background: var(--primary);
-      border-color: var(--primary);
-    }
+    .f-pill.active { background: var(--primary); border-color: var(--primary); }
 
     .search-box {
       width: 100%;
@@ -639,6 +495,8 @@
       outline: none;
     }
 
+    .search-box:focus { border-color: var(--primary); }
+
     .dex-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
@@ -648,9 +506,7 @@
       padding-right: 4px;
     }
 
-    .dex-grid.list-view {
-      grid-template-columns: 1fr;
-    }
+    .dex-grid.list-view { grid-template-columns: 1fr; }
 
     .dex-card {
       background: var(--bg-card);
@@ -662,28 +518,11 @@
       position: relative;
     }
 
-    .dex-grid.list-view .dex-card {
-      display: flex;
-      align-items: center;
-    }
+    .dex-grid.list-view .dex-card { display: flex; align-items: center; }
+    .dex-card.locked { opacity: 0.38; filter: grayscale(85%); }
 
-    .dex-card.locked {
-      opacity: 0.38;
-      filter: grayscale(85%);
-    }
-
-    .dex-thumb {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      background: #070910;
-      display: block;
-    }
-
-    .dex-grid.list-view .dex-thumb {
-      width: 120px;
-      flex-shrink: 0;
-    }
+    .dex-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #070910; display: block; }
+    .dex-grid.list-view .dex-thumb { width: 120px; flex-shrink: 0; }
 
     .copy-pill {
       position: absolute;
@@ -698,30 +537,10 @@
       border-radius: 6px;
     }
 
-    .dex-meta {
-      padding: 9px 10px;
-      flex: 1;
-      min-width: 0;
-    }
+    .dex-meta { padding: 9px 10px; flex: 1; min-width: 0; }
+    .dex-row1 { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+    .dex-name { font-size: 0.88rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
-    .dex-row1 {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .dex-name {
-      font-size: 0.88rem;
-      font-weight: 800;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-
-    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -733,13 +552,11 @@
       z-index: 999;
     }
 
-    .modal-backdrop.open {
-      display: grid;
-    }
+    .modal-backdrop.open { display: grid; }
 
     .modal-box {
       width: 100%;
-      max-width: 520px;
+      max-width: 680px;
       max-height: 88vh;
       overflow-y: auto;
       background: #121728;
@@ -757,6 +574,7 @@
       margin-bottom: 14px;
       padding-bottom: 10px;
       border-bottom: 1px solid var(--border);
+      gap: 10px;
     }
 
     .shop-orb-box {
@@ -793,18 +611,82 @@
       white-space: nowrap;
     }
 
-    .buy-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+    .buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .notice-box {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font-size: 0.78rem;
+      color: #cbd5e1;
+      margin-bottom: 14px;
+      line-height: 1.4;
     }
 
-    /* Elegant External Links inside Level Modal */
-    .ext-links {
+    .room-create-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+
+    .room-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+
+    .trade-slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 68px;
+      background: rgba(7, 9, 16, 0.7);
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      border-radius: 10px;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    .trade-chip {
+      background: #1b2238;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .trade-picker-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+      gap: 7px;
+      max-height: 210px;
+      overflow-y: auto;
       margin-top: 8px;
     }
+
+    .pick-item {
+      background: rgba(9, 12, 22, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px;
+      font-size: 0.74rem;
+      cursor: pointer;
+    }
+
+    .pick-item.selected { border-color: var(--c-transcendent); background: rgba(0, 245, 212, 0.12); }
+
+    .ext-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
 
     .ext-link-btn {
       text-decoration: none;
@@ -818,12 +700,6 @@
       align-items: center;
       justify-content: center;
       gap: 5px;
-      transition: transform 0.15s, filter 0.15s;
-    }
-
-    .ext-link-btn:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.12);
     }
 
     .link-yt { background: linear-gradient(135deg, #dc2626, #991b1b); }
@@ -842,13 +718,14 @@
       gap: 10px;
     }
 
-    .ach-row.done {
-      border-color: #22c55e;
-      background: rgba(34, 197, 94, 0.08);
+    .ach-row.done { border-color: #22c55e; background: rgba(34, 197, 94, 0.08); }
+
+    @media (max-width: 780px) {
+      .quick-nav { grid-template-columns: repeat(2, 1fr); }
+      .trade-sides { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
-      .quick-nav { grid-template-columns: repeat(2, 1fr); }
       .summon-controls { grid-template-columns: 1fr 1fr; }
       .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .results-grid.single-pull { grid-template-columns: 1fr; }
@@ -861,7 +738,6 @@
   <canvas id="particlesCanvas"></canvas>
   <div class="flash-overlay" id="flashOverlay"></div>
 
-  <!-- Topbar -->
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon">GD</div>
@@ -875,13 +751,12 @@
       <div class="hud-pill orbs">💠 Orbs: <strong id="orbsCount">0</strong></div>
       <div class="hud-pill">🎲 Rolls: <strong id="pullsCount">0</strong></div>
       <div class="hud-pill">📚 Dex: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
-      <button class="icon-btn active-toggle" id="soundToggleBtn" title="Toggle Sound Effects">🔊 SFX: ON</button>
-      <button class="icon-btn" id="skipToggleBtn" title="Skip Orb Animation">⏩ Skip: OFF</button>
+      <button class="icon-btn active-toggle" id="soundToggleBtn">🔊 SFX: ON</button>
+      <button class="icon-btn" id="skipToggleBtn">⏩ Skip: OFF</button>
     </div>
   </header>
 
   <main class="main-wrap">
-    <!-- Top 1 Current Spotlight -->
     <section class="top1-banner" id="top1Banner" style="display:none;">
       <div class="top1-left">
         <img class="top1-thumb" id="top1Img" src="" alt="Top 1" />
@@ -894,15 +769,14 @@
       <span style="font-size:0.8rem; font-weight:800; color:var(--c-apex);">Inspect #1 →</span>
     </section>
 
-    <!-- Quick Navigation: Shop, Inventory, Achievements, Rarity Stats -->
     <nav class="quick-nav">
       <button class="nav-card-btn" id="openShopBtn">🛒 Orb Shop</button>
       <button class="nav-card-btn" id="openInvBtn">🎒 Inventory <span class="badge-count" id="packBadge">0</span></button>
+      <button class="nav-card-btn trader-btn" id="openTraderBtn">🤝 Trader <span class="badge-count" id="roomsBadge">0/10</span></button>
       <button class="nav-card-btn" id="openAchBtn">🏆 Achievements <span class="badge-count" id="achBadge">0</span></button>
       <button class="nav-card-btn" id="openStatsBtn">📊 Drop Stats</button>
     </nav>
 
-    <!-- Summon Stage -->
     <section class="summon-stage">
       <div class="stage-header">
         <span id="syncStatus">Syncing AREDL database...</span>
@@ -910,7 +784,7 @@
       </div>
 
       <div class="active-luck-banner" id="activeLuckBanner" style="display:none;">
-        <span id="activeLuckText">🍀 x10 LUCK BOOST ACTIVE!</span>
+        <span id="activeLuckText">🍀 LUCK BOOST ACTIVE!</span>
         <span id="activeLuckRemaining">10 rolls left</span>
       </div>
 
@@ -928,7 +802,6 @@
       </div>
     </section>
 
-    <!-- Full AREDL Collection Dex -->
     <section class="dex-panel">
       <div class="dex-header">
         <div>
@@ -958,14 +831,75 @@
     </section>
   </main>
 
+  <!-- TRADER MODAL -->
+  <div class="modal-backdrop" id="traderModal">
+    <div class="modal-box" style="max-width:760px;">
+      <div class="modal-head">
+        <h3 style="font-size:1.2rem; font-weight:900;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h3>
+        <div style="display:flex; gap:8px;">
+          <button class="icon-btn" id="backToRoomsBtn" style="display:none;">← Rooms</button>
+          <button class="icon-btn" onclick="closeModal('traderModal')">✕</button>
+        </div>
+      </div>
+
+      <div class="notice-box" id="traderBackendNotice">
+        <strong>Firebase Status:</strong> Connected to <code>https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com</code>. Only the 1–10 demon IDs placed in the room are synced and loaded for the other user. Max: <strong>10 rooms</strong>.
+      </div>
+
+      <div id="traderLobbyView">
+        <div class="room-create-row">
+          <input type="text" class="search-box" id="newRoomNameInput" maxlength="32" placeholder="Enter room name (e.g. Top 50 Hunt)..." style="margin-bottom:0; flex:1; min-width:200px;" />
+          <button class="buy-btn" id="createRoomBtn">+ Create Room</button>
+        </div>
+        <div id="roomsListArea"></div>
+      </div>
+
+      <div id="traderRoomView" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div>
+            <strong id="activeRoomTitle" style="font-size:1.05rem;"></strong>
+            <span id="activeRoomMeta" style="display:block; font-size:0.75rem; color:var(--muted);"></span>
+          </div>
+          <button class="icon-btn" style="color:#fca5a5;" id="deleteRoomBtn">Delete Room</button>
+        </div>
+
+        <div class="trade-sides">
+          <div class="trade-side-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:0.88rem; color:#93c5fd;">Your Offer (1–10 IDs)</strong>
+              <span style="font-size:0.75rem; color:var(--muted);" id="myOfferCount">0/10</span>
+            </div>
+            <div class="trade-slots" id="myOfferSlots"></div>
+            <span style="font-size:0.72rem; color:var(--muted);">Tap an owned demon below to add/remove (max 10):</span>
+            <div class="trade-picker-grid" id="myOwnedPicker"></div>
+          </div>
+
+          <div class="trade-side-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="font-size:0.88rem; color:#fde68a;">Incoming Offer (1–10 IDs)</strong>
+              <span style="font-size:0.75rem; color:var(--muted);" id="theirOfferCount">0/10</span>
+            </div>
+            <div class="trade-slots" id="theirOfferSlots"></div>
+            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to set incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-bottom:6px;" />
+            <div class="trade-picker-grid" id="theirAredlPicker"></div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+          <button class="icon-btn" id="clearTradeBtn">Clear Selection</button>
+          <button class="buy-btn" id="acceptTradeBtn" disabled>✅ Accept Trade & Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SHOP MODAL -->
   <div class="modal-backdrop" id="shopModal">
-    <div class="modal-box">
+    <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">🛒 Orb Luck Shop</h3>
         <button class="icon-btn" onclick="closeModal('shopModal')">✕</button>
       </div>
-
       <div class="shop-orb-box">
         <div>
           <span style="font-size:0.78rem; color:var(--muted); display:block;">Your Balance</span>
@@ -973,7 +907,6 @@
         </div>
         <span style="font-size:0.76rem; color:var(--muted); text-align:right;">Earn Orbs from<br>every summon & duplicate</span>
       </div>
-
       <div id="shopPacksList"></div>
     </div>
   </div>
@@ -985,10 +918,8 @@
         <h3 style="font-size:1.2rem; font-weight:900;">🎒 Player Inventory</h3>
         <button class="icon-btn" onclick="closeModal('invModal')">✕</button>
       </div>
-
       <h4 style="font-size:0.9rem; color:#fde68a; margin-bottom:8px;">📦 Saved Luck Packs (Open Anytime)</h4>
       <div id="invPacksArea" style="margin-bottom:18px;"></div>
-
       <h4 style="font-size:0.9rem; color:#cbd5e1; margin-bottom:8px;">🔥 Your Unlocked Extreme Demons (<span id="invOwnedCount">0</span>)</h4>
       <div id="invDemonsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px; max-height:300px; overflow-y:auto;"></div>
     </div>
@@ -996,7 +927,7 @@
 
   <!-- ACHIEVEMENTS MODAL -->
   <div class="modal-backdrop" id="achModal">
-    <div class="modal-box">
+    <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">🏆 Achievements</h3>
         <button class="icon-btn" onclick="closeModal('achModal')">✕</button>
@@ -1007,7 +938,7 @@
 
   <!-- STATS MODAL -->
   <div class="modal-backdrop" id="statsModal">
-    <div class="modal-box">
+    <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">📊 Summon Statistics</h3>
         <button class="icon-btn" onclick="closeModal('statsModal')">✕</button>
@@ -1028,13 +959,11 @@
         <h3 id="modalTitle" style="font-size:1.35rem; font-weight:900;"></h3>
         <p id="modalCreator" style="font-size:0.86rem; color:var(--muted);"></p>
         <p id="modalCount" style="font-size:0.86rem; color:#e2e8f0;"></p>
-
         <div class="ext-links" id="modalLinks">
           <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener">▶ Verification</a>
           <a class="ext-link-btn link-aredl" id="linkAredl" href="#" target="_blank" rel="noopener">🏆 AREDL Page</a>
           <a class="ext-link-btn link-gdb" id="linkGdb" href="#" target="_blank" rel="noopener">🧊 GDBrowser</a>
         </div>
-
         <button class="btn-main" style="margin-top:8px;" onclick="closeModal('inspectModal')">Close</button>
       </div>
     </div>
@@ -1043,13 +972,14 @@
   <script>
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
-    const CACHE_KEY = "aredl_gacha_en_db_v3";
-    const SAVE_KEY = "aredl_gacha_en_save_v3";
+    const CACHE_KEY = "aredl_gacha_en_db_v5";
+    const SAVE_KEY = "aredl_gacha_en_save_v5";
+    const MAX_TRADE_ROOMS = 10;
+    const MAX_TRADE_ITEMS = 10;
 
-    // Rarity Definitions & Extreme Difficulty Scaling
-    // Top 1 (#1) = 0.0001 weight out of ~100,000 (~0.0001% Pirate Token odds)
-    // Top 2-10 (#2-#10) = Transcendent
-    // Top 150 and above (#1-#149) combined = <1.5% chance
+    // Connected to Firebase Realtime Database
+    const TRADE_BACKEND_URL = "https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com";
+
     const RARITY_TIERS = {
       apex:         { label: "APEX TOP 1",    weight: 0.0001, orbs: 250000, color: "#ffd700" },
       transcendent: { label: "TRANSCENDENT",  weight: 0.015,  orbs: 25000,  color: "#00f5d4" },
@@ -1072,35 +1002,12 @@
       return "common";
     }
 
-    // Shop Luck Packs (Expensive, balanced for heavy grinders)
     const SHOP_PACKS = [
-      {
-        id: "luck10",
-        name: "x10 Luck Surge Pack",
-        multiplier: 10,
-        rolls: 10,
-        cost: 25000,
-        desc: "Multiplies rare & Top 150 drop rates by 10x for 10 summons."
-      },
-      {
-        id: "luck20",
-        name: "x20 Supernova Luck Pack",
-        multiplier: 20,
-        rolls: 10,
-        cost: 65000,
-        desc: "Multiplies rare & Top 150 drop rates by 20x for 10 summons."
-      },
-      {
-        id: "luck50",
-        name: "x50 Godlike Fortune Pack",
-        multiplier: 50,
-        rolls: 10,
-        cost: 180000,
-        desc: "Massive 50x luck boost on Top 150, Transcendent & Apex #1 for 10 summons."
-      }
+      { id: "luck10", name: "x10 Luck Surge Pack", multiplier: 10, rolls: 10, cost: 25000, desc: "Multiplies rare & Top 150 drop rates by 10x for 10 summons." },
+      { id: "luck20", name: "x20 Supernova Luck Pack", multiplier: 20, rolls: 10, cost: 65000, desc: "Multiplies rare & Top 150 drop rates by 20x for 10 summons." },
+      { id: "luck50", name: "x50 Godlike Fortune Pack", multiplier: 50, rolls: 10, cost: 180000, desc: "Massive 50x luck boost on Top 150, Transcendent & Apex #1 for 10 summons." }
     ];
 
-    // Achievements
     const ACHIEVEMENTS = [
       { id: "first_roll", title: "First Cube Jump", desc: "Perform your first summon.", reward: 250, check: p => p.pulls >= 1 },
       { id: "rolls_100", title: "Dedicated Grinder", desc: "Reach 100 total summons.", reward: 2000, check: p => p.pulls >= 100 },
@@ -1109,27 +1016,30 @@
       { id: "own_250", title: "List Master", desc: "Unlock 250 unique Extreme Demons.", reward: 20000, check: p => Object.keys(p.owned).length >= 250 },
       { id: "get_top150", title: "Main List Breaker", desc: "Pull any demon in the Top 150.", reward: 5000, check: p => p.rarityCounts.legendary + p.rarityCounts.mythic + p.rarityCounts.divine + p.rarityCounts.transcendent + p.rarityCounts.apex >= 1 },
       { id: "get_transcendent", title: "Top 10 Legend", desc: "Pull a Transcendent (#2-#10) demon.", reward: 50000, check: p => p.rarityCounts.transcendent >= 1 },
-      { id: "get_apex", title: "The Chosen One", desc: "Pull the #1 Apex Demon.", reward: 500000, check: p => p.rarityCounts.apex >= 1 }
+      { id: "get_apex", title: "The Chosen One", desc: "Pull the #1 Apex Demon.", reward: 500000, check: p => p.rarityCounts.apex >= 1 },
+      { id: "first_trade", title: "Deal Maker", desc: "Complete your first demon trade.", reward: 1500, check: p => p.tradesCompleted >= 1 }
     ];
 
-    // Persistent State
     let profile = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
       orbs: 500,
       pulls: 0,
+      tradesCompleted: 0,
       owned: {},
       favorites: [],
       packs: { luck10: 0, luck20: 0, luck50: 0 },
-      activeBoost: null, // { multiplier, remaining, name }
+      activeBoost: null,
       lastPullIds: [],
       unlockedAch: [],
+      tradeRooms: [],
       rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
       settings: { sfx: true, skip: false, listView: false }
     };
 
-    // Ensure backwards safety if older fields missing
     profile.packs = profile.packs || { luck10: 0, luck20: 0, luck50: 0 };
     profile.favorites = profile.favorites || [];
     profile.unlockedAch = profile.unlockedAch || [];
+    profile.tradeRooms = Array.isArray(profile.tradeRooms) ? profile.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [];
+    profile.tradesCompleted = profile.tradesCompleted || 0;
     profile.rarityCounts = Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, profile.rarityCounts || {});
     profile.settings = Object.assign({ sfx: true, skip: false, listView: false }, profile.settings || {});
 
@@ -1140,11 +1050,15 @@
     let searchQuery = "";
     let isRolling = false;
 
+    let activeRoomId = null;
+    let mySelectedOffer = [];
+    let theirSelectedOffer = [];
+    let theirSearchQuery = "";
+
     function saveProfile() {
       localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
     }
 
-    // Web Audio Synthesizer for SFX (Idea #2 & #3)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playTone(freq, type, duration, vol = 0.15, delay = 0) {
       if (!profile.settings.sfx) return;
@@ -1173,7 +1087,6 @@
       }
     }
 
-    // Particle System (Idea #5)
     const canvas = document.getElementById("particlesCanvas");
     const ctx = canvas.getContext("2d");
     let particles = [];
@@ -1216,7 +1129,6 @@
     }
     animateParticles();
 
-    // Clear HD Image Sources (Full resolution AREDL + HQ YouTube fallback)
     function extractYtId(raw) {
       if (!raw) return "";
       const str = String(raw);
@@ -1294,7 +1206,6 @@
       document.getElementById("pull1Btn").disabled = allDemons.length === 0;
       document.getElementById("pull10Btn").disabled = allDemons.length === 0;
 
-      // Top 1 Spotlight (#28)
       if (allDemons.length > 0) {
         const top1 = allDemons[0];
         const imgs = getImageSources(top1);
@@ -1353,7 +1264,6 @@
       }
     }
 
-    // Weighted Roll with Active Luck Boost & Rank Scaling inside Tier
     function rollSingleDemon() {
       const luckMult = profile.activeBoost ? profile.activeBoost.multiplier : 1;
       const availableTiers = Object.keys(RARITY_TIERS).filter(t => poolsByRarity[t].length > 0);
@@ -1378,11 +1288,10 @@
         }
       }
 
-      // Within the chosen tier, lower-ranked demons (higher rank number) are still slightly more common than top ones
       const pool = poolsByRarity[chosenTier];
       if (pool.length === 1) return pool[0];
 
-      const subWeights = pool.map((_, idx) => idx + 1); // index 0 is highest rank (harder), last index is lowest rank (easier)
+      const subWeights = pool.map((_, idx) => idx + 1);
       const subTotal = subWeights.reduce((a, b) => a + b, 0);
       let subRoll = Math.random() * subTotal;
       for (let i = 0; i < pool.length; i++) {
@@ -1400,7 +1309,6 @@
 
       const stageArena = document.getElementById("stageArena");
 
-      // Idea #1 & #4: GD Orb Opening Animation unless Skip is ON
       if (!profile.settings.skip) {
         playTone(220, "sine", 0.35, 0.14);
         stageArena.innerHTML = `
@@ -1448,7 +1356,6 @@
       playSummonSFX(bestTier);
       spawnParticles(RARITY_TIERS[bestTier].color, bestTierIndex >= 5 ? 85 : 35);
 
-      // Screen Shake & Flash for Transcendent / Apex / Divine (#6)
       if (bestTier === "apex" || bestTier === "transcendent" || bestTier === "divine") {
         document.body.classList.remove("shake");
         void document.body.offsetWidth;
@@ -1538,8 +1445,8 @@
       const totalPacks = Object.values(profile.packs).reduce((a, b) => a + b, 0);
       document.getElementById("packBadge").textContent = totalPacks;
       document.getElementById("achBadge").textContent = `${profile.unlockedAch.length}/${ACHIEVEMENTS.length}`;
+      document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
 
-      // Active Luck Banner
       const luckBanner = document.getElementById("activeLuckBanner");
       if (profile.activeBoost && profile.activeBoost.remaining > 0) {
         luckBanner.style.display = "flex";
@@ -1596,11 +1503,290 @@
       }).join("");
     }
 
-    // Shop Logic
+    function sanitizeRoomPayload(room) {
+      return {
+        id: String(room.id),
+        name: String(room.name).slice(0, 32),
+        myOffer: Array.isArray(room.myOffer) ? room.myOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [],
+        theirOffer: Array.isArray(room.theirOffer) ? room.theirOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [],
+        updatedAt: Number(room.updatedAt) || Date.now()
+      };
+    }
+
+    function updateBackendNotice() {
+      const el = document.getElementById("traderBackendNotice");
+      if (TRADE_BACKEND_URL) {
+        el.innerHTML = `<strong>Firebase Status:</strong> Connected to <code>${escapeHtml(TRADE_BACKEND_URL)}</code>. Only the 1–10 demon IDs placed in the room are synced and loaded for the other user. Max: <strong>10 rooms</strong>.`;
+      } else {
+        el.innerHTML = `<strong>Firebase Status:</strong> Not connected yet (<code>TRADE_BACKEND_URL</code> is empty), so rooms currently run locally in your browser. Paste a Firebase Realtime Database URL in the script to sync rooms live. Only placed demon IDs are loaded. Max: <strong>10 rooms</strong>.`;
+      }
+    }
+
+    async function syncRoomsFromBackend() {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        const res = await fetch(`${TRADE_BACKEND_URL}/rooms.json`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === "object") {
+          profile.tradeRooms = Object.values(data).map(sanitizeRoomPayload).slice(0, MAX_TRADE_ROOMS);
+          saveProfile();
+        }
+      } catch (_) {}
+    }
+
+    async function pushRoomToBackend(room) {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(room.id)}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sanitizeRoomPayload(room))
+        });
+      } catch (_) {}
+    }
+
+    async function removeRoomFromBackend(roomId) {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(roomId)}.json`, { method: "DELETE" });
+      } catch (_) {}
+    }
+
+    async function openTraderModal() {
+      updateBackendNotice();
+      activeRoomId = null;
+      mySelectedOffer = [];
+      theirSelectedOffer = [];
+      theirSearchQuery = "";
+      document.getElementById("theirSearchInput").value = "";
+      document.getElementById("traderRoomView").style.display = "none";
+      document.getElementById("backToRoomsBtn").style.display = "none";
+      document.getElementById("traderLobbyView").style.display = "block";
+      await syncRoomsFromBackend();
+      renderTraderLobby();
+      document.getElementById("traderModal").classList.add("open");
+    }
+
+    function renderTraderLobby() {
+      document.getElementById("traderRoomCount").textContent = profile.tradeRooms.length;
+      document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
+      document.getElementById("createRoomBtn").disabled = profile.tradeRooms.length >= MAX_TRADE_ROOMS;
+
+      const listArea = document.getElementById("roomsListArea");
+      if (profile.tradeRooms.length === 0) {
+        listArea.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; text-align:center; padding:18px;">No active trade rooms yet. Create one above (max ${MAX_TRADE_ROOMS}).</p>`;
+        return;
+      }
+
+      listArea.innerHTML = profile.tradeRooms.map(room => `
+        <div class="room-card">
+          <div>
+            <div style="font-weight:900; font-size:0.96rem;">🏠 ${escapeHtml(room.name)}</div>
+            <div style="font-size:0.76rem; color:var(--muted);">
+              Placed IDs: ${room.myOffer.length}/10 · Incoming IDs: ${room.theirOffer.length}/10
+            </div>
+          </div>
+          <button class="buy-btn" onclick="enterTradeRoom('${room.id}')">Enter Room</button>
+        </div>
+      `).join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[m]));
+    }
+
+    async function createTradeRoom() {
+      if (profile.tradeRooms.length >= MAX_TRADE_ROOMS) {
+        alert(`Maximum of ${MAX_TRADE_ROOMS} rooms reached to prevent server stress.`);
+        return;
+      }
+      const input = document.getElementById("newRoomNameInput");
+      const name = input.value.trim() || `Trade Room #${profile.tradeRooms.length + 1}`;
+      const room = sanitizeRoomPayload({
+        id: "room_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+        name,
+        myOffer: [],
+        theirOffer: [],
+        updatedAt: Date.now()
+      });
+      profile.tradeRooms.push(room);
+      saveProfile();
+      await pushRoomToBackend(room);
+      input.value = "";
+      updateAllUI();
+      enterTradeRoom(room.id);
+    }
+
+    function enterTradeRoom(roomId) {
+      const room = profile.tradeRooms.find(r => r.id === roomId);
+      if (!room) return;
+      activeRoomId = room.id;
+      mySelectedOffer = [...(room.myOffer || [])].filter(id => (profile.owned[id] || 0) > 0).slice(0, MAX_TRADE_ITEMS);
+      theirSelectedOffer = [...(room.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
+
+      document.getElementById("traderLobbyView").style.display = "none";
+      document.getElementById("traderRoomView").style.display = "block";
+      document.getElementById("backToRoomsBtn").style.display = "inline-flex";
+      document.getElementById("activeRoomTitle").textContent = `🏠 ${room.name}`;
+      document.getElementById("activeRoomMeta").textContent = `Select 1 to ${MAX_TRADE_ITEMS} demons on each side (only placed IDs are loaded)`;
+      renderTradeRoomWorkspace();
+    }
+
+    function countSelectedInMyOffer(id) {
+      return mySelectedOffer.filter(x => x === id).length;
+    }
+
+    function toggleMyOfferDemon(id) {
+      const ownedQty = profile.owned[id] || 0;
+      if (ownedQty <= 0) return;
+
+      const idx = mySelectedOffer.indexOf(id);
+      if (idx >= 0) {
+        mySelectedOffer.splice(idx, 1);
+      } else {
+        if (mySelectedOffer.length >= MAX_TRADE_ITEMS) return;
+        if (countSelectedInMyOffer(id) >= ownedQty) return;
+        mySelectedOffer.push(id);
+      }
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+    }
+
+    function toggleTheirOfferDemon(id) {
+      if (!demonMap[id]) return;
+      const idx = theirSelectedOffer.indexOf(id);
+      if (idx >= 0) {
+        theirSelectedOffer.splice(idx, 1);
+      } else {
+        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) return;
+        theirSelectedOffer.push(id);
+      }
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+    }
+
+    function persistRoomOffers() {
+      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
+      if (!room) return;
+      room.myOffer = [...mySelectedOffer];
+      room.theirOffer = [...theirSelectedOffer];
+      room.updatedAt = Date.now();
+      saveProfile();
+      pushRoomToBackend(room);
+    }
+
+    function renderTradeRoomWorkspace() {
+      document.getElementById("myOfferCount").textContent = `${mySelectedOffer.length}/${MAX_TRADE_ITEMS}`;
+      document.getElementById("theirOfferCount").textContent = `${theirSelectedOffer.length}/${MAX_TRADE_ITEMS}`;
+
+      const mySlots = document.getElementById("myOfferSlots");
+      mySlots.innerHTML = mySelectedOffer.length === 0
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No demons placed yet (min 1)</span>`
+        : mySelectedOffer.map((id, i) => {
+            const d = demonMap[id];
+            return d ? `<span class="trade-chip" style="border-color:var(--c-${d.rarity})" onclick="mySelectedOffer.splice(${i},1); persistRoomOffers(); renderTradeRoomWorkspace();">#${d.rank} ${d.name} ✕</span>` : "";
+          }).join("");
+
+      const theirSlots = document.getElementById("theirOfferSlots");
+      theirSlots.innerHTML = theirSelectedOffer.length === 0
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed yet (min 1)</span>`
+        : theirSelectedOffer.map((id, i) => {
+            const d = demonMap[id];
+            return d ? `<span class="trade-chip" style="border-color:var(--c-${d.rarity})" onclick="theirSelectedOffer.splice(${i},1); persistRoomOffers(); renderTradeRoomWorkspace();">#${d.rank} ${d.name} ✕</span>` : "";
+          }).join("");
+
+      const myOwnedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0 && demonMap[id]);
+      const myPicker = document.getElementById("myOwnedPicker");
+      if (myOwnedIds.length === 0) {
+        myPicker.innerHTML = `<p style="font-size:0.74rem; color:var(--muted); grid-column:1/-1;">Summon demons first to offer them.</p>`;
+      } else {
+        myPicker.innerHTML = myOwnedIds.map(id => {
+          const d = demonMap[id];
+          const used = countSelectedInMyOffer(id);
+          const avail = profile.owned[id] - used;
+          return `
+            <div class="pick-item ${used > 0 ? "selected" : ""}" onclick="toggleMyOfferDemon('${id}')">
+              <div style="font-weight:800;">#${d.rank} ${d.name}</div>
+              <div style="color:var(--muted); font-size:0.68rem;">Avail: x${avail} ${used > 0 ? `(Pick x${used})` : ""}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      const q = theirSearchQuery.toLowerCase();
+      const candidates = allDemons.filter(d => {
+        if (!q) return true;
+        return d.name.toLowerCase().includes(q) || String(d.rank) === q || ("#" + d.rank) === q;
+      }).slice(0, 60);
+
+      document.getElementById("theirAredlPicker").innerHTML = candidates.map(d => {
+        const picked = theirSelectedOffer.includes(d.id);
+        return `
+          <div class="pick-item ${picked ? "selected" : ""}" onclick="toggleTheirOfferDemon('${d.id}')">
+            <div style="font-weight:800;">#${d.rank} ${d.name}</div>
+            <div style="color:var(--c-${d.rarity}); font-size:0.68rem; font-weight:800;">${RARITY_TIERS[d.rarity].label}</div>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("acceptTradeBtn").disabled = !(mySelectedOffer.length >= 1 && theirSelectedOffer.length >= 1);
+    }
+
+    async function acceptCurrentTrade() {
+      if (mySelectedOffer.length < 1 || theirSelectedOffer.length < 1) return;
+
+      for (const id of mySelectedOffer) {
+        if ((profile.owned[id] || 0) < countSelectedInMyOffer(id)) {
+          alert("You no longer have enough copies for this offer.");
+          return;
+        }
+      }
+
+      for (const id of mySelectedOffer) {
+        profile.owned[id] -= countSelectedInMyOffer(id);
+        if (profile.owned[id] <= 0) delete profile.owned[id];
+      }
+
+      const receivedDemons = [];
+      for (const id of theirSelectedOffer) {
+        const d = demonMap[id];
+        if (!d) continue;
+        profile.owned[id] = (profile.owned[id] || 0) + 1;
+        profile.rarityCounts[d.rarity] = (profile.rarityCounts[d.rarity] || 0) + 1;
+        receivedDemons.push(d);
+      }
+
+      profile.tradesCompleted += 1;
+      if (receivedDemons.length > 0) {
+        profile.lastPullIds = receivedDemons.map(d => d.id);
+        renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0 })), true);
+      }
+
+      mySelectedOffer = [];
+      theirSelectedOffer = [];
+      persistRoomOffers();
+      checkAchievements();
+      saveProfile();
+      playTone(784, "triangle", 0.3, 0.2);
+      updateAllUI();
+      renderTradeRoomWorkspace();
+      alert("Trade accepted! Demons updated and saved locally.");
+    }
+
+    async function deleteActiveRoom() {
+      if (!activeRoomId) return;
+      const idToDel = activeRoomId;
+      profile.tradeRooms = profile.tradeRooms.filter(r => r.id !== idToDel);
+      saveProfile();
+      await removeRoomFromBackend(idToDel);
+      updateAllUI();
+      document.getElementById("backToRoomsBtn").click();
+    }
+
     function openShopModal() {
       document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
-      const list = document.getElementById("shopPacksList");
-      list.innerHTML = SHOP_PACKS.map(pack => `
+      document.getElementById("shopPacksList").innerHTML = SHOP_PACKS.map(pack => `
         <div class="pack-item">
           <div>
             <div style="font-weight:900; font-size:1rem; color:#fde68a;">🍀 ${pack.name}</div>
@@ -1626,7 +1812,6 @@
       openShopModal();
     }
 
-    // Inventory Logic
     function openInvModal() {
       const packsArea = document.getElementById("invPacksArea");
       const ownedPacks = SHOP_PACKS.filter(p => (profile.packs[p.id] || 0) > 0);
@@ -1645,7 +1830,7 @@
         `).join("");
       }
 
-      const ownedIds = Object.keys(profile.owned);
+      const ownedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0);
       document.getElementById("invOwnedCount").textContent = ownedIds.length;
       const invGrid = document.getElementById("invDemonsGrid");
 
@@ -1691,7 +1876,6 @@
       updateAllUI();
     }
 
-    // Achievements & Stats Modals
     function openAchModal() {
       document.getElementById("achList").innerHTML = ACHIEVEMENTS.map(a => {
         const unlocked = profile.unlockedAch.includes(a.id);
@@ -1723,7 +1907,6 @@
       document.getElementById("statsModal").classList.add("open");
     }
 
-    // Level Inspect Modal (#24 Elegant Links)
     function openInspectModal(id) {
       const d = demonMap[id];
       if (!d) return;
@@ -1782,16 +1965,36 @@
       });
     });
 
-    // Event Listeners
     document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
     document.getElementById("pull10Btn").addEventListener("click", () => executePull(10));
     document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
     document.getElementById("openShopBtn").addEventListener("click", openShopModal);
     document.getElementById("openInvBtn").addEventListener("click", openInvModal);
+    document.getElementById("openTraderBtn").addEventListener("click", openTraderModal);
     document.getElementById("openAchBtn").addEventListener("click", openAchModal);
     document.getElementById("openStatsBtn").addEventListener("click", openStatsModal);
 
-    // Toggles
+    document.getElementById("createRoomBtn").addEventListener("click", createTradeRoom);
+    document.getElementById("backToRoomsBtn").addEventListener("click", () => {
+      activeRoomId = null;
+      document.getElementById("traderRoomView").style.display = "none";
+      document.getElementById("backToRoomsBtn").style.display = "none";
+      document.getElementById("traderLobbyView").style.display = "block";
+      renderTraderLobby();
+    });
+    document.getElementById("clearTradeBtn").addEventListener("click", () => {
+      mySelectedOffer = [];
+      theirSelectedOffer = [];
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+    });
+    document.getElementById("acceptTradeBtn").addEventListener("click", acceptCurrentTrade);
+    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
+    document.getElementById("theirSearchInput").addEventListener("input", e => {
+      theirSearchQuery = e.target.value.trim();
+      renderTradeRoomWorkspace();
+    });
+
     const soundBtn = document.getElementById("soundToggleBtn");
     const skipBtn = document.getElementById("skipToggleBtn");
     const viewBtn = document.getElementById("viewModeBtn");
@@ -1826,16 +2029,18 @@
     });
 
     document.getElementById("resetBtn").addEventListener("click", () => {
-      if (!confirm("Reset all your Orbs, Packs, Unlocked Demons, and Achievements?")) return;
+      if (!confirm("Reset all your Orbs, Packs, Unlocked Demons, Rooms, and Achievements?")) return;
       profile = {
         orbs: 500,
         pulls: 0,
+        tradesCompleted: 0,
         owned: {},
         favorites: [],
         packs: { luck10: 0, luck20: 0, luck50: 0 },
         activeBoost: null,
         lastPullIds: [],
         unlockedAch: [],
+        tradeRooms: [],
         rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
         settings: profile.settings
       };
