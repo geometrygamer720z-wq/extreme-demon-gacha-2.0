@@ -69,8 +69,6 @@
       overflow-x: hidden;
     }
 
-    body.modal-open-lock { overflow: hidden; }
-
     body.shake {
       animation: screenShake 0.52s var(--ease-fresh) both;
     }
@@ -142,7 +140,7 @@
       opacity: 0;
       transform: translate3d(0, -10px, 0) scale(0.96);
       pointer-events: none;
-      transition: opacity 0.2s var(--ease-fresh), transform 0.2s var(--ease-fresh);
+      transition: opacity 0.16s var(--ease-fresh), transform 0.16s var(--ease-fresh);
     }
 
     .mini-toast.show {
@@ -271,7 +269,6 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.12s linear, border-color 0.12s linear, color 0.12s linear;
     }
 
     .modal-close-btn:hover {
@@ -1100,16 +1097,18 @@
     .dex-row1 { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); font-weight: 700; }
     .dex-name { font-size: 0.88rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
 
-    /* ================= FAST, ZERO-BLUR MODALS ================= */
+    /* ================= INSTANT ZERO-DELAY MODALS ================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 6, 12, 0.86);
+      background: rgba(4, 6, 12, 0.88);
       display: none;
       place-items: center;
       padding: 18px 14px;
       z-index: 999;
       overflow-y: auto;
+      transition: none !important;
+      animation: none !important;
     }
 
     .modal-backdrop.open { display: grid; }
@@ -1125,7 +1124,8 @@
       padding: 20px;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
       margin: auto;
-      contain: layout style;
+      transition: none !important;
+      animation: none !important;
     }
 
     .inspect-modal-box {
@@ -1757,6 +1757,7 @@
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
     const SAVE_KEY = "aredl_gacha_en_save_v11";
+    const FIRST_VISIT_KEY = "aredl_gacha_first_visit_claimed_v1";
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
@@ -1765,6 +1766,7 @@
     const TOKEN_INTERVAL_MS = 300000;
     const TOKEN_REWARD_AMOUNT = 10;
     const TOKEN_CAP = 100;
+    const STARTER_TOKENS = 5;
     const ROOM_LIFETIME_MS = 600000;
     const ROOM_WARNING_MS = 30000;
     const TRADE_CONFIRM_MS = 5000;
@@ -1864,13 +1866,43 @@
       return cleaned || fallback;
     }
 
+    function hasClaimedFirstVisitFlag() {
+      try {
+        if (localStorage.getItem(FIRST_VISIT_KEY) === "1") return true;
+        const rawSave = localStorage.getItem(SAVE_KEY);
+        if (rawSave) {
+          const parsed = JSON.parse(rawSave);
+          if (parsed && parsed.starterBonusClaimed === true) {
+            localStorage.setItem(FIRST_VISIT_KEY, "1");
+            return true;
+          }
+        }
+      } catch (_) {}
+      return false;
+    }
+
+    function markFirstVisitClaimed() {
+      try {
+        localStorage.setItem(FIRST_VISIT_KEY, "1");
+      } catch (_) {}
+    }
+
     let isPageActiveForTokens = !document.hidden;
     let lastTokenSampleMs = Date.now();
+    let justGrantedStarterBonus = false;
 
     function loadSafeProfile() {
+      const alreadyVisited = hasClaimedFirstVisitFlag();
+      const initialTokens = alreadyVisited ? 0 : STARTER_TOKENS;
+      if (!alreadyVisited) {
+        markFirstVisitClaimed();
+        justGrantedStarterBonus = true;
+      }
+
       const defaults = {
         displayName: "Player",
-        tokens: 0,
+        starterBonusClaimed: true,
+        tokens: initialTokens,
         tokenCycleElapsedMs: 0,
         orbs: 500,
         pulls: 0,
@@ -1888,11 +1920,14 @@
       };
 
       try {
-        const parsed = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
+        const raw = localStorage.getItem(SAVE_KEY);
+        if (!raw) return defaults;
+        const parsed = JSON.parse(raw);
         if (!parsed || typeof parsed !== "object") return defaults;
 
         return {
           displayName: sanitizeName(parsed.displayName, "Player"),
+          starterBonusClaimed: true,
           tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.min(TOKEN_CAP, Math.floor(parsed.tokens))) : 0,
           tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
             ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
@@ -1917,6 +1952,7 @@
     }
 
     let profile = loadSafeProfile();
+    saveProfile();
 
     let allDemons = [];
     let demonMap = {};
@@ -1949,7 +1985,9 @@
 
     function saveProfile() {
       try {
+        profile.starterBonusClaimed = true;
         localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
+        markFirstVisitClaimed();
       } catch (_) {}
     }
 
@@ -3702,37 +3740,40 @@
       if (!el) return;
       el.scrollTop = 0;
       el.classList.add("open");
-      document.body.classList.add("modal-open-lock");
     }
 
     function closeModal(id) {
       const el = document.getElementById(id);
       if (el) el.classList.remove("open");
-      const anyOpen = document.querySelector(".modal-backdrop.open");
-      if (!anyOpen) document.body.classList.remove("modal-open-lock");
     }
 
     document.getElementById("closeInvModalBtn").addEventListener("click", e => {
+      e.preventDefault();
       e.stopPropagation();
       closeModal("invModal");
-    });
+    }, { passive: false });
+
     document.getElementById("closeAchModalBtn").addEventListener("click", e => {
+      e.preventDefault();
       e.stopPropagation();
       closeModal("achModal");
-    });
+    }, { passive: false });
+
     document.getElementById("topCloseInspectModalBtn").addEventListener("click", e => {
+      e.preventDefault();
       e.stopPropagation();
       closeModal("inspectModal");
-    });
+    }, { passive: false });
+
     document.getElementById("closeInspectModalBtn").addEventListener("click", e => {
+      e.preventDefault();
       e.stopPropagation();
       closeModal("inspectModal");
-    });
+    }, { passive: false });
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
         document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
-        document.body.classList.remove("modal-open-lock");
       }
     });
 
@@ -3924,8 +3965,10 @@
       activeRoomId = null;
       lastTokenSampleMs = Date.now();
       isPageActiveForTokens = !document.hidden;
+      markFirstVisitClaimed();
       profile = {
         displayName: profile.displayName || "Player",
+        starterBonusClaimed: true,
         tokens: 0,
         tokenCycleElapsedMs: 0,
         orbs: 500,
@@ -3969,6 +4012,12 @@
     pruneExpiredRooms();
     syncToggleButtons();
     loadAREDL(false);
+
+    if (justGrantedStarterBonus) {
+      setTimeout(() => {
+        showToast(`Welcome! +${STARTER_TOKENS} starter Tokens (one-time gift)`);
+      }, 250);
+    }
   </script>
 </body>
 </html>
