@@ -1,38 +1,32 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>AREDL Extreme Demon Gacha</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #07090f;
-      --bg-panel: rgba(18, 22, 36, 0.85);
-      --bg-card: #121625;
+      --bg-deep: #06080e;
+      --bg-panel: rgba(16, 20, 34, 0.88);
+      --bg-card: #111524;
       --border: rgba(255, 255, 255, 0.1);
       --text: #f8fafc;
       --muted: #94a3b8;
       --primary: #3b82f6;
-      --primary-glow: rgba(59, 130, 246, 0.45);
+      --orb: #00e5ff;
 
-      /* Colores de Rarezas */
+      /* Tier Colors */
       --c-common: #94a3b8;
-      --g-common: rgba(148, 163, 184, 0.25);
-
       --c-rare: #38bdf8;
-      --g-rare: rgba(56, 189, 248, 0.35);
-
       --c-epic: #c084fc;
-      --g-epic: rgba(192, 132, 252, 0.45);
-
       --c-legendary: #fbbf24;
-      --g-legendary: rgba(251, 191, 36, 0.55);
-
+      --c-mythic: #fb7185;
       --c-divine: #ff2a6d;
-      --g-divine: rgba(255, 42, 109, 0.7);
+      --c-transcendent: #00f5d4;
+      --c-apex: #ffd700;
     }
 
     * {
@@ -46,9 +40,9 @@
     body {
       background-color: var(--bg-deep);
       background-image:
-        radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12), transparent 35%),
-        radial-gradient(circle at 85% 20%, rgba(255, 42, 109, 0.1), transparent 40%),
-        radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.12), transparent 45%);
+        radial-gradient(circle at 12% 12%, rgba(59, 130, 246, 0.14), transparent 36%),
+        radial-gradient(circle at 88% 18%, rgba(255, 42, 109, 0.12), transparent 40%),
+        radial-gradient(circle at 50% 92%, rgba(0, 245, 212, 0.08), transparent 45%);
       color: var(--text);
       min-height: 100vh;
       display: flex;
@@ -58,50 +52,76 @@
       overflow-x: hidden;
     }
 
-    /* Barra Superior Glassmorphism */
+    body.shake {
+      animation: screenShake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes screenShake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
+    }
+
+    /* Particle Layer */
+    #particlesCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .flash-overlay {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 998;
+      transition: opacity 0.45s ease;
+    }
+
+    /* Top Navigation & HUD */
     .topbar {
       width: 100%;
-      max-width: 920px;
+      max-width: 1040px;
       background: var(--bg-panel);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      margin-bottom: 16px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #ff2a6d, #7928ca);
       display: grid;
       place-items: center;
       font-weight: 900;
-      font-size: 1.1rem;
-      box-shadow: 0 0 16px rgba(255, 42, 109, 0.5);
+      font-size: 1.15rem;
+      box-shadow: 0 0 18px rgba(255, 42, 109, 0.5);
     }
 
     .brand h1 {
       font-size: 1.25rem;
       font-weight: 900;
       letter-spacing: -0.4px;
-      background: linear-gradient(to right, #fff, #cbd5e1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
     }
 
     .brand span {
@@ -111,18 +131,19 @@
       font-weight: 600;
     }
 
-    .hud-stats {
+    .hud-group {
       display: flex;
+      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
     }
 
     .hud-pill {
-      background: rgba(10, 13, 24, 0.8);
+      background: rgba(8, 11, 20, 0.85);
       border: 1px solid var(--border);
-      padding: 6px 12px;
+      padding: 7px 13px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--muted);
       display: flex;
       align-items: center;
@@ -134,51 +155,163 @@
       font-weight: 800;
     }
 
-    .main-wrap {
-      width: 100%;
-      max-width: 920px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .hud-pill.orbs strong {
+      color: var(--orb);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
     }
 
-    /* Escenario de Invocación Gacha */
+    .icon-btn {
+      background: rgba(15, 20, 35, 0.9);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background: #232c47;
+    }
+
+    .icon-btn.active-toggle {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.2);
+      color: #93c5fd;
+    }
+
+    .main-wrap {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Top 1 Spotlight Banner */
+    .top1-banner {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(255, 42, 109, 0.12), rgba(16, 20, 34, 0.92));
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 215, 0, 0.08);
+    }
+
+    .top1-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .top1-thumb {
+      width: 96px;
+      height: 54px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      background: #080a12;
+    }
+
+    .top1-tag {
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--c-apex);
+      background: rgba(255, 215, 0, 0.15);
+      padding: 2px 8px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+
+    /* Primary Action Bar (Shop, Inventory, Achievements, Stats) */
+    .quick-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .nav-card-btn {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .nav-card-btn:hover {
+      background: #1b2238;
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .badge-count {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    /* Summon Stage */
     .summon-stage {
       background: var(--bg-panel);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
-      position: relative;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
     }
 
     .stage-header {
       padding: 12px 18px;
-      background: rgba(8, 10, 18, 0.65);
+      background: rgba(8, 10, 18, 0.7);
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--muted);
       flex-wrap: wrap;
       gap: 8px;
     }
 
-    .status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 8px #22c55e;
-      margin-right: 6px;
+    .active-luck-banner {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(255, 42, 109, 0.2));
+      border-bottom: 1px solid rgba(251, 191, 36, 0.35);
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #fde68a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .stage-arena {
-      padding: 20px 16px;
-      min-height: 250px;
+      padding: 22px 16px;
+      min-height: 270px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -186,16 +319,52 @@
       position: relative;
     }
 
-    /* Grid de cartas obtenidas */
+    /* GD Orb Summon Animation */
+    .orb-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .gd-orb {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 15%, #00e5ff 45%, #3b82f6 80%, transparent 100%);
+      box-shadow: 0 0 35px #00e5ff, 0 0 70px #3b82f6;
+      animation: orbCharge 0.75s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    .gd-orb::after {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 3px dashed rgba(255, 255, 255, 0.75);
+      animation: spinRing 1.4s linear infinite;
+    }
+
+    @keyframes orbCharge {
+      from { transform: scale(0.88); filter: brightness(0.9); }
+      to { transform: scale(1.15); filter: brightness(1.35); }
+    }
+
+    @keyframes spinRing {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Pulled Cards Grid */
     .results-grid {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
     }
 
     .results-grid.single-pull {
-      max-width: 380px;
+      max-width: 410px;
       margin: 0 auto;
     }
 
@@ -208,7 +377,6 @@
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transform-origin: center;
       animation: cardPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
@@ -218,44 +386,38 @@
     }
 
     @keyframes cardPop {
-      0% { opacity: 0; transform: scale(0.78) translateY(18px); }
+      0% { opacity: 0; transform: scale(0.76) translateY(20px); }
       70% { transform: scale(1.03) translateY(-2px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Estilos visuales por rareza */
-    .pull-card.r-common {
-      border-color: rgba(148, 163, 184, 0.45);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    /* Rarity Borders & Glows */
+    .r-common { border-color: rgba(148, 163, 184, 0.45); }
+    .r-rare { border-color: var(--c-rare); box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+    .r-epic { border-color: var(--c-epic); box-shadow: 0 0 24px rgba(192, 132, 252, 0.4); }
+    .r-legendary { border-color: var(--c-legendary); box-shadow: 0 0 28px rgba(251, 191, 36, 0.5); }
+    .r-mythic { border-color: var(--c-mythic); box-shadow: 0 0 32px rgba(251, 113, 133, 0.55); }
+    .r-divine { border-color: var(--c-divine); box-shadow: 0 0 38px rgba(255, 42, 109, 0.7); }
+    .r-transcendent {
+      border-color: var(--c-transcendent);
+      box-shadow: 0 0 42px rgba(0, 245, 212, 0.8), inset 0 0 18px rgba(0, 245, 212, 0.25);
     }
-    .pull-card.r-rare {
-      border-color: var(--c-rare);
-      box-shadow: 0 0 22px var(--g-rare);
-    }
-    .pull-card.r-epic {
-      border-color: var(--c-epic);
-      box-shadow: 0 0 26px var(--g-epic);
-    }
-    .pull-card.r-legendary {
-      border-color: var(--c-legendary);
-      box-shadow: 0 0 32px var(--g-legendary);
-    }
-    .pull-card.r-divine {
-      border-color: var(--c-divine);
-      box-shadow: 0 0 40px var(--g-divine), inset 0 0 20px rgba(255, 42, 109, 0.25);
-      animation: cardPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards, divinePulse 2.2s infinite alternate;
+    .r-apex {
+      border-color: var(--c-apex);
+      box-shadow: 0 0 55px rgba(255, 215, 0, 0.95), 0 0 25px rgba(255, 42, 109, 0.8);
+      animation: cardPop 0.5s ease backwards, apexGlow 1.6s infinite alternate;
     }
 
-    @keyframes divinePulse {
-      from { box-shadow: 0 0 25px var(--g-divine); }
-      to { box-shadow: 0 0 48px rgba(255, 42, 109, 0.95), 0 0 18px #ffd000; }
+    @keyframes apexGlow {
+      from { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+      to { box-shadow: 0 0 65px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 42, 109, 0.9); }
     }
 
     .card-media {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #080a12;
+      background: #070910;
       overflow: hidden;
     }
 
@@ -263,19 +425,16 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       display: block;
-      transition: transform 0.35s ease;
-    }
-
-    .pull-card:hover .card-media img {
-      transform: scale(1.06);
+      image-rendering: -webkit-optimize-contrast;
     }
 
     .card-rank-badge {
       position: absolute;
       top: 8px;
       left: 8px;
-      background: rgba(7, 9, 15, 0.85);
+      background: rgba(6, 8, 14, 0.86);
       backdrop-filter: blur(6px);
       border: 1px solid rgba(255, 255, 255, 0.18);
       color: #fff;
@@ -285,18 +444,40 @@
       border-radius: 6px;
     }
 
-    .card-new-badge {
+    .card-status-badge {
       position: absolute;
       top: 8px;
       right: 8px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #fff;
       font-weight: 900;
-      font-size: 0.68rem;
-      padding: 3px 7px;
+      font-size: 0.66rem;
+      padding: 3px 8px;
       border-radius: 6px;
       letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-new {
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: #fff;
       box-shadow: 0 2px 10px rgba(34, 197, 94, 0.5);
+    }
+
+    .badge-dup {
+      background: rgba(245, 158, 11, 0.9);
+      color: #090b10;
+    }
+
+    .card-orbs-gain {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(6, 8, 14, 0.88);
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      color: var(--orb);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
     }
 
     .card-body {
@@ -306,12 +487,18 @@
       gap: 4px;
     }
 
+    .card-top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
     .rarity-pill {
-      align-self: flex-start;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.7px;
       padding: 2px 8px;
       border-radius: 5px;
     }
@@ -320,7 +507,24 @@
     .rp-rare { background: rgba(56, 189, 248, 0.18); color: var(--c-rare); }
     .rp-epic { background: rgba(192, 132, 252, 0.2); color: var(--c-epic); }
     .rp-legendary { background: rgba(251, 191, 36, 0.22); color: var(--c-legendary); }
-    .rp-divine { background: rgba(255, 42, 109, 0.25); color: #ff7aa5; border: 1px solid rgba(255, 42, 109, 0.5); }
+    .rp-mythic { background: rgba(251, 113, 133, 0.22); color: var(--c-mythic); }
+    .rp-divine { background: rgba(255, 42, 109, 0.25); color: #ff85ab; }
+    .rp-transcendent { background: rgba(0, 245, 212, 0.22); color: var(--c-transcendent); border: 1px solid rgba(0, 245, 212, 0.5); }
+    .rp-apex { background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), rgba(255, 42, 109, 0.3)); color: #ffd700; border: 1px solid #ffd700; }
+
+    .fav-star {
+      background: none;
+      border: none;
+      font-size: 1.05rem;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 0 2px;
+    }
+
+    .fav-star.active {
+      color: #fbbf24;
+      text-shadow: 0 0 8px rgba(251, 191, 36, 0.7);
+    }
 
     .card-title {
       font-size: 1.05rem;
@@ -328,7 +532,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-top: 2px;
     }
 
     .card-creator {
@@ -339,7 +542,7 @@
       text-overflow: ellipsis;
     }
 
-    /* Botonera Gacha */
+    /* Controls */
     .summon-controls {
       padding: 16px;
       background: rgba(8, 10, 18, 0.75);
@@ -349,15 +552,15 @@
       gap: 10px;
     }
 
-    button {
+    .btn-main {
       cursor: pointer;
       border: 1px solid var(--border);
       background: #1b2136;
       color: #fff;
-      padding: 12px 16px;
+      padding: 13px 16px;
       border-radius: 12px;
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       transition: all 0.15s ease;
       display: flex;
       align-items: center;
@@ -365,19 +568,13 @@
       gap: 6px;
     }
 
-    button:active:not(:disabled) {
-      transform: scale(0.96);
-    }
-
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
+    .btn-main:active:not(:disabled) { transform: scale(0.96); }
+    .btn-main:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-roll-1 {
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       border: none;
-      box-shadow: 0 6px 20px var(--primary-glow);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
 
     .btn-roll-10 {
@@ -386,71 +583,25 @@
       box-shadow: 0 6px 22px rgba(255, 42, 109, 0.4);
     }
 
-    .btn-danger {
-      color: #fca5a5;
-      border-color: rgba(239, 68, 68, 0.3);
-    }
+    .btn-danger { color: #fca5a5; border-color: rgba(239, 68, 68, 0.35); }
 
-    .rates-strip {
-      padding: 10px 16px;
-      background: rgba(6, 8, 14, 0.9);
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 0.74rem;
-      color: var(--muted);
-    }
-
-    /* Navegación de Pestañas (Colección vs Historial) */
-    .tabs-nav {
-      display: flex;
-      gap: 8px;
-      background: var(--bg-panel);
-      padding: 6px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-
-    .tab-btn {
-      flex: 1;
-      background: transparent;
-      border: none;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-
-    .tab-btn.active {
-      background: #232b45;
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Panel de Colección */
+    /* Dex Section */
     .dex-panel {
       background: var(--bg-panel);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 18px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
     }
 
-    .dex-top {
+    .dex-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 14px;
-    }
-
-    .dex-top h2 {
-      font-size: 1.1rem;
-      font-weight: 800;
     }
 
     .filter-pills {
@@ -462,9 +613,13 @@
 
     .f-pill {
       padding: 6px 11px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
+      font-weight: 700;
       border-radius: 8px;
-      background: rgba(12, 15, 26, 0.8);
+      background: rgba(10, 13, 24, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
     }
 
     .f-pill.active {
@@ -474,7 +629,7 @@
 
     .search-box {
       width: 100%;
-      background: rgba(10, 13, 24, 0.9);
+      background: rgba(8, 11, 20, 0.9);
       border: 1px solid var(--border);
       color: #fff;
       padding: 11px 14px;
@@ -484,17 +639,17 @@
       outline: none;
     }
 
-    .search-box:focus {
-      border-color: var(--primary);
-    }
-
     .dex-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
       gap: 10px;
       max-height: 540px;
       overflow-y: auto;
       padding-right: 4px;
+    }
+
+    .dex-grid.list-view {
+      grid-template-columns: 1fr;
     }
 
     .dex-card {
@@ -503,15 +658,17 @@
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.15s ease, border-color 0.15s ease;
+      transition: transform 0.15s ease;
+      position: relative;
     }
 
-    .dex-card:hover {
-      transform: translateY(-2px);
+    .dex-grid.list-view .dex-card {
+      display: flex;
+      align-items: center;
     }
 
     .dex-card.locked {
-      opacity: 0.42;
+      opacity: 0.38;
       filter: grayscale(85%);
     }
 
@@ -519,12 +676,32 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       object-fit: cover;
-      background: #080a12;
+      background: #070910;
       display: block;
     }
 
+    .dex-grid.list-view .dex-thumb {
+      width: 120px;
+      flex-shrink: 0;
+    }
+
+    .copy-pill {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(6, 8, 14, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
     .dex-meta {
-      padding: 8px 10px;
+      padding: 9px 10px;
+      flex: 1;
+      min-width: 0;
     }
 
     .dex-row1 {
@@ -536,7 +713,7 @@
     }
 
     .dex-name {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       font-weight: 800;
       white-space: nowrap;
       overflow: hidden;
@@ -544,41 +721,12 @@
       margin-top: 2px;
     }
 
-    /* Historial guardado */
-    .history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-
-    .hist-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-
-    .hist-thumb {
-      width: 72px;
-      height: 40px;
-      border-radius: 6px;
-      object-fit: cover;
-      background: #080a12;
-      flex-shrink: 0;
-    }
-
-    /* Modal de inspección de nivel */
+    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(4, 6, 12, 0.82);
-      backdrop-filter: blur(8px);
+      background: rgba(4, 6, 12, 0.85);
+      backdrop-filter: blur(10px);
       display: none;
       place-items: center;
       padding: 16px;
@@ -589,235 +737,486 @@
       display: grid;
     }
 
-    .modal-card {
+    .modal-box {
       width: 100%;
-      max-width: 440px;
-      background: #14192b;
-      border: 2px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      max-width: 520px;
+      max-height: 88vh;
+      overflow-y: auto;
+      background: #121728;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8);
       animation: cardPop 0.25s ease;
     }
 
-    .modal-img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      background: #080a12;
-    }
-
-    .modal-body {
-      padding: 18px;
+    .modal-head {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .modal-actions {
+    .shop-orb-box {
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.14), rgba(59, 130, 246, 0.14));
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      border-radius: 14px;
+      padding: 14px;
       display: flex;
-      gap: 10px;
-      margin-top: 6px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
-    .modal-actions a {
-      flex: 1;
-      text-decoration: none;
-      background: #ef4444;
+    .pack-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .buy-btn {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border: none;
       color: #fff;
-      font-weight: 800;
-      font-size: 0.88rem;
-      padding: 11px;
+      font-weight: 900;
+      padding: 10px 14px;
       border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Elegant External Links inside Level Modal */
+    .ext-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .ext-link-btn {
+      text-decoration: none;
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 800;
       text-align: center;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: transform 0.15s, filter 0.15s;
     }
 
-    /* Flash blanco al sacar Divine/Legendary */
-    .flash-overlay {
-      position: fixed;
-      inset: 0;
-      background: #fff;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 998;
-      transition: opacity 0.45s ease;
+    .ext-link-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
     }
 
-    @media (max-width: 600px) {
-      .summon-controls {
-        grid-template-columns: 1fr 1fr;
-      }
-      .results-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      .results-grid.single-pull {
-        grid-template-columns: 1fr;
-      }
+    .link-yt { background: linear-gradient(135deg, #dc2626, #991b1b); }
+    .link-aredl { background: linear-gradient(135deg, #7c3aed, #4c1d95); }
+    .link-gdb { background: linear-gradient(135deg, #0284c7, #0369a1); }
+
+    .ach-row {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ach-row.done {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    @media (max-width: 680px) {
+      .quick-nav { grid-template-columns: repeat(2, 1fr); }
+      .summon-controls { grid-template-columns: 1fr 1fr; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .results-grid.single-pull { grid-template-columns: 1fr; }
+      .ext-links { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
+  <canvas id="particlesCanvas"></canvas>
   <div class="flash-overlay" id="flashOverlay"></div>
 
+  <!-- Topbar -->
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon">GD</div>
       <div>
         <h1>AREDL Demon Gacha</h1>
-        <span>Edición Oficial · Guardado Automático</span>
+        <span>Official Extreme Demon List Summoner</span>
       </div>
     </div>
 
-    <div class="hud-stats">
-      <div class="hud-pill">Tiradas: <strong id="pullsCount">0</strong></div>
-      <div class="hud-pill">Colección: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
-      <div class="hud-pill">Progreso: <strong id="percentCount">0%</strong></div>
+    <div class="hud-group">
+      <div class="hud-pill orbs">💠 Orbs: <strong id="orbsCount">0</strong></div>
+      <div class="hud-pill">🎲 Rolls: <strong id="pullsCount">0</strong></div>
+      <div class="hud-pill">📚 Dex: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
+      <button class="icon-btn active-toggle" id="soundToggleBtn" title="Toggle Sound Effects">🔊 SFX: ON</button>
+      <button class="icon-btn" id="skipToggleBtn" title="Skip Orb Animation">⏩ Skip: OFF</button>
     </div>
   </header>
 
   <main class="main-wrap">
-    <!-- Escenario Principal -->
+    <!-- Top 1 Current Spotlight -->
+    <section class="top1-banner" id="top1Banner" style="display:none;">
+      <div class="top1-left">
+        <img class="top1-thumb" id="top1Img" src="" alt="Top 1" />
+        <div>
+          <span class="top1-tag">👑 CURRENT #1 AREDL · APEX TIER</span>
+          <h2 id="top1Title" style="font-size:1.1rem; font-weight:900;">Loading...</h2>
+          <p id="top1Sub" style="font-size:0.78rem; color:var(--muted);">Ultra Rare Drop · Pirate Token Odds</p>
+        </div>
+      </div>
+      <span style="font-size:0.8rem; font-weight:800; color:var(--c-apex);">Inspect #1 →</span>
+    </section>
+
+    <!-- Quick Navigation: Shop, Inventory, Achievements, Rarity Stats -->
+    <nav class="quick-nav">
+      <button class="nav-card-btn" id="openShopBtn">🛒 Orb Shop</button>
+      <button class="nav-card-btn" id="openInvBtn">🎒 Inventory <span class="badge-count" id="packBadge">0</span></button>
+      <button class="nav-card-btn" id="openAchBtn">🏆 Achievements <span class="badge-count" id="achBadge">0</span></button>
+      <button class="nav-card-btn" id="openStatsBtn">📊 Drop Stats</button>
+    </nav>
+
+    <!-- Summon Stage -->
     <section class="summon-stage">
       <div class="stage-header">
-        <div><span class="status-dot"></span><span id="syncStatus">Cargando base de datos AREDL...</span></div>
-        <strong id="lastPullBadge" style="color:#fff;">Listo para invocar</strong>
+        <span id="syncStatus">Syncing AREDL database...</span>
+        <strong id="lastPullBadge" style="color:#fff;">Ready to summon</strong>
+      </div>
+
+      <div class="active-luck-banner" id="activeLuckBanner" style="display:none;">
+        <span id="activeLuckText">🍀 x10 LUCK BOOST ACTIVE!</span>
+        <span id="activeLuckRemaining">10 rolls left</span>
       </div>
 
       <div class="stage-arena" id="stageArena">
         <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
-          Sincronizando todos los Extreme Demons y sus miniaturas...
+          Loading all Extreme Demons from AREDL...
         </p>
       </div>
 
       <div class="summon-controls">
-        <button class="btn-roll-1" id="pull1Btn" disabled>⚡ Tirar x1</button>
-        <button class="btn-roll-10" id="pull10Btn" disabled>🔥 Tirar x10</button>
-        <button id="syncBtn" title="Actualizar niveles de la AREDL">🔄 Actualizar</button>
-        <button class="btn-danger" id="resetBtn">🗑️ Borrar</button>
-      </div>
-
-      <div class="rates-strip">
-        <span>Probabilidades:</span>
-        <strong style="color:var(--c-common)">Common 55%</strong> •
-        <strong style="color:var(--c-rare)">Rare 27%</strong> •
-        <strong style="color:var(--c-epic)">Epic 12%</strong> •
-        <strong style="color:var(--c-legendary)">Legendary 5%</strong> •
-        <strong style="color:var(--c-divine)">Divine Top 1-15 1%</strong>
+        <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Summon x1</button>
+        <button class="btn-main btn-roll-10" id="pull10Btn" disabled>🔥 Summon x10</button>
+        <button class="btn-main" id="syncBtn">🔄 Sync AREDL</button>
+        <button class="btn-main btn-danger" id="resetBtn">🗑️ Reset</button>
       </div>
     </section>
 
-    <!-- Navegación entre Índice e Historial -->
-    <nav class="tabs-nav">
-      <button class="tab-btn active" id="tabDexBtn">📚 Índice AREDL Guardado</button>
-      <button class="tab-btn" id="tabHistBtn">🕒 Últimas Tiradas Guardadas</button>
-    </nav>
-
-    <!-- Panel de Colección / Índice -->
-    <section class="dex-panel" id="dexSection">
-      <div class="dex-top">
-        <h2>Colección de Extreme Demons</h2>
-        <span id="filterSummary" style="font-size: 0.8rem; color: var(--muted);">0 niveles</span>
+    <!-- Full AREDL Collection Dex -->
+    <section class="dex-panel">
+      <div class="dex-header">
+        <div>
+          <h2 style="font-size:1.12rem; font-weight:900;">AREDL Extreme Demon Index</h2>
+          <span id="filterSummary" style="font-size:0.78rem; color:var(--muted);">0 levels</span>
+        </div>
+        <button class="icon-btn" id="viewModeBtn">☷ View: Grid</button>
       </div>
 
       <div class="filter-pills" id="filterBar">
-        <button class="f-pill active" data-filter="all">Todos</button>
-        <button class="f-pill" data-filter="owned">✅ Desbloqueados</button>
+        <button class="f-pill active" data-filter="all">All</button>
+        <button class="f-pill" data-filter="owned">✅ Owned</button>
+        <button class="f-pill" data-filter="favorites">⭐ Favorites</button>
+        <button class="f-pill" data-filter="apex" style="color:var(--c-apex)">Apex #1</button>
+        <button class="f-pill" data-filter="transcendent" style="color:var(--c-transcendent)">Transcendent</button>
         <button class="f-pill" data-filter="divine" style="color:var(--c-divine)">Divine</button>
+        <button class="f-pill" data-filter="mythic" style="color:var(--c-mythic)">Mythic</button>
         <button class="f-pill" data-filter="legendary" style="color:var(--c-legendary)">Legendary</button>
         <button class="f-pill" data-filter="epic" style="color:var(--c-epic)">Epic</button>
         <button class="f-pill" data-filter="rare" style="color:var(--c-rare)">Rare</button>
         <button class="f-pill" data-filter="common" style="color:var(--c-common)">Common</button>
       </div>
 
-      <input type="text" class="search-box" id="searchInput" placeholder="Buscar nivel por nombre, creador o #posición (ej: Tidal Wave, #1)..." />
+      <input type="text" class="search-box" id="searchInput" placeholder="Search by demon name, creator, or #rank (e.g. Tidal Wave, #1)..." />
 
       <div class="dex-grid" id="dexGrid"></div>
     </section>
-
-    <!-- Panel de Historial Guardado -->
-    <section class="dex-panel" id="histSection" style="display:none;">
-      <div class="dex-top">
-        <h2>Historial de Tiradas (Últimos 100)</h2>
-        <span style="font-size: 0.8rem; color: var(--muted);">Guardado automáticamente</span>
-      </div>
-      <div class="history-list" id="historyList"></div>
-    </section>
   </main>
 
-  <!-- Modal de Inspección de Carta -->
-  <div class="modal-backdrop" id="inspectModal">
-    <div class="modal-card" id="modalCard">
-      <img class="modal-img" id="modalImg" src="" alt="" />
-      <div class="modal-body">
-        <span class="rarity-pill" id="modalRarity"></span>
-        <h3 id="modalTitle" style="font-size:1.3rem; font-weight:900;"></h3>
-        <p id="modalCreator" style="font-size:0.88rem; color:var(--muted);"></p>
-        <p id="modalCount" style="font-size:0.85rem; color:#cbd5e1;"></p>
-        <div class="modal-actions">
-          <a id="modalYtLink" href="#" target="_blank" rel="noopener">▶ Ver Showcase / Verificación</a>
-          <button id="closeModalBtn">Cerrar</button>
+  <!-- SHOP MODAL -->
+  <div class="modal-backdrop" id="shopModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 style="font-size:1.2rem; font-weight:900;">🛒 Orb Luck Shop</h3>
+        <button class="icon-btn" onclick="closeModal('shopModal')">✕</button>
+      </div>
+
+      <div class="shop-orb-box">
+        <div>
+          <span style="font-size:0.78rem; color:var(--muted); display:block;">Your Balance</span>
+          <strong style="font-size:1.45rem; color:var(--orb);" id="shopOrbsBalance">💠 0 Orbs</strong>
         </div>
+        <span style="font-size:0.76rem; color:var(--muted); text-align:right;">Earn Orbs from<br>every summon & duplicate</span>
+      </div>
+
+      <div id="shopPacksList"></div>
+    </div>
+  </div>
+
+  <!-- INVENTORY MODAL -->
+  <div class="modal-backdrop" id="invModal">
+    <div class="modal-box" style="max-width:620px;">
+      <div class="modal-head">
+        <h3 style="font-size:1.2rem; font-weight:900;">🎒 Player Inventory</h3>
+        <button class="icon-btn" onclick="closeModal('invModal')">✕</button>
+      </div>
+
+      <h4 style="font-size:0.9rem; color:#fde68a; margin-bottom:8px;">📦 Saved Luck Packs (Open Anytime)</h4>
+      <div id="invPacksArea" style="margin-bottom:18px;"></div>
+
+      <h4 style="font-size:0.9rem; color:#cbd5e1; margin-bottom:8px;">🔥 Your Unlocked Extreme Demons (<span id="invOwnedCount">0</span>)</h4>
+      <div id="invDemonsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:8px; max-height:300px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS MODAL -->
+  <div class="modal-backdrop" id="achModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 style="font-size:1.2rem; font-weight:900;">🏆 Achievements</h3>
+        <button class="icon-btn" onclick="closeModal('achModal')">✕</button>
+      </div>
+      <div id="achList"></div>
+    </div>
+  </div>
+
+  <!-- STATS MODAL -->
+  <div class="modal-backdrop" id="statsModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 style="font-size:1.2rem; font-weight:900;">📊 Summon Statistics</h3>
+        <button class="icon-btn" onclick="closeModal('statsModal')">✕</button>
+      </div>
+      <div id="statsContent"></div>
+    </div>
+  </div>
+
+  <!-- LEVEL INSPECT MODAL -->
+  <div class="modal-backdrop" id="inspectModal">
+    <div class="modal-box" id="inspectBox" style="padding:0; overflow:hidden; max-width:460px;">
+      <img id="modalImg" src="" alt="" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block; background:#070910;" />
+      <div style="padding:18px; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="rarity-pill" id="modalRarity"></span>
+          <button class="fav-star" id="modalFavBtn" style="font-size:1.3rem;">★</button>
+        </div>
+        <h3 id="modalTitle" style="font-size:1.35rem; font-weight:900;"></h3>
+        <p id="modalCreator" style="font-size:0.86rem; color:var(--muted);"></p>
+        <p id="modalCount" style="font-size:0.86rem; color:#e2e8f0;"></p>
+
+        <div class="ext-links" id="modalLinks">
+          <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener">▶ Verification</a>
+          <a class="ext-link-btn link-aredl" id="linkAredl" href="#" target="_blank" rel="noopener">🏆 AREDL Page</a>
+          <a class="ext-link-btn link-gdb" id="linkGdb" href="#" target="_blank" rel="noopener">🧊 GDBrowser</a>
+        </div>
+
+        <button class="btn-main" style="margin-top:8px;" onclick="closeModal('inspectModal')">Close</button>
       </div>
     </div>
   </div>
 
   <script>
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
-    const AREDL_THUMBS_REPO = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/cards";
-    const CACHE_KEY = "aredl_gacha_db_v2";
-    const SAVE_KEY = "aredl_gacha_profile_v2";
+    const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
+    const CACHE_KEY = "aredl_gacha_en_db_v3";
+    const SAVE_KEY = "aredl_gacha_en_save_v3";
 
-    const RARITY_CONFIG = {
-      common:    { label: "Common",    weight: 55 },
-      rare:      { label: "Rare",      weight: 27 },
-      epic:      { label: "Epic",      weight: 12 },
-      legendary: { label: "Legendary", weight: 5  },
-      divine:    { label: "Divine",    weight: 1  }
+    // Rarity Definitions & Extreme Difficulty Scaling
+    // Top 1 (#1) = 0.0001 weight out of ~100,000 (~0.0001% Pirate Token odds)
+    // Top 2-10 (#2-#10) = Transcendent
+    // Top 150 and above (#1-#149) combined = <1.5% chance
+    const RARITY_TIERS = {
+      apex:         { label: "APEX TOP 1",    weight: 0.0001, orbs: 250000, color: "#ffd700" },
+      transcendent: { label: "TRANSCENDENT",  weight: 0.015,  orbs: 25000,  color: "#00f5d4" },
+      divine:       { label: "DIVINE",        weight: 0.085,  orbs: 6000,   color: "#ff2a6d" },
+      mythic:       { label: "MYTHIC",        weight: 0.35,   orbs: 1800,   color: "#fb7185" },
+      legendary:    { label: "LEGENDARY",     weight: 1.05,   orbs: 650,    color: "#fbbf24" },
+      epic:         { label: "EPIC",          weight: 8.5,    orbs: 220,    color: "#c084fc" },
+      rare:         { label: "RARE",          weight: 28.0,   orbs: 85,     color: "#38bdf8" },
+      common:       { label: "COMMON",        weight: 62.0,   orbs: 30,     color: "#94a3b8" }
     };
 
-    function classifyRarity(position) {
-      if (position <= 15) return "divine";
-      if (position <= 75) return "legendary";
-      if (position <= 200) return "epic";
-      if (position <= 500) return "rare";
+    function classifyByRank(pos) {
+      if (pos === 1) return "apex";
+      if (pos <= 10) return "transcendent";
+      if (pos <= 35) return "divine";
+      if (pos <= 99) return "mythic";
+      if (pos <= 149) return "legendary";
+      if (pos <= 350) return "epic";
+      if (pos <= 700) return "rare";
       return "common";
     }
 
-    let allDemons = [];
-    let demonMap = {};
-    let poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
-    let currentFilter = "all";
-    let searchQuery = "";
+    // Shop Luck Packs (Expensive, balanced for heavy grinders)
+    const SHOP_PACKS = [
+      {
+        id: "luck10",
+        name: "x10 Luck Surge Pack",
+        multiplier: 10,
+        rolls: 10,
+        cost: 25000,
+        desc: "Multiplies rare & Top 150 drop rates by 10x for 10 summons."
+      },
+      {
+        id: "luck20",
+        name: "x20 Supernova Luck Pack",
+        multiplier: 20,
+        rolls: 10,
+        cost: 65000,
+        desc: "Multiplies rare & Top 150 drop rates by 20x for 10 summons."
+      },
+      {
+        id: "luck50",
+        name: "x50 Godlike Fortune Pack",
+        multiplier: 50,
+        rolls: 10,
+        cost: 180000,
+        desc: "Massive 50x luck boost on Top 150, Transcendent & Apex #1 for 10 summons."
+      }
+    ];
 
-    // Perfil persistente guardado en el navegador
+    // Achievements
+    const ACHIEVEMENTS = [
+      { id: "first_roll", title: "First Cube Jump", desc: "Perform your first summon.", reward: 250, check: p => p.pulls >= 1 },
+      { id: "rolls_100", title: "Dedicated Grinder", desc: "Reach 100 total summons.", reward: 2000, check: p => p.pulls >= 100 },
+      { id: "rolls_1000", title: "Extreme Addict", desc: "Reach 1,000 total summons.", reward: 15000, check: p => p.pulls >= 1000 },
+      { id: "own_50", title: "Demon Collector", desc: "Unlock 50 unique Extreme Demons.", reward: 3000, check: p => Object.keys(p.owned).length >= 50 },
+      { id: "own_250", title: "List Master", desc: "Unlock 250 unique Extreme Demons.", reward: 20000, check: p => Object.keys(p.owned).length >= 250 },
+      { id: "get_top150", title: "Main List Breaker", desc: "Pull any demon in the Top 150.", reward: 5000, check: p => p.rarityCounts.legendary + p.rarityCounts.mythic + p.rarityCounts.divine + p.rarityCounts.transcendent + p.rarityCounts.apex >= 1 },
+      { id: "get_transcendent", title: "Top 10 Legend", desc: "Pull a Transcendent (#2-#10) demon.", reward: 50000, check: p => p.rarityCounts.transcendent >= 1 },
+      { id: "get_apex", title: "The Chosen One", desc: "Pull the #1 Apex Demon.", reward: 500000, check: p => p.rarityCounts.apex >= 1 }
+    ];
+
+    // Persistent State
     let profile = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
+      orbs: 500,
       pulls: 0,
-      owned: {},      // { [id]: cantidad }
-      lastPullIds: [], // Última tirada mostrada en pantalla
-      history: []     // Historial cronológico de hasta 100 tiradas
+      owned: {},
+      favorites: [],
+      packs: { luck10: 0, luck20: 0, luck50: 0 },
+      activeBoost: null, // { multiplier, remaining, name }
+      lastPullIds: [],
+      unlockedAch: [],
+      rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+      settings: { sfx: true, skip: false, listView: false }
     };
 
-    const stageArena = document.getElementById("stageArena");
-    const dexGrid = document.getElementById("dexGrid");
-    const historyList = document.getElementById("historyList");
-    const pullsCount = document.getElementById("pullsCount");
-    const ownedCount = document.getElementById("ownedCount");
-    const totalCount = document.getElementById("totalCount");
-    const percentCount = document.getElementById("percentCount");
-    const syncStatus = document.getElementById("syncStatus");
-    const lastPullBadge = document.getElementById("lastPullBadge");
-    const pull1Btn = document.getElementById("pull1Btn");
-    const pull10Btn = document.getElementById("pull10Btn");
-    const syncBtn = document.getElementById("syncBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const searchInput = document.getElementById("searchInput");
+    // Ensure backwards safety if older fields missing
+    profile.packs = profile.packs || { luck10: 0, luck20: 0, luck50: 0 };
+    profile.favorites = profile.favorites || [];
+    profile.unlockedAch = profile.unlockedAch || [];
+    profile.rarityCounts = Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, profile.rarityCounts || {});
+    profile.settings = Object.assign({ sfx: true, skip: false, listView: false }, profile.settings || {});
+
+    let allDemons = [];
+    let demonMap = {};
+    let poolsByRarity = {};
+    let currentFilter = "all";
+    let searchQuery = "";
+    let isRolling = false;
 
     function saveProfile() {
       localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
     }
 
+    // Web Audio Synthesizer for SFX (Idea #2 & #3)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(freq, type, duration, vol = 0.15, delay = 0) {
+      if (!profile.settings.sfx) return;
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+      gain.gain.setValueAtTime(vol, audioCtx.currentTime + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + delay);
+      osc.stop(audioCtx.currentTime + delay + duration);
+    }
+
+    function playSummonSFX(bestRarity) {
+      if (!profile.settings.sfx) return;
+      if (bestRarity === "apex" || bestRarity === "transcendent") {
+        [523, 659, 784, 1046, 1318].forEach((f, i) => playTone(f, "triangle", 0.35, 0.22, i * 0.08));
+      } else if (bestRarity === "divine" || bestRarity === "mythic" || bestRarity === "legendary") {
+        [440, 554, 659, 880].forEach((f, i) => playTone(f, "sine", 0.28, 0.18, i * 0.07));
+      } else {
+        playTone(360, "sine", 0.15, 0.12, 0);
+        playTone(480, "sine", 0.18, 0.12, 0.06);
+      }
+    }
+
+    // Particle System (Idea #5)
+    const canvas = document.getElementById("particlesCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function spawnParticles(color, count = 45) {
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: window.innerWidth / 2 + (Math.random() - 0.5) * 260,
+          y: window.innerHeight * 0.4,
+          vx: (Math.random() - 0.5) * 10,
+          vy: (Math.random() - 0.8) * 10,
+          size: Math.random() * 5 + 2,
+          color,
+          life: 1
+        });
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(p => p.life > 0);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.18;
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Clear HD Image Sources (Full resolution AREDL + HQ YouTube fallback)
     function extractYtId(raw) {
       if (!raw) return "";
       const str = String(raw);
@@ -827,14 +1226,12 @@
       return "";
     }
 
-    // Genera la cadena de imágenes: 1) Miniatura oficial AREDL -> 2) Miniatura YouTube -> 3) Placeholder
     function getImageSources(demon) {
-      const aredlImg = demon.levelId ? `${AREDL_THUMBS_REPO}/${demon.levelId}.webp` : "";
-      const ytImg = demon.yt ? `https://i.ytimg.com/vi/${demon.yt}/mqdefault.jpg` : "";
-      const fallback = `https://placehold.co/320x180/0e1324/94a3b8?text=%23${demon.rank}+${encodeURIComponent(demon.name)}`;
-
-      const primary = aredlImg || ytImg || fallback;
-      const secondary = (aredlImg && ytImg) ? ytImg : fallback;
+      const aredlFull = demon.levelId ? `${AREDL_FULL_THUMBS}/${demon.levelId}.webp` : "";
+      const ytHq = demon.yt ? `https://i.ytimg.com/vi/${demon.yt}/hqdefault.jpg` : "";
+      const fallback = `https://placehold.co/480x270/0d1222/94a3b8?text=%23${demon.rank}+${encodeURIComponent(demon.name)}`;
+      const primary = aredlFull || ytHq || fallback;
+      const secondary = (aredlFull && ytHq) ? ytHq : fallback;
       return { primary, secondary, fallback };
     }
 
@@ -853,7 +1250,7 @@
         .filter(lvl => !lvl.legacy && typeof lvl.position === "number")
         .sort((a, b) => a.position - b.position)
         .map(lvl => {
-          const rarity = classifyRarity(lvl.position);
+          const rarity = classifyByRank(lvl.position);
           const ytId = extractYtId(
             lvl.verification_video ||
             lvl.showcase_video ||
@@ -865,8 +1262,7 @@
             lvl.publisher?.global_name ||
             lvl.publisher?.username ||
             lvl.author ||
-            "AREDL";
-
+            "AREDL Creator";
           const levelId = lvl.level_id || lvl.id || "";
 
           return {
@@ -881,43 +1277,54 @@
         });
 
       allDemons = valid;
-      localStorage.setItem(CACHE_KEY, JSON.stringify({
-        updatedAt: Date.now(),
-        levels: allDemons
-      }));
-
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ updatedAt: Date.now(), levels: allDemons }));
       rebuildIndexes();
     }
 
     function rebuildIndexes() {
       demonMap = {};
-      poolsByRarity = { common: [], rare: [], epic: [], legendary: [], divine: [] };
+      poolsByRarity = { common: [], rare: [], epic: [], legendary: [], mythic: [], divine: [], transcendent: [], apex: [] };
 
       for (const d of allDemons) {
         demonMap[d.id] = d;
-        if (poolsByRarity[d.rarity]) {
-          poolsByRarity[d.rarity].push(d);
-        }
+        if (poolsByRarity[d.rarity]) poolsByRarity[d.rarity].push(d);
       }
 
-      totalCount.textContent = allDemons.length;
-      pull1Btn.disabled = allDemons.length === 0;
-      pull10Btn.disabled = allDemons.length === 0;
+      document.getElementById("totalCount").textContent = allDemons.length;
+      document.getElementById("pull1Btn").disabled = allDemons.length === 0;
+      document.getElementById("pull10Btn").disabled = allDemons.length === 0;
 
-      // Si el usuario ya tenía una tirada guardada, restaurarla al abrir la página
+      // Top 1 Spotlight (#28)
+      if (allDemons.length > 0) {
+        const top1 = allDemons[0];
+        const imgs = getImageSources(top1);
+        const banner = document.getElementById("top1Banner");
+        const top1Img = document.getElementById("top1Img");
+        top1Img.onerror = () => handleImgError(top1Img, imgs.secondary, imgs.fallback);
+        top1Img.src = imgs.primary;
+        document.getElementById("top1Title").textContent = `#1 ${top1.name} — by ${top1.creator}`;
+        banner.style.display = "flex";
+        banner.onclick = () => openInspectModal(top1.id);
+      }
+
       if (profile.lastPullIds && profile.lastPullIds.length > 0) {
         const restored = profile.lastPullIds.map(id => demonMap[id]).filter(Boolean);
         if (restored.length > 0) {
-          renderStageCards(restored, new Set(), false);
+          renderStageCards(restored.map(d => ({ demon: d, isDup: false, orbsEarned: 0 })), false);
         }
       } else if (allDemons.length > 0) {
-        stageArena.innerHTML = `<p style="color: var(--muted); text-align: center; font-size: 0.95rem;">Listo con <strong>${allDemons.length} Extreme Demons</strong> y sus miniaturas oficiales. ¡Presiona Tirar!</p>`;
+        document.getElementById("stageArena").innerHTML = `
+          <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
+            Database loaded with <strong>${allDemons.length} Extreme Demons</strong>. Press Summon to roll!
+          </p>`;
       }
 
       updateAllUI();
     }
 
     async function loadAREDL(forceRefresh = false) {
+      const syncBtn = document.getElementById("syncBtn");
+      const syncStatus = document.getElementById("syncStatus");
       syncBtn.disabled = true;
 
       if (!forceRefresh) {
@@ -925,109 +1332,176 @@
         if (cached && Array.isArray(cached.levels) && cached.levels.length > 0) {
           allDemons = cached.levels;
           rebuildIndexes();
-          syncStatus.textContent = `AREDL activa (${allDemons.length} niveles guardados)`;
+          syncStatus.textContent = `AREDL Active (${allDemons.length} Extreme Demons)`;
           syncBtn.disabled = false;
           return;
         }
       }
 
-      syncStatus.textContent = "Descargando lista y miniaturas AREDL...";
+      syncStatus.textContent = "Downloading AREDL Extreme Demons...";
       try {
         const res = await fetch(AREDL_API);
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
         const list = Array.isArray(data) ? data : (data.data || data.levels || []);
         processAndStoreLevels(list);
-        syncStatus.textContent = `AREDL sincronizada (${allDemons.length} niveles)`;
+        syncStatus.textContent = `AREDL Synced (${allDemons.length} Extreme Demons)`;
       } catch (err) {
-        syncStatus.textContent = "Error de red al sincronizar AREDL";
+        syncStatus.textContent = "Failed to sync AREDL (Check connection)";
       } finally {
         syncBtn.disabled = false;
       }
     }
 
+    // Weighted Roll with Active Luck Boost & Rank Scaling inside Tier
     function rollSingleDemon() {
-      const available = Object.keys(RARITY_CONFIG).filter(r => poolsByRarity[r].length > 0);
-      const totalWeight = available.reduce((sum, r) => sum + RARITY_CONFIG[r].weight, 0);
-      let roll = Math.random() * totalWeight;
-      let chosen = available[0];
+      const luckMult = profile.activeBoost ? profile.activeBoost.multiplier : 1;
+      const availableTiers = Object.keys(RARITY_TIERS).filter(t => poolsByRarity[t].length > 0);
 
-      for (const r of available) {
-        roll -= RARITY_CONFIG[r].weight;
+      const weights = availableTiers.map(t => {
+        let w = RARITY_TIERS[t].weight;
+        if (t !== "common" && t !== "rare") {
+          w *= luckMult;
+        }
+        return { tier: t, weight: w };
+      });
+
+      const totalWeight = weights.reduce((s, item) => s + item.weight, 0);
+      let roll = Math.random() * totalWeight;
+      let chosenTier = weights[0].tier;
+
+      for (const item of weights) {
+        roll -= item.weight;
         if (roll <= 0) {
-          chosen = r;
+          chosenTier = item.tier;
           break;
         }
       }
-      const pool = poolsByRarity[chosen];
-      return pool[Math.floor(Math.random() * pool.length)];
+
+      // Within the chosen tier, lower-ranked demons (higher rank number) are still slightly more common than top ones
+      const pool = poolsByRarity[chosenTier];
+      if (pool.length === 1) return pool[0];
+
+      const subWeights = pool.map((_, idx) => idx + 1); // index 0 is highest rank (harder), last index is lowest rank (easier)
+      const subTotal = subWeights.reduce((a, b) => a + b, 0);
+      let subRoll = Math.random() * subTotal;
+      for (let i = 0; i < pool.length; i++) {
+        subRoll -= subWeights[i];
+        if (subRoll <= 0) return pool[i];
+      }
+      return pool[pool.length - 1];
     }
 
-    function triggerScreenFlash(color) {
-      const flash = document.getElementById("flashOverlay");
-      flash.style.background = color;
-      flash.style.opacity = "0.35";
-      setTimeout(() => { flash.style.opacity = "0"; }, 120);
-    }
+    async function executePull(times) {
+      if (isRolling || allDemons.length === 0) return;
+      isRolling = true;
+      document.getElementById("pull1Btn").disabled = true;
+      document.getElementById("pull10Btn").disabled = true;
 
-    function executePull(times) {
-      if (allDemons.length === 0) return;
-      const results = [];
-      const newlyUnlocked = new Set();
+      const stageArena = document.getElementById("stageArena");
+
+      // Idea #1 & #4: GD Orb Opening Animation unless Skip is ON
+      if (!profile.settings.skip) {
+        playTone(220, "sine", 0.35, 0.14);
+        stageArena.innerHTML = `
+          <div class="orb-loader">
+            <div class="gd-orb"></div>
+            <span style="font-weight:800; color:#93c5fd; letter-spacing:0.5px;">SUMMONING EXTREME DEMONS...</span>
+          </div>
+        `;
+        await new Promise(r => setTimeout(r, 650));
+      }
+
+      const pullOutputs = [];
+      const tierPriority = ["common", "rare", "epic", "legendary", "mythic", "divine", "transcendent", "apex"];
+      let bestTierIndex = 0;
 
       for (let i = 0; i < times; i++) {
         const demon = rollSingleDemon();
-        results.push(demon);
-
-        if (!profile.owned[demon.id]) {
-          newlyUnlocked.add(demon.id);
-        }
+        const isDup = Boolean(profile.owned[demon.id]);
+        const baseOrbs = RARITY_TIERS[demon.rarity].orbs;
+        const orbsEarned = isDup ? Math.round(baseOrbs * 1.5) : baseOrbs;
 
         profile.pulls += 1;
+        profile.orbs += orbsEarned;
         profile.owned[demon.id] = (profile.owned[demon.id] || 0) + 1;
+        profile.rarityCounts[demon.rarity] = (profile.rarityCounts[demon.rarity] || 0) + 1;
 
-        profile.history.unshift({
-          id: demon.id,
-          time: Date.now()
-        });
+        if (profile.activeBoost) {
+          profile.activeBoost.remaining -= 1;
+          if (profile.activeBoost.remaining <= 0) {
+            profile.activeBoost = null;
+          }
+        }
+
+        const tIdx = tierPriority.indexOf(demon.rarity);
+        if (tIdx > bestTierIndex) bestTierIndex = tIdx;
+
+        pullOutputs.push({ demon, isDup, orbsEarned });
       }
 
-      if (profile.history.length > 100) {
-        profile.history = profile.history.slice(0, 100);
-      }
-
-      profile.lastPullIds = results.map(d => d.id);
+      profile.lastPullIds = pullOutputs.map(x => x.demon.id);
+      checkAchievements();
       saveProfile();
 
-      const hasDivine = results.some(d => d.rarity === "divine");
-      const hasLegendary = results.some(d => d.rarity === "legendary");
-      if (hasDivine) triggerScreenFlash("#ff2a6d");
-      else if (hasLegendary) triggerScreenFlash("#fbbf24");
+      const bestTier = tierPriority[bestTierIndex];
+      playSummonSFX(bestTier);
+      spawnParticles(RARITY_TIERS[bestTier].color, bestTierIndex >= 5 ? 85 : 35);
 
-      renderStageCards(results, newlyUnlocked, true);
+      // Screen Shake & Flash for Transcendent / Apex / Divine (#6)
+      if (bestTier === "apex" || bestTier === "transcendent" || bestTier === "divine") {
+        document.body.classList.remove("shake");
+        void document.body.offsetWidth;
+        document.body.classList.add("shake");
+
+        const flash = document.getElementById("flashOverlay");
+        flash.style.background = RARITY_TIERS[bestTier].color;
+        flash.style.opacity = "0.35";
+        setTimeout(() => { flash.style.opacity = "0"; }, 140);
+      }
+
+      renderStageCards(pullOutputs, !profile.settings.skip);
       updateAllUI();
+
+      isRolling = false;
+      document.getElementById("pull1Btn").disabled = false;
+      document.getElementById("pull10Btn").disabled = false;
     }
 
-    function renderStageCards(results, newlyUnlocked, animate) {
-      const isSingle = results.length === 1;
+    function renderStageCards(pullOutputs, animate) {
+      const stageArena = document.getElementById("stageArena");
+      const isSingle = pullOutputs.length === 1;
+
       stageArena.innerHTML = `
         <div class="results-grid ${isSingle ? "single-pull" : ""}">
-          ${results.map((d, idx) => {
+          ${pullOutputs.map((item, idx) => {
+            const d = item.demon;
             const imgs = getImageSources(d);
-            const isNew = newlyUnlocked.has(d.id);
-            const delay = animate ? `style="animation-delay: ${idx * 45}ms"` : `style="animation: none"`;
+            const isFav = profile.favorites.includes(d.id);
+            const delay = animate ? `style="animation-delay:${idx * 45}ms"` : `style="animation:none"`;
+            const statusBadge = item.orbsEarned > 0
+              ? (item.isDup
+                  ? `<span class="card-status-badge badge-dup">DUPLICATE</span>`
+                  : `<span class="card-status-badge badge-new">NEW!</span>`)
+              : "";
+            const orbBadge = item.orbsEarned > 0 ? `<span class="card-orbs-gain">+${item.orbsEarned} 💠</span>` : "";
+
             return `
               <article class="pull-card r-${d.rarity}" ${delay} onclick="openInspectModal('${d.id}')">
                 <div class="card-media">
                   <img src="${imgs.primary}" alt="${d.name}"
                     onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
                   <span class="card-rank-badge">#${d.rank}</span>
-                  ${isNew ? '<span class="card-new-badge">¡NUEVO!</span>' : ''}
+                  ${statusBadge}
+                  ${orbBadge}
                 </div>
                 <div class="card-body">
-                  <span class="rarity-pill rp-${d.rarity}">${RARITY_CONFIG[d.rarity].label}</span>
+                  <div class="card-top-meta">
+                    <span class="rarity-pill rp-${d.rarity}">${RARITY_TIERS[d.rarity].label}</span>
+                    <button class="fav-star ${isFav ? "active" : ""}" onclick="event.stopPropagation(); toggleFavorite('${d.id}')">★</button>
+                  </div>
                   <div class="card-title">${d.name}</div>
-                  <div class="card-creator">por ${d.creator}</div>
+                  <div class="card-creator">by ${d.creator}</div>
                 </div>
               </article>
             `;
@@ -1035,30 +1509,58 @@
         </div>
       `;
 
-      const best = results.reduce((prev, curr) => (curr.rank < prev.rank ? curr : prev), results[0]);
-      lastPullBadge.textContent = `Mejor: #${best.rank} ${best.name}`;
+      const best = pullOutputs.reduce((prev, curr) => (curr.demon.rank < prev.demon.rank ? curr : prev), pullOutputs[0]).demon;
+      document.getElementById("lastPullBadge").textContent = `Best Drop: #${best.rank} ${best.name}`;
+    }
+
+    function toggleFavorite(id) {
+      const idx = profile.favorites.indexOf(id);
+      if (idx >= 0) profile.favorites.splice(idx, 1);
+      else profile.favorites.push(id);
+      saveProfile();
+      updateAllUI();
+    }
+
+    function checkAchievements() {
+      for (const ach of ACHIEVEMENTS) {
+        if (!profile.unlockedAch.includes(ach.id) && ach.check(profile)) {
+          profile.unlockedAch.push(ach.id);
+          profile.orbs += ach.reward;
+        }
+      }
     }
 
     function updateAllUI() {
-      const ownedTotal = Object.keys(profile.owned).length;
-      const total = allDemons.length;
-      const pct = total > 0 ? ((ownedTotal / total) * 100).toFixed(1) : "0";
+      document.getElementById("orbsCount").textContent = profile.orbs.toLocaleString();
+      document.getElementById("pullsCount").textContent = profile.pulls.toLocaleString();
+      document.getElementById("ownedCount").textContent = Object.keys(profile.owned).length;
 
-      pullsCount.textContent = profile.pulls;
-      ownedCount.textContent = ownedTotal;
-      percentCount.textContent = `${pct}%`;
+      const totalPacks = Object.values(profile.packs).reduce((a, b) => a + b, 0);
+      document.getElementById("packBadge").textContent = totalPacks;
+      document.getElementById("achBadge").textContent = `${profile.unlockedAch.length}/${ACHIEVEMENTS.length}`;
+
+      // Active Luck Banner
+      const luckBanner = document.getElementById("activeLuckBanner");
+      if (profile.activeBoost && profile.activeBoost.remaining > 0) {
+        luckBanner.style.display = "flex";
+        document.getElementById("activeLuckText").textContent = `🍀 ${profile.activeBoost.name.toUpperCase()} ACTIVE!`;
+        document.getElementById("activeLuckRemaining").textContent = `${profile.activeBoost.remaining} rolls remaining`;
+      } else {
+        luckBanner.style.display = "none";
+      }
 
       renderDexGrid();
-      renderHistoryList();
     }
 
     function renderDexGrid() {
+      const dexGrid = document.getElementById("dexGrid");
+      dexGrid.className = `dex-grid ${profile.settings.listView ? "list-view" : ""}`;
+
       const filtered = allDemons.filter(d => {
         const count = profile.owned[d.id] || 0;
         if (currentFilter === "owned" && count === 0) return false;
-        if (["common", "rare", "epic", "legendary", "divine"].includes(currentFilter) && d.rarity !== currentFilter) {
-          return false;
-        }
+        if (currentFilter === "favorites" && !profile.favorites.includes(d.id)) return false;
+        if (RARITY_TIERS[currentFilter] && d.rarity !== currentFilter) return false;
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
           const matchName = d.name.toLowerCase().includes(q);
@@ -1069,21 +1571,23 @@
         return true;
       });
 
-      document.getElementById("filterSummary").textContent = `${filtered.length} niveles`;
+      document.getElementById("filterSummary").textContent = `Showing ${filtered.length} demons`;
 
       dexGrid.innerHTML = filtered.map(d => {
         const count = profile.owned[d.id] || 0;
         const imgs = getImageSources(d);
+        const isFav = profile.favorites.includes(d.id);
         return `
           <div class="dex-card ${count === 0 ? "locked" : ""}"
             style="border-bottom: 3px solid var(--c-${d.rarity});"
             onclick="openInspectModal('${d.id}')">
             <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
               onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+            ${count > 0 ? `<span class="copy-pill">x${count}</span>` : ""}
             <div class="dex-meta">
               <div class="dex-row1">
-                <span>#${d.rank} · ${RARITY_CONFIG[d.rarity].label}</span>
-                <span>${count > 0 ? "x" + count : "🔒"}</span>
+                <span>#${d.rank} · ${RARITY_TIERS[d.rarity].label}</span>
+                <span>${isFav ? "⭐" : (count === 0 ? "🔒" : "")}</span>
               </div>
               <div class="dex-name">${count > 0 ? d.name : "???"}</div>
             </div>
@@ -1092,118 +1596,255 @@
       }).join("");
     }
 
-    function renderHistoryList() {
-      if (!profile.history || profile.history.length === 0) {
-        historyList.innerHTML = `<p style="color:var(--muted); text-align:center; padding:20px;">Aún no has realizado ninguna tirada.</p>`;
-        return;
+    // Shop Logic
+    function openShopModal() {
+      document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
+      const list = document.getElementById("shopPacksList");
+      list.innerHTML = SHOP_PACKS.map(pack => `
+        <div class="pack-item">
+          <div>
+            <div style="font-weight:900; font-size:1rem; color:#fde68a;">🍀 ${pack.name}</div>
+            <div style="font-size:0.78rem; color:var(--muted); margin-top:2px;">${pack.desc}</div>
+            <div style="font-size:0.75rem; color:#93c5fd; margin-top:4px;">Owned in Inventory: ${profile.packs[pack.id] || 0}</div>
+          </div>
+          <button class="buy-btn" ${profile.orbs < pack.cost ? "disabled" : ""} onclick="buyPack('${pack.id}')">
+            💠 ${pack.cost.toLocaleString()}
+          </button>
+        </div>
+      `).join("");
+      document.getElementById("shopModal").classList.add("open");
+    }
+
+    function buyPack(packId) {
+      const pack = SHOP_PACKS.find(p => p.id === packId);
+      if (!pack || profile.orbs < pack.cost) return;
+      profile.orbs -= pack.cost;
+      profile.packs[packId] = (profile.packs[packId] || 0) + 1;
+      saveProfile();
+      playTone(660, "triangle", 0.25, 0.18);
+      updateAllUI();
+      openShopModal();
+    }
+
+    // Inventory Logic
+    function openInvModal() {
+      const packsArea = document.getElementById("invPacksArea");
+      const ownedPacks = SHOP_PACKS.filter(p => (profile.packs[p.id] || 0) > 0);
+
+      if (ownedPacks.length === 0) {
+        packsArea.innerHTML = `<p style="font-size:0.82rem; color:var(--muted); background:var(--bg-card); padding:12px; border-radius:10px;">No Luck Packs saved. Buy them in the Orb Shop!</p>`;
+      } else {
+        packsArea.innerHTML = ownedPacks.map(p => `
+          <div class="pack-item">
+            <div>
+              <strong style="color:#fde68a;">🍀 ${p.name} (x${profile.packs[p.id]})</strong>
+              <p style="font-size:0.76rem; color:var(--muted);">${p.desc}</p>
+            </div>
+            <button class="buy-btn" onclick="activatePack('${p.id}')">Activate</button>
+          </div>
+        `).join("");
       }
 
-      historyList.innerHTML = profile.history.map(entry => {
-        const d = demonMap[entry.id];
-        if (!d) return "";
-        const imgs = getImageSources(d);
-        const timeStr = new Date(entry.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        return `
-          <div class="hist-row" onclick="openInspectModal('${d.id}')" style="border-left: 3px solid var(--c-${d.rarity});">
-            <img class="hist-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
-              onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
-            <div style="flex:1; min-width:0;">
-              <div style="font-weight:800; font-size:0.92rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                #${d.rank} - ${d.name}
-              </div>
-              <div style="font-size:0.76rem; color:var(--muted);">
-                ${RARITY_CONFIG[d.rarity].label} · por ${d.creator}
+      const ownedIds = Object.keys(profile.owned);
+      document.getElementById("invOwnedCount").textContent = ownedIds.length;
+      const invGrid = document.getElementById("invDemonsGrid");
+
+      const ownedDemons = ownedIds
+        .map(id => demonMap[id])
+        .filter(Boolean)
+        .sort((a, b) => a.rank - b.rank);
+
+      if (ownedDemons.length === 0) {
+        invGrid.innerHTML = `<p style="font-size:0.82rem; color:var(--muted); grid-column:1/-1;">You haven't unlocked any Extreme Demons yet.</p>`;
+      } else {
+        invGrid.innerHTML = ownedDemons.map(d => {
+          const imgs = getImageSources(d);
+          return `
+            <div class="dex-card" style="border-bottom:3px solid var(--c-${d.rarity});" onclick="closeModal('invModal'); openInspectModal('${d.id}')">
+              <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}"
+                onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
+              <span class="copy-pill">x${profile.owned[d.id]}</span>
+              <div class="dex-meta">
+                <div class="dex-row1"><span>#${d.rank}</span><span>${RARITY_TIERS[d.rarity].label}</span></div>
+                <div class="dex-name">${d.name}</div>
               </div>
             </div>
-            <span style="font-size:0.74rem; color:var(--muted);">${timeStr}</span>
+          `;
+        }).join("");
+      }
+
+      document.getElementById("invModal").classList.add("open");
+    }
+
+    function activatePack(packId) {
+      const pack = SHOP_PACKS.find(p => p.id === packId);
+      if (!pack || (profile.packs[packId] || 0) <= 0) return;
+      profile.packs[packId] -= 1;
+      profile.activeBoost = {
+        multiplier: pack.multiplier,
+        remaining: pack.rolls,
+        name: pack.name
+      };
+      saveProfile();
+      playTone(880, "sine", 0.3, 0.2);
+      closeModal("invModal");
+      updateAllUI();
+    }
+
+    // Achievements & Stats Modals
+    function openAchModal() {
+      document.getElementById("achList").innerHTML = ACHIEVEMENTS.map(a => {
+        const unlocked = profile.unlockedAch.includes(a.id);
+        return `
+          <div class="ach-row ${unlocked ? "done" : ""}">
+            <div>
+              <div style="font-weight:800; font-size:0.92rem;">${unlocked ? "✅" : "🔒"} ${a.title}</div>
+              <div style="font-size:0.78rem; color:var(--muted);">${a.desc}</div>
+            </div>
+            <span style="font-weight:900; font-size:0.8rem; color:var(--orb);">+${a.reward.toLocaleString()} 💠</span>
           </div>
         `;
       }).join("");
+      document.getElementById("achModal").classList.add("open");
     }
 
-    // Modal de inspección
+    function openStatsModal() {
+      const rows = Object.keys(RARITY_TIERS).reverse().map(tier => {
+        const count = profile.rarityCounts[tier] || 0;
+        const pct = profile.pulls > 0 ? ((count / profile.pulls) * 100).toFixed(2) : "0.00";
+        return `
+          <div class="ach-row">
+            <span class="rarity-pill rp-${tier}">${RARITY_TIERS[tier].label}</span>
+            <strong>${count.toLocaleString()} drops (${pct}%)</strong>
+          </div>
+        `;
+      }).join("");
+      document.getElementById("statsContent").innerHTML = rows;
+      document.getElementById("statsModal").classList.add("open");
+    }
+
+    // Level Inspect Modal (#24 Elegant Links)
     function openInspectModal(id) {
       const d = demonMap[id];
       if (!d) return;
       const count = profile.owned[d.id] || 0;
+      const isFav = profile.favorites.includes(d.id);
       const imgs = getImageSources(d);
 
-      const modal = document.getElementById("inspectModal");
-      const modalCard = document.getElementById("modalCard");
-      const modalImg = document.getElementById("modalImg");
-      const modalRarity = document.getElementById("modalRarity");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalCreator = document.getElementById("modalCreator");
-      const modalCount = document.getElementById("modalCount");
-      const modalYtLink = document.getElementById("modalYtLink");
+      const box = document.getElementById("inspectBox");
+      const img = document.getElementById("modalImg");
+      box.style.border = `2px solid var(--c-${d.rarity})`;
+      img.dataset.triedSecondary = "";
+      img.onerror = () => handleImgError(img, imgs.secondary, imgs.fallback);
+      img.src = imgs.primary;
 
-      modalCard.style.borderColor = `var(--c-${d.rarity})`;
-      modalImg.dataset.triedSecondary = "";
-      modalImg.onerror = () => handleImgError(modalImg, imgs.secondary, imgs.fallback);
-      modalImg.src = imgs.primary;
+      const rarEl = document.getElementById("modalRarity");
+      rarEl.className = `rarity-pill rp-${d.rarity}`;
+      rarEl.textContent = `${RARITY_TIERS[d.rarity].label} · RANK #${d.rank}`;
 
-      modalRarity.className = `rarity-pill rp-${d.rarity}`;
-      modalRarity.textContent = `${RARITY_CONFIG[d.rarity].label} · Top #${d.rank}`;
-      modalTitle.textContent = count > 0 ? d.name : `Nivel Bloqueado (#${d.rank})`;
-      modalCreator.textContent = count > 0 ? `Publicado por ${d.creator} · ID: ${d.levelId}` : "Consíguelo en el Gacha para revelar su nombre";
-      modalCount.textContent = count > 0 ? `Tienes ${count} copia(s) en tu inventario guardado.` : "Aún no lo has desbloqueado.";
+      const favBtn = document.getElementById("modalFavBtn");
+      favBtn.className = `fav-star ${isFav ? "active" : ""}`;
+      favBtn.onclick = () => {
+        toggleFavorite(d.id);
+        openInspectModal(d.id);
+      };
 
-      if (d.yt && count > 0) {
-        modalYtLink.style.display = "block";
-        modalYtLink.href = `https://www.youtube.com/watch?v=${d.yt}`;
+      document.getElementById("modalTitle").textContent = count > 0 ? d.name : `Locked Demon (#${d.rank})`;
+      document.getElementById("modalCreator").textContent = count > 0
+        ? `Published by ${d.creator} · Level ID: ${d.levelId}`
+        : "Summon this demon in the Gacha to reveal its full details";
+      document.getElementById("modalCount").textContent = count > 0
+        ? `Copies owned: x${count} · Reward value: ${RARITY_TIERS[d.rarity].orbs.toLocaleString()} Orbs`
+        : "Status: Not unlocked yet";
+
+      const linksDiv = document.getElementById("modalLinks");
+      if (count > 0) {
+        linksDiv.style.display = "grid";
+        document.getElementById("linkYt").href = d.yt
+          ? `https://www.youtube.com/watch?v=${d.yt}`
+          : `https://www.youtube.com/results?search_query=${encodeURIComponent(d.name + " geometry dash verification")}`;
+        document.getElementById("linkAredl").href = `https://aredl.net/list/${d.levelId}`;
+        document.getElementById("linkGdb").href = `https://gdbrowser.com/${d.levelId}`;
       } else {
-        modalYtLink.style.display = "none";
+        linksDiv.style.display = "none";
       }
 
-      modal.classList.add("open");
+      document.getElementById("inspectModal").classList.add("open");
     }
 
-    document.getElementById("closeModalBtn").addEventListener("click", () => {
-      document.getElementById("inspectModal").classList.remove("open");
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    document.querySelectorAll(".modal-backdrop").forEach(m => {
+      m.addEventListener("click", e => {
+        if (e.target === m) m.classList.remove("open");
+      });
     });
 
-    document.getElementById("inspectModal").addEventListener("click", (e) => {
-      if (e.target.id === "inspectModal") {
-        e.target.classList.remove("open");
-      }
-    });
+    // Event Listeners
+    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
+    document.getElementById("pull10Btn").addEventListener("click", () => executePull(10));
+    document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
+    document.getElementById("openShopBtn").addEventListener("click", openShopModal);
+    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
+    document.getElementById("openAchBtn").addEventListener("click", openAchModal);
+    document.getElementById("openStatsBtn").addEventListener("click", openStatsModal);
 
-    // Eventos principales
-    pull1Btn.addEventListener("click", () => executePull(1));
-    pull10Btn.addEventListener("click", () => executePull(10));
-    syncBtn.addEventListener("click", () => loadAREDL(true));
+    // Toggles
+    const soundBtn = document.getElementById("soundToggleBtn");
+    const skipBtn = document.getElementById("skipToggleBtn");
+    const viewBtn = document.getElementById("viewModeBtn");
 
-    resetBtn.addEventListener("click", () => {
-      if (!confirm("¿Seguro que quieres borrar todo tu inventario e historial guardado?")) return;
-      profile = { pulls: 0, owned: {}, lastPullIds: [], history: [] };
+    function syncToggleButtons() {
+      soundBtn.textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+      soundBtn.classList.toggle("active-toggle", profile.settings.sfx);
+
+      skipBtn.textContent = profile.settings.skip ? "⏩ Skip: ON" : "⏩ Skip: OFF";
+      skipBtn.classList.toggle("active-toggle", profile.settings.skip);
+
+      viewBtn.textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
+    }
+
+    soundBtn.addEventListener("click", () => {
+      profile.settings.sfx = !profile.settings.sfx;
       saveProfile();
-      stageArena.innerHTML = `<p style="color: var(--muted); text-align: center; font-size: 0.95rem;">Progreso borrado. ¡Vuelve a tirar!</p>`;
-      lastPullBadge.textContent = "Listo para invocar";
+      syncToggleButtons();
+    });
+
+    skipBtn.addEventListener("click", () => {
+      profile.settings.skip = !profile.settings.skip;
+      saveProfile();
+      syncToggleButtons();
+    });
+
+    viewBtn.addEventListener("click", () => {
+      profile.settings.listView = !profile.settings.listView;
+      saveProfile();
+      syncToggleButtons();
+      renderDexGrid();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!confirm("Reset all your Orbs, Packs, Unlocked Demons, and Achievements?")) return;
+      profile = {
+        orbs: 500,
+        pulls: 0,
+        owned: {},
+        favorites: [],
+        packs: { luck10: 0, luck20: 0, luck50: 0 },
+        activeBoost: null,
+        lastPullIds: [],
+        unlockedAch: [],
+        rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+        settings: profile.settings
+      };
+      saveProfile();
+      document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Summon to begin!</p>`;
       updateAllUI();
     });
 
-    // Pestañas Índice / Historial
-    const tabDexBtn = document.getElementById("tabDexBtn");
-    const tabHistBtn = document.getElementById("tabHistBtn");
-    const dexSection = document.getElementById("dexSection");
-    const histSection = document.getElementById("histSection");
-
-    tabDexBtn.addEventListener("click", () => {
-      tabDexBtn.classList.add("active");
-      tabHistBtn.classList.remove("active");
-      dexSection.style.display = "block";
-      histSection.style.display = "none";
-    });
-
-    tabHistBtn.addEventListener("click", () => {
-      tabHistBtn.classList.add("active");
-      tabDexBtn.classList.remove("active");
-      histSection.style.display = "block";
-      dexSection.style.display = "none";
-    });
-
-    // Filtros y búsqueda
-    document.getElementById("filterBar").addEventListener("click", (e) => {
+    document.getElementById("filterBar").addEventListener("click", e => {
       if (!e.target.classList.contains("f-pill")) return;
       document.querySelectorAll(".f-pill").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
@@ -1211,11 +1852,12 @@
       renderDexGrid();
     });
 
-    searchInput.addEventListener("input", (e) => {
+    document.getElementById("searchInput").addEventListener("input", e => {
       searchQuery = e.target.value.trim();
       renderDexGrid();
     });
 
+    syncToggleButtons();
     loadAREDL(false);
   </script>
 </body>
