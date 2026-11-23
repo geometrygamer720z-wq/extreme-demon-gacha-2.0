@@ -100,6 +100,16 @@
       to { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
+    @keyframes tokenSoftGlow {
+      0% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); border-color: rgba(250, 204, 21, 0.45); }
+      45% { box-shadow: 0 0 22px rgba(250, 204, 21, 0.85); border-color: #fde047; }
+      100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); border-color: rgba(250, 204, 21, 0.45); }
+    }
+
+    .hud-pill.tokens-pill.token-gain-glow {
+      animation: tokenSoftGlow 1.1s var(--ease-fresh);
+    }
+
     .micro-tag {
       font-size: 0.62rem;
       opacity: 0.44;
@@ -209,7 +219,7 @@
       align-items: flex-start;
       border-radius: 14px;
       gap: 4px;
-      min-width: 178px;
+      min-width: 184px;
     }
     .hud-pill.tokens-pill strong { color: var(--token); }
 
@@ -545,6 +555,39 @@
 
     .room-card:hover { transform: translate3d(0, -1px, 0); border-color: rgba(0, 245, 212, 0.35); }
 
+    .room-badges {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .room-status-badge {
+      font-size: 0.68rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-offers {
+      background: rgba(0, 245, 212, 0.16);
+      border: 1px solid rgba(0, 245, 212, 0.45);
+      color: #5eead4;
+    }
+
+    .badge-empty-room {
+      background: rgba(148, 163, 184, 0.14);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #cbd5e1;
+    }
+
+    .badge-expiring {
+      background: rgba(239, 68, 68, 0.22);
+      border: 1px solid rgba(248, 113, 113, 0.6);
+      color: #fca5a5;
+    }
+
     .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; padding: 13px; }
 
@@ -592,7 +635,16 @@
     }
 
     .mini-num-input:focus { border-color: var(--primary); }
+    .mini-num-input.invalid-currency { border-color: #ef4444; background: rgba(239, 68, 68, 0.14); }
     .mini-num-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .currency-error-note {
+      font-size: 0.72rem;
+      color: #fca5a5;
+      font-weight: 800;
+      margin-top: 6px;
+      min-height: 16px;
+    }
 
     .trade-slots {
       display: flex;
@@ -910,6 +962,7 @@
     .badge-new { background: linear-gradient(135deg, #22c55e, #15803d); color: #fff; box-shadow: 0 0 12px rgba(34, 197, 94, 0.65); border: 1px solid rgba(187, 247, 208, 0.6); }
     .badge-dup { background: rgba(245, 158, 11, 0.92); color: #090b10; }
     .badge-troll { background: linear-gradient(135deg, #f97316, #dc2626); color: #fff; }
+    .badge-pity { background: linear-gradient(135deg, #a855f7, #ec4899); color: #fff; }
 
     .card-orbs-gain {
       position: absolute;
@@ -956,7 +1009,7 @@
       background: rgba(8, 11, 20, 0.82);
       border-top: 1px solid var(--border);
       display: grid;
-      grid-template-columns: 1fr 1fr auto auto;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
     }
 
@@ -965,16 +1018,17 @@
       border: 1px solid var(--border);
       background: #1a2238;
       color: #fff;
-      padding: 13px 16px;
+      padding: 13px 14px;
       min-height: var(--touch-min);
       border-radius: 13px;
       font-weight: 800;
-      font-size: 0.94rem;
+      font-size: 0.9rem;
       transition: transform 0.14s var(--ease-fresh), background 0.14s var(--ease-fresh), border-color 0.14s var(--ease-fresh);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      text-align: center;
     }
 
     .btn-main:hover:not(:disabled) { transform: translate3d(0, -1px, 0); border-color: var(--border-bright); }
@@ -982,7 +1036,8 @@
     .btn-main:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-roll-1 { background: linear-gradient(135deg, #2563eb, #3b82f6); border: none; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.36); }
-    .btn-roll-15 { background: linear-gradient(135deg, #9333ea, #ff2a6d); border: none; box-shadow: 0 6px 22px rgba(255, 42, 109, 0.36); }
+    .btn-roll-5 { background: linear-gradient(135deg, #d97706, #f59e0b); color: #090c14; border: none; box-shadow: 0 6px 22px rgba(245, 158, 11, 0.36); }
+    .btn-roll-orb { background: linear-gradient(135deg, #0891b2, #00e5ff); color: #061018; border: none; box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3); }
     .btn-danger { color: #fca5a5; border-color: rgba(239, 68, 68, 0.35); }
 
     .dex-panel {
@@ -1219,6 +1274,8 @@
       font-weight: 900;
       margin-bottom: 10px;
       color: #e2e8f0;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .inv-packs-grid {
@@ -1385,13 +1442,17 @@
     .link-aredl { background: linear-gradient(135deg, #7c3aed, #4c1d95); }
     .link-gdb { background: linear-gradient(135deg, #0284c7, #0369a1); }
 
+    @media (max-width: 920px) {
+      .summon-controls { grid-template-columns: repeat(2, 1fr); }
+      .summon-controls .btn-danger:last-child { grid-column: 1 / -1; }
+    }
+
     @media (max-width: 780px) {
       .quick-nav { grid-template-columns: repeat(2, 1fr); }
       .trade-sides { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
-      .summon-controls { grid-template-columns: 1fr 1fr; }
       .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .results-grid.single-pull { grid-template-columns: 1fr; }
       .inv-demons-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -1416,7 +1477,7 @@
     </div>
 
     <div class="hud-group">
-      <div class="hud-pill tokens-pill">
+      <div class="hud-pill tokens-pill" id="tokensHudPill">
         <div style="display:flex; justify-content:space-between; width:100%; gap:8px;">
           <span>🪙 Tokens: <strong id="tokensCount">0</strong></span>
           <span>⏳ <strong id="tokenTimerHud">05:00</strong></span>
@@ -1461,7 +1522,7 @@
           <button class="icon-btn" id="backToShopListBtn" style="display:none;">← Shop Items</button>
           <div>
             <h2 style="font-size:1.28rem; font-weight:900; letter-spacing:-0.3px;">🛒 Orb Shop</h2>
-            <span style="font-size:0.76rem; color:var(--muted);">Luck surges & No Duplicate shields</span>
+            <span style="font-size:0.76rem; color:var(--muted);">Luck surges, Token boosters, Token packs & No Duplicate shields</span>
           </div>
         </div>
         <div class="shop-balance-chip" id="shopOrbsBalance">💠 0 Orbs</div>
@@ -1489,7 +1550,7 @@
       </div>
 
       <div class="notice-box" id="traderBackendNotice">
-        <strong>Firebase Status:</strong> Connected to <code>https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com</code>. Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
+        <strong>Trade Rules:</strong> Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
       </div>
 
       <div id="traderLobbyView">
@@ -1550,7 +1611,8 @@
                 <input type="number" min="0" class="mini-num-input" id="myOfferTokensInput" value="0" />
               </div>
             </div>
-            <span style="display:block; margin-top:8px; font-size:0.72rem; color:var(--muted);">Tap owned demon to add/remove (max 10). Tap slot or ✓/✕:</span>
+            <div class="currency-error-note" id="myCurrencyError"></div>
+            <span style="display:block; margin-top:4px; font-size:0.72rem; color:var(--muted);">Tap owned demon to add/remove (max 10). Tap slot or ✓/✕:</span>
             <div class="trade-picker-grid" id="myOwnedPicker"></div>
           </div>
 
@@ -1570,7 +1632,8 @@
                 <input type="number" min="0" class="mini-num-input" id="theirOfferTokensInput" value="0" />
               </div>
             </div>
-            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to add to incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-top:8px; margin-bottom:6px;" />
+            <div class="currency-error-note"></div>
+            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to add to incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-top:4px; margin-bottom:6px;" />
             <div class="trade-picker-grid" id="theirAredlPicker"></div>
           </div>
         </div>
@@ -1617,6 +1680,10 @@
             <span>🛡️ NO DUPLICATE SHIELD ACTIVE (No duplicate demons!)</span>
             <span id="activeNoDupTimer">01:30</span>
           </div>
+          <div class="alert-strip active-luck-banner" id="activeTokenBoosterBanner" style="display:none;">
+            <span>⚡ TOKEN BOOSTER 3X ACTIVE (Fast recharge in active tab)</span>
+            <span id="activeTokenBoosterTimer">10:00</span>
+          </div>
           <div class="alert-strip warning-banner" id="tokenShortageBanner" style="display:none;">
             <span id="tokenShortageText">Not enough tokens.</span>
             <strong id="tokenShortageTimer">05:00</strong>
@@ -1630,8 +1697,9 @@
         </div>
 
         <div class="summon-controls">
-          <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Summon x1 (1 🪙)</button>
-          <button class="btn-main btn-roll-15" id="pull15Btn" disabled>🔥 Summon x15 (15 🪙)</button>
+          <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Roll x1 (1 🪙)</button>
+          <button class="btn-main btn-roll-5" id="pull5Btn" disabled>🔥 Roll x5 (5 🪙)</button>
+          <button class="btn-main btn-roll-orb" id="pullOrbBtn" disabled>💠 Orb Roll (10K 💠)</button>
           <button class="btn-main" id="syncBtn">🔄 Sync AREDL</button>
           <button class="btn-main btn-danger" id="resetBtn">🗑️ Reset</button>
         </div>
@@ -1702,7 +1770,7 @@
 
       <div class="inv-section-title">
         <span>🔥 Your Unlocked Extreme Demons (<span id="invOwnedCount">0</span>)</span>
-        <span class="micro-tag">COLLECTION</span>
+        <span style="font-size:0.78rem; color:#fbbf24; font-weight:800;">Total Duplicates: <strong id="invTotalDuplicatesCount">0</strong></span>
       </div>
       <div id="invDemonsGrid" class="inv-demons-grid"></div>
     </div>
@@ -1756,7 +1824,7 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v12";
+    const SAVE_KEY = "aredl_gacha_en_save_v13";
     const STARTER_GRANTED_KEY = "aredl_gacha_starter_granted_v2";
 
     const MAX_TRADE_ROOMS = 10;
@@ -1765,13 +1833,23 @@
     const NO_DUP_DURATION_MS = 90000;
     const TOKEN_INTERVAL_MS = 300000;
     const TOKEN_REWARD_AMOUNT = 10;
-    const TOKEN_CAP = 100;
     const STARTER_TOKENS = 5;
     const ROOM_LIFETIME_MS = 600000;
     const ROOM_WARNING_MS = 30000;
     const TRADE_CONFIRM_MS = 5000;
     const COMMON_TROLL_CHANCE = 0.008;
     const EXTRA_DUP_CHANCE = 0.02;
+
+    const SINGLE_PITY_THRESHOLD = 20;
+    const SINGLE_PITY_REWARD_TOKENS = 5;
+    const SINGLE_PITY_REWARD_ORBS = 5000;
+    const SINGLE_PITY_COST_ORBS = 10000;
+    const TOKEN_PACK_COST_ORBS = 5000;
+    const TOKEN_PACK_AMOUNT = 5;
+    const TOKEN_BOOSTER_DURATION_MS = 600000; // 10 minutes
+    const TOKEN_BOOSTER_COST_ORBS = 22000;
+    const TOKEN_BOOSTER_RATE_MULT = 3;
+    const DAILY_STREAK_TARGET = 7;
 
     const TRADE_BACKEND_URL = "https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com";
 
@@ -1808,6 +1886,24 @@
     }
 
     const SHOP_ITEMS = [
+      {
+        id: "token_pack_5",
+        kind: "token_pack",
+        tokensGrant: TOKEN_PACK_AMOUNT,
+        name: "5 Summon Tokens Pack",
+        cost: TOKEN_PACK_COST_ORBS,
+        shortDesc: "Adds 5 Summon Tokens straight to your balance.",
+        effectDesc: "Instantly grants +5 Summon Tokens (no cap limit) for 5,000 Orbs."
+      },
+      {
+        id: "token_booster_10m",
+        kind: "token_booster",
+        durationMs: TOKEN_BOOSTER_DURATION_MS,
+        cost: TOKEN_BOOSTER_COST_ORBS,
+        name: "Token Booster (10 Min)",
+        shortDesc: "3x token recharge speed for 10 minutes while active.",
+        effectDesc: "Once activated from Inventory, speeds up token generation by 3x for 10 full minutes whenever this tab is active."
+      },
       {
         id: "no_duplicate",
         kind: "nodup",
@@ -1866,26 +1962,46 @@
       return cleaned || fallback;
     }
 
+    function getLocalDayKey(ts = Date.now()) {
+      const d = new Date(ts);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function getPreviousDayKey(dayKey) {
+      const parts = String(dayKey).split("-").map(Number);
+      const dt = new Date(parts[0], (parts[1] || 1) - 1, (parts[2] || 1) - 1);
+      return getLocalDayKey(dt.getTime());
+    }
+
     let isPageActiveForTokens = !document.hidden;
     let lastTokenSampleMs = Date.now();
     let starterBonusJustAwarded = false;
+
+    // Session-only pity counter for x1 rolls (resets to 0 whenever page is exited/reloaded)
+    let sessionSingleUnluckyStreak = 0;
 
     function loadSafeProfile() {
       const defaults = {
         displayName: "Player",
         tokens: 0,
         tokenCycleElapsedMs: 0,
+        tokenBoosterUntil: 0,
         orbs: 500,
         pulls: 0,
         tradesCompleted: 0,
         owned: {},
         favorites: [],
-        packs: { no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+        packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
         activeBoost: null,
         noDupUntil: 0,
         lastPullIds: [],
         unlockedAch: [],
         tradeRooms: [],
+        streakDays: 0,
+        lastRollDayKey: "",
         rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
         settings: { sfx: true, skip: false, listView: false }
       };
@@ -1899,21 +2015,24 @@
           if (parsed && typeof parsed === "object") {
             profileObj = {
               displayName: sanitizeName(parsed.displayName, "Player"),
-              tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.min(TOKEN_CAP, Math.floor(parsed.tokens))) : 0,
+              tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.floor(parsed.tokens)) : 0,
               tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
                 ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
                 : 0,
+              tokenBoosterUntil: typeof parsed.tokenBoosterUntil === "number" && Number.isFinite(parsed.tokenBoosterUntil) ? Math.max(0, parsed.tokenBoosterUntil) : 0,
               orbs: typeof parsed.orbs === "number" && Number.isFinite(parsed.orbs) ? Math.max(0, Math.floor(parsed.orbs)) : 500,
               pulls: typeof parsed.pulls === "number" && Number.isFinite(parsed.pulls) ? Math.max(0, Math.floor(parsed.pulls)) : 0,
               tradesCompleted: typeof parsed.tradesCompleted === "number" && Number.isFinite(parsed.tradesCompleted) ? Math.max(0, Math.floor(parsed.tradesCompleted)) : 0,
               owned: parsed.owned && typeof parsed.owned === "object" ? parsed.owned : {},
               favorites: Array.isArray(parsed.favorites) ? parsed.favorites.map(String) : [],
-              packs: Object.assign({ no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, parsed.packs || {}),
+              packs: Object.assign({ token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, parsed.packs || {}),
               activeBoost: parsed.activeBoost && typeof parsed.activeBoost === "object" ? parsed.activeBoost : null,
               noDupUntil: typeof parsed.noDupUntil === "number" ? parsed.noDupUntil : 0,
               lastPullIds: Array.isArray(parsed.lastPullIds) ? parsed.lastPullIds.map(String) : [],
               unlockedAch: Array.isArray(parsed.unlockedAch) ? parsed.unlockedAch.map(String) : [],
               tradeRooms: Array.isArray(parsed.tradeRooms) ? parsed.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [],
+              streakDays: typeof parsed.streakDays === "number" && Number.isFinite(parsed.streakDays) ? Math.max(0, Math.floor(parsed.streakDays)) : 0,
+              lastRollDayKey: typeof parsed.lastRollDayKey === "string" ? parsed.lastRollDayKey : "",
               rarityCounts: Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, parsed.rarityCounts || {}),
               settings: Object.assign({ sfx: true, skip: false, listView: false }, parsed.settings || {})
             };
@@ -1925,7 +2044,7 @@
         const alreadyGranted = localStorage.getItem(STARTER_GRANTED_KEY) === "1";
         if (!alreadyGranted) {
           localStorage.setItem(STARTER_GRANTED_KEY, "1");
-          profileObj.tokens = Math.min(TOKEN_CAP, (Number(profileObj.tokens) || 0) + STARTER_TOKENS);
+          profileObj.tokens = (Number(profileObj.tokens) || 0) + STARTER_TOKENS;
           starterBonusJustAwarded = true;
         }
       } catch (_) {}
@@ -1981,11 +2100,32 @@
       }, 2400);
     }
 
+    function triggerTokenSoftGlow() {
+      const pill = document.getElementById("tokensHudPill");
+      if (!pill) return;
+      pill.classList.remove("token-gain-glow");
+      void pill.offsetWidth;
+      pill.classList.add("token-gain-glow");
+    }
+
+    function getBoosterActiveMs(fromTs, toTs) {
+      const until = Number(profile.tokenBoosterUntil) || 0;
+      if (until <= fromTs || toTs <= fromTs) return 0;
+      return Math.max(0, Math.min(toTs, until) - fromTs);
+    }
+
+    function computeElapsedDeltaMs(fromTs, toTs) {
+      if (toTs <= fromTs) return 0;
+      const boostedMs = getBoosterActiveMs(fromTs, toTs);
+      const normalMs = Math.max(0, (toTs - fromTs) - boostedMs);
+      return normalMs + boostedMs * TOKEN_BOOSTER_RATE_MULT;
+    }
+
     function computeCurrentCycleElapsedMs(now = Date.now()) {
       let elapsed = Number(profile.tokenCycleElapsedMs) || 0;
       if (!Number.isFinite(elapsed) || elapsed < 0) elapsed = 0;
       if (isPageActiveForTokens && !document.hidden) {
-        elapsed += Math.max(0, now - lastTokenSampleMs);
+        elapsed += computeElapsedDeltaMs(lastTokenSampleMs, now);
       }
       return elapsed;
     }
@@ -1993,7 +2133,7 @@
     function handleVisibilityTransition(now = Date.now()) {
       const nextActive = !document.hidden;
       if (isPageActiveForTokens && !nextActive) {
-        const delta = Math.max(0, now - lastTokenSampleMs);
+        const delta = computeElapsedDeltaMs(lastTokenSampleMs, now);
         profile.tokenCycleElapsedMs = Math.min(TOKEN_INTERVAL_MS - 1, (Number(profile.tokenCycleElapsedMs) || 0) + delta);
         saveProfile();
       }
@@ -2006,19 +2146,22 @@
       let elapsedInCycle = computeCurrentCycleElapsedMs(now);
       lastTokenSampleMs = now;
 
+      if ((Number(profile.tokenBoosterUntil) || 0) > 0 && now >= Number(profile.tokenBoosterUntil)) {
+        profile.tokenBoosterUntil = 0;
+      }
+
       if (elapsedInCycle >= TOKEN_INTERVAL_MS) {
         const cycles = Math.floor(elapsedInCycle / TOKEN_INTERVAL_MS);
         elapsedInCycle = elapsedInCycle % TOKEN_INTERVAL_MS;
         profile.tokenCycleElapsedMs = elapsedInCycle;
 
         const gained = cycles * TOKEN_REWARD_AMOUNT;
-        const prevTokens = profile.tokens;
-        profile.tokens = Math.min(TOKEN_CAP, profile.tokens + gained);
-        const actualGain = profile.tokens - prevTokens;
+        profile.tokens += gained;
         saveProfile();
         uiDirty = true;
-        if (actualGain > 0) {
-          showToast(`+${actualGain} Tokens!`);
+        if (gained > 0) {
+          triggerTokenSoftGlow();
+          showToast(`+${gained} Tokens!`);
         }
       } else {
         profile.tokenCycleElapsedMs = elapsedInCycle;
@@ -2028,7 +2171,9 @@
     function getMsUntilNextTokens() {
       const elapsed = computeCurrentCycleElapsedMs(Date.now());
       const clamped = Math.max(0, Math.min(TOKEN_INTERVAL_MS, elapsed));
-      return Math.max(0, TOKEN_INTERVAL_MS - clamped);
+      const remainingWeighted = Math.max(0, TOKEN_INTERVAL_MS - clamped);
+      const isBoostedNow = isPageActiveForTokens && !document.hidden && Date.now() < (Number(profile.tokenBoosterUntil) || 0);
+      return isBoostedNow ? Math.ceil(remainingWeighted / TOKEN_BOOSTER_RATE_MULT) : remainingWeighted;
     }
 
     function formatClockMMSS(msLeft) {
@@ -2040,6 +2185,30 @@
 
     function isNoDuplicateActive() {
       return Date.now() < (Number(profile.noDupUntil) || 0);
+    }
+
+    function isTokenBoosterActive() {
+      return Date.now() < (Number(profile.tokenBoosterUntil) || 0);
+    }
+
+    function recordDailyRollStreak() {
+      const todayKey = getLocalDayKey(Date.now());
+      if (profile.lastRollDayKey === todayKey) return;
+
+      if (profile.lastRollDayKey === getPreviousDayKey(todayKey)) {
+        profile.streakDays = (Number(profile.streakDays) || 0) + 1;
+      } else {
+        profile.streakDays = 1;
+      }
+      profile.lastRollDayKey = todayKey;
+
+      if (profile.streakDays >= DAILY_STREAK_TARGET) {
+        profile.streakDays = 0;
+        profile.tokens += 15;
+        profile.orbs += 15000;
+        triggerTokenSoftGlow();
+        showToast("7-Day Roll Streak complete! +15 🪙 & +15,000 💠");
+      }
     }
 
     let audioCtx = null;
@@ -2302,12 +2471,12 @@
       if (profile.lastPullIds && profile.lastPullIds.length > 0) {
         const restored = profile.lastPullIds.map(id => demonMap[id]).filter(Boolean);
         if (restored.length > 0) {
-          renderStageCards(restored.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false })), false);
+          renderStageCards(restored.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })), false);
         }
       } else if (allDemons.length > 0) {
         document.getElementById("stageArena").innerHTML = `
           <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
-            Database loaded with <strong>${allDemons.length} Extreme Demons</strong>. Press Summon to roll! <span class="micro-tag">READY</span>
+            Database loaded with <strong>${allDemons.length} Extreme Demons</strong>. Press Roll to summon! <span class="micro-tag">READY</span>
           </p>`;
       }
 
@@ -2349,7 +2518,25 @@
       }
     }
 
-    function rollSingleDemon(avoidDuplicateIds = []) {
+    function pickPityGuaranteedTier() {
+      // Guarantees epic, legendary, or mythic with mythic least probable
+      const candidates = [
+        { tier: "epic", weight: 65 },
+        { tier: "legendary", weight: 25 },
+        { tier: "mythic", weight: 10 }
+      ].filter(c => poolsByRarity[c.tier] && poolsByRarity[c.tier].length > 0);
+
+      if (candidates.length === 0) return "common";
+      const total = candidates.reduce((s, c) => s + c.weight, 0);
+      let r = Math.random() * total;
+      for (const c of candidates) {
+        r -= c.weight;
+        if (r <= 0) return c.tier;
+      }
+      return candidates[candidates.length - 1].tier;
+    }
+
+    function rollSingleDemon(avoidDuplicateIds = [], forcedTier = null) {
       const luckMult = profile.activeBoost ? profile.activeBoost.multiplier : 1;
       const noDupOn = isNoDuplicateActive();
       const ownedIds = Object.keys(profile.owned).filter(id => (profile.owned[id] || 0) > 0 && demonMap[id]);
@@ -2358,43 +2545,49 @@
         ...avoidDuplicateIds
       ]);
 
-      if (!noDupOn && ownedIds.length > 0 && Math.random() < EXTRA_DUP_CHANCE) {
+      if (!forcedTier && !noDupOn && ownedIds.length > 0 && Math.random() < EXTRA_DUP_CHANCE) {
         const dupPool = ownedIds.map(id => demonMap[id]).filter(d => !avoidDuplicateIds.includes(d.id));
         if (dupPool.length > 0) {
           return dupPool[Math.floor(Math.random() * dupPool.length)];
         }
       }
 
-      let availableTiers = Object.keys(RARITY_TIERS).filter(t => {
-        if (!noDupOn) return poolsByRarity[t].length > 0;
-        return poolsByRarity[t].some(d => !blockedIds.has(d.id));
-      });
+      let chosenTier = forcedTier;
+      if (!chosenTier) {
+        let availableTiers = Object.keys(RARITY_TIERS).filter(t => {
+          if (!noDupOn) return poolsByRarity[t].length > 0;
+          return poolsByRarity[t].some(d => !blockedIds.has(d.id));
+        });
 
-      if (noDupOn && availableTiers.length === 0) {
-        availableTiers = Object.keys(RARITY_TIERS).filter(t => poolsByRarity[t].length > 0);
+        if (noDupOn && availableTiers.length === 0) {
+          availableTiers = Object.keys(RARITY_TIERS).filter(t => poolsByRarity[t].length > 0);
+        }
+
+        const weights = availableTiers.map(t => {
+          let w = RARITY_TIERS[t].weight;
+          if (t !== "common" && t !== "rare") {
+            w *= luckMult;
+          }
+          return { tier: t, weight: w };
+        });
+
+        const totalWeight = weights.reduce((s, item) => s + item.weight, 0);
+        let roll = Math.random() * totalWeight;
+        chosenTier = weights[0].tier;
+
+        for (const item of weights) {
+          roll -= item.weight;
+          if (roll <= 0) {
+            chosenTier = item.tier;
+            break;
+          }
+        }
       }
 
-      const weights = availableTiers.map(t => {
-        let w = RARITY_TIERS[t].weight;
-        if (t !== "common" && t !== "rare") {
-          w *= luckMult;
-        }
-        return { tier: t, weight: w };
-      });
-
-      const totalWeight = weights.reduce((s, item) => s + item.weight, 0);
-      let roll = Math.random() * totalWeight;
-      let chosenTier = weights[0].tier;
-
-      for (const item of weights) {
-        roll -= item.weight;
-        if (roll <= 0) {
-          chosenTier = item.tier;
-          break;
-        }
+      let pool = poolsByRarity[chosenTier] || [];
+      if (pool.length === 0) {
+        pool = allDemons;
       }
-
-      let pool = poolsByRarity[chosenTier];
       if (noDupOn) {
         const unownedPool = pool.filter(d => !blockedIds.has(d.id));
         if (unownedPool.length > 0) pool = unownedPool;
@@ -2424,18 +2617,42 @@
       showToast(`Missing ${missing} token(s) for x${needed}!`);
     }
 
-    async function executePull(times) {
+    async function executePull(times, payWithOrbs = false) {
       tickTokensByTime();
       if (isRolling || allDemons.length === 0) return;
 
-      if (profile.tokens < times) {
+      if (payWithOrbs) {
+        if (profile.orbs < SINGLE_PITY_COST_ORBS) {
+          showToast(`Need ${SINGLE_PITY_COST_ORBS.toLocaleString()} Orbs for Orb Roll!`);
+          return;
+        }
+      } else if (profile.tokens < times) {
         showTokenShortageAlert(times);
         return;
       }
 
       document.getElementById("tokenShortageBanner").style.display = "none";
       isRolling = true;
-      profile.tokens = Math.max(0, profile.tokens - times);
+
+      if (payWithOrbs) {
+        profile.orbs -= SINGLE_PITY_COST_ORBS;
+      } else {
+        profile.tokens = Math.max(0, profile.tokens - times);
+      }
+
+      // Only pure x1 rolls participate in the session-only 20-roll pity counter
+      const isPureSingleRoll = !payWithOrbs && times === 1;
+      let triggeredSinglePity = false;
+      if (isPureSingleRoll) {
+        if (sessionSingleUnluckyStreak + 1 >= SINGLE_PITY_THRESHOLD) {
+          triggeredSinglePity = true;
+          sessionSingleUnluckyStreak = 0;
+        }
+      } else {
+        sessionSingleUnluckyStreak = 0;
+      }
+
+      recordDailyRollStreak();
       saveProfile();
       uiDirty = true;
       updateAllUI();
@@ -2447,14 +2664,25 @@
       const batchSeenIds = [];
 
       for (let i = 0; i < times; i++) {
-        const demon = rollSingleDemon(batchSeenIds);
+        const forcedTier = (i === 0 && triggeredSinglePity) ? pickPityGuaranteedTier() : null;
+        const demon = rollSingleDemon(batchSeenIds, forcedTier);
         batchSeenIds.push(demon.id);
 
+        const isPityHit = Boolean(forcedTier);
         const isDup = Boolean(profile.owned[demon.id]);
         const baseOrbs = RARITY_TIERS[demon.rarity].orbs;
         const orbsEarned = isDup ? Math.round(baseOrbs * 1.5) : baseOrbs;
-        const isTroll = demon.rarity === "common" && Math.random() < COMMON_TROLL_CHANCE;
+        const isTroll = !isPityHit && demon.rarity === "common" && Math.random() < COMMON_TROLL_CHANCE;
         if (isTroll) anyTroll = true;
+
+        if (isPureSingleRoll && !isPityHit) {
+          const hitHighRarity = ["epic", "legendary", "mythic"].includes(demon.rarity);
+          if (hitHighRarity) {
+            sessionSingleUnluckyStreak = 0;
+          } else {
+            sessionSingleUnluckyStreak += 1;
+          }
+        }
 
         profile.pulls += 1;
         profile.orbs += orbsEarned;
@@ -2471,7 +2699,14 @@
         const tIdx = TIER_ORDER.indexOf(demon.rarity);
         if (tIdx > bestTierIndex) bestTierIndex = tIdx;
 
-        pullOutputs.push({ demon, isDup, orbsEarned, isTroll });
+        pullOutputs.push({ demon, isDup, orbsEarned, isTroll, isPity: isPityHit });
+      }
+
+      if (triggeredSinglePity) {
+        profile.tokens += SINGLE_PITY_REWARD_TOKENS;
+        profile.orbs += SINGLE_PITY_REWARD_ORBS;
+        triggerTokenSoftGlow();
+        showToast(`20x Single-Roll Pity! Guaranteed ${RARITY_TIERS[pullOutputs[0].demon.rarity].label} + ${SINGLE_PITY_REWARD_TOKENS} 🪙 & ${SINGLE_PITY_REWARD_ORBS.toLocaleString()} 💠!`);
       }
 
       pullOutputs.sort((a, b) => TIER_ORDER.indexOf(b.demon.rarity) - TIER_ORDER.indexOf(a.demon.rarity) || a.demon.rank - b.demon.rank);
@@ -2489,7 +2724,7 @@
         const loadingColor = anyTroll ? "#ffd700" : "#93c5fd";
         const loadingLabel = anyTroll
           ? "⚡ WILD SURGE DETECTED... HOLD ON!"
-          : (times > 1 ? `🔥 SUMMONING x${times}...` : "⚡ SUMMONING...");
+          : (times > 1 ? `🔥 ROLLING x${times}...` : "⚡ SUMMONING...");
 
         stageArena.innerHTML = `
           <div class="orb-loader">
@@ -2543,17 +2778,22 @@
     function updateSummonButtonsState() {
       const ready = !isRolling && allDemons.length > 0;
       const pull1Btn = document.getElementById("pull1Btn");
-      const pull15Btn = document.getElementById("pull15Btn");
-      pull1Btn.disabled = !ready;
-      pull15Btn.disabled = !ready;
+      const pull5Btn = document.getElementById("pull5Btn");
+      const pullOrbBtn = document.getElementById("pullOrbBtn");
 
-      if (profile.tokens < 15) {
-        const need15 = 15 - profile.tokens;
-        pull15Btn.innerHTML = `🔥 Summon x15 <span class="micro-tag">-${need15} 🪙</span>`;
+      pull1Btn.disabled = !ready;
+      pull5Btn.disabled = !ready;
+      pullOrbBtn.disabled = !ready || profile.orbs < SINGLE_PITY_COST_ORBS;
+
+      if (profile.tokens < 5) {
+        const need5 = 5 - profile.tokens;
+        pull5Btn.innerHTML = `🔥 Roll x5 <span class="micro-tag">-${need5} 🪙</span>`;
       } else {
-        pull15Btn.innerHTML = `🔥 Summon x15 (15 🪙)`;
+        pull5Btn.innerHTML = `🔥 Roll x5 (5 🪙)`;
       }
-      pull1Btn.innerHTML = `⚡ Summon x1 (1 🪙)`;
+
+      pull1Btn.innerHTML = `⚡ Roll x1 (1 🪙)`;
+      pullOrbBtn.innerHTML = `💠 Orb Roll (10K 💠)`;
     }
 
     function renderStageCards(pullOutputs, animate) {
@@ -2570,7 +2810,7 @@
               ✨ Spotlight: #${best.rank} ${best.name} (${RARITY_TIERS[best.rarity].label})
             </span>
             <span style="font-size:0.8rem; font-weight:800; color:var(--orb);">
-              +${totalOrbsGain.toLocaleString()} 💠 · ${newCount} New <span class="micro-tag">SORTED BY TIER</span>
+              +${totalOrbsGain.toLocaleString()} 💠 · ${newCount} New <span class="micro-tag">PITY x1: ${sessionSingleUnluckyStreak}/${SINGLE_PITY_THRESHOLD}</span>
             </span>
           </div>
         `
@@ -2583,12 +2823,12 @@
             const d = item.demon;
             const imgs = getImageSources(d);
             const isFav = profile.favorites.includes(d.id);
-            const animRule = !animate
-              ? "animation:none"
-              : (item.isTroll ? `animation-delay:${Math.min(idx * 32, 320)}ms` : `animation-delay:${Math.min(idx * 32, 320)}ms`);
+            const animRule = !animate ? "animation:none" : `animation-delay:${Math.min(idx * 32, 320)}ms`;
             let statusBadge = "";
             if (item.isTroll) {
               statusBadge = `<span class="card-status-badge badge-troll">🤡 TROLL COMMON</span>`;
+            } else if (item.isPity) {
+              statusBadge = `<span class="card-status-badge badge-pity">✨ 20X PITY</span>`;
             } else if (item.orbsEarned > 0) {
               statusBadge = item.isDup
                 ? `<span class="card-status-badge badge-dup">DUPLICATE</span>`
@@ -2636,6 +2876,8 @@
         if (!profile.unlockedAch.includes(ach.id) && ach.check(profile)) {
           profile.unlockedAch.push(ach.id);
           profile.orbs += ach.reward;
+          playTone(987.77, "triangle", 0.25, 0.16);
+          showToast(`🏆 Achievement Unlocked: ${ach.title} (+${ach.reward.toLocaleString()} 💠)`);
         }
       }
     }
@@ -2643,7 +2885,8 @@
     function refreshTimersUI() {
       const msLeft = getMsUntilNextTokens();
       const clock = formatClockMMSS(msLeft);
-      const pct = Math.max(0, Math.min(100, ((TOKEN_INTERVAL_MS - msLeft) / TOKEN_INTERVAL_MS) * 100));
+      const elapsed = Math.max(0, Math.min(TOKEN_INTERVAL_MS, computeCurrentCycleElapsedMs(Date.now())));
+      const pct = (elapsed / TOKEN_INTERVAL_MS) * 100;
 
       document.getElementById("tokensCount").textContent = profile.tokens.toLocaleString();
       document.getElementById("tokenTimerHud").textContent = isPageActiveForTokens ? clock : `${clock} ⏸`;
@@ -2662,6 +2905,15 @@
         document.getElementById("activeNoDupTimer").textContent = formatClockMMSS(dupMsLeft);
       } else {
         noDupBanner.style.display = "none";
+      }
+
+      const boosterBanner = document.getElementById("activeTokenBoosterBanner");
+      const boosterMsLeft = (Number(profile.tokenBoosterUntil) || 0) - Date.now();
+      if (boosterMsLeft > 0) {
+        boosterBanner.style.display = "flex";
+        document.getElementById("activeTokenBoosterTimer").textContent = formatClockMMSS(boosterMsLeft);
+      } else {
+        boosterBanner.style.display = "none";
       }
 
       const shortageBanner = document.getElementById("tokenShortageBanner");
@@ -2799,6 +3051,19 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    function getShopIconForItem(item) {
+      if (item.kind === "nodup") return "🛡️";
+      if (item.kind === "token_pack") return "🪙";
+      if (item.kind === "token_booster") return "⚡";
+      return "🍀";
+    }
+
+    function getShopAccentForItem(item) {
+      if (item.kind === "nodup") return "#00f5d4";
+      if (item.kind === "token_pack" || item.kind === "token_booster") return "#facc15";
+      return "#fbbf24";
+    }
+
     function openShopSection() {
       selectedShopItemId = null;
       document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
@@ -2809,12 +3074,13 @@
 
       listEl.innerHTML = `<div class="shop-grid-cards">${SHOP_ITEMS.map(item => {
         const qty = profile.packs[item.id] || 0;
-        const accentColor = item.kind === "nodup" ? "#00f5d4" : "#fbbf24";
+        const accentColor = getShopAccentForItem(item);
+        const icon = getShopIconForItem(item);
         return `
           <div class="shop-card ${qty === 0 ? "depleted" : ""}" onclick="openShopItemDetail('${item.id}')">
             <div style="display:flex; gap:12px; align-items:flex-start;">
               <div class="shop-card-icon" style="border-color:${accentColor}44;">
-                ${item.kind === "nodup" ? "🛡️" : "🍀"}
+                ${icon}
               </div>
               <div style="min-width:0; flex:1;">
                 <div style="font-weight:900; font-size:1.02rem; color:${accentColor};">${item.name}</div>
@@ -2841,7 +3107,8 @@
       selectedShopItemId = itemId;
       const canAfford = profile.orbs >= item.cost;
       const ownedQty = profile.packs[item.id] || 0;
-      const accentColor = item.kind === "nodup" ? "#00f5d4" : "#fbbf24";
+      const accentColor = getShopAccentForItem(item);
+      const icon = getShopIconForItem(item);
 
       document.getElementById("backToShopListBtn").style.display = "inline-flex";
       document.getElementById("shopPacksList").style.display = "none";
@@ -2851,7 +3118,7 @@
         <div class="item-detail-card">
           <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
             <div style="display:flex; align-items:center; gap:12px;">
-              <div class="shop-card-icon" style="border-color:${accentColor}66;">${item.kind === "nodup" ? "🛡️" : "🍀"}</div>
+              <div class="shop-card-icon" style="border-color:${accentColor}66;">${icon}</div>
               <h4 style="font-size:1.25rem; font-weight:900; color:${accentColor};">${item.name}</h4>
             </div>
             <span class="shop-balance-chip">💠 ${item.cost.toLocaleString()} Orbs</span>
@@ -2992,12 +3259,21 @@
       activeRoomId = null;
       theirSearchQuery = "";
       document.getElementById("theirSearchInput").value = "";
+      document.getElementById("myCurrencyError").textContent = "";
+      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
+      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderRoomView").style.display = "none";
       document.getElementById("backToRoomsBtn").style.display = "none";
       document.getElementById("traderLobbyView").style.display = "block";
       await syncRoomsFromBackend();
       renderTraderLobby();
       showSection("trader");
+    }
+
+    function roomHasAnyOffer(room) {
+      const mCount = Array.isArray(room.myOffer) ? room.myOffer.length : 0;
+      const tCount = Array.isArray(room.theirOffer) ? room.theirOffer.length : 0;
+      return mCount > 0 || tCount > 0 || (Number(room.myOfferOrbs) || 0) > 0 || (Number(room.myOfferTokens) || 0) > 0 || (Number(room.theirOfferOrbs) || 0) > 0 || (Number(room.theirOfferTokens) || 0) > 0;
     }
 
     function renderTraderLobby() {
@@ -3015,12 +3291,20 @@
       const now = Date.now();
       listArea.innerHTML = profile.tradeRooms.map(room => {
         const msLeft = Math.max(0, (room.expiresAt || 0) - now);
+        const hasOffers = roomHasAnyOffer(room);
+        const expiringSoon = msLeft > 0 && msLeft <= ROOM_WARNING_MS;
         return `
           <div class="room-card">
             <div>
               <div style="font-weight:900; font-size:0.96rem;">🏠 ${escapeHtml(room.name)} <span class="micro-tag">HOST: ${escapeHtml(room.hostDisplayName || "Player")}</span></div>
               <div style="font-size:0.76rem; color:var(--muted);">
                 Your IDs: ${room.myOffer.length}/10 · Incoming: ${room.theirOffer.length}/10 · ⏳ ${formatClockMMSS(msLeft)}
+              </div>
+              <div class="room-badges">
+                ${hasOffers
+                  ? `<span class="room-status-badge badge-offers">📦 Offers Loaded</span>`
+                  : `<span class="room-status-badge badge-empty-room">○ Empty Room</span>`}
+                ${expiringSoon ? `<span class="room-status-badge badge-expiring">⏰ Expiring Soon</span>` : ""}
               </div>
             </div>
             <button class="buy-btn" onclick="enterTradeRoom('${room.id}')">Enter Room</button>
@@ -3095,6 +3379,9 @@
       theirOfferTokens = Math.max(0, Math.floor(Number(room.theirOfferTokens) || 0));
       theirAgreed = Boolean(room.theirAgreed);
 
+      document.getElementById("myCurrencyError").textContent = "";
+      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
+      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderLobbyView").style.display = "none";
       document.getElementById("traderRoomView").style.display = "block";
       document.getElementById("backToRoomsBtn").style.display = "inline-flex";
@@ -3451,7 +3738,7 @@
           if (profile.owned[id] <= 0) delete profile.owned[id];
         }
         profile.orbs = profile.orbs - orbsToGive + orbsToReceive;
-        profile.tokens = Math.min(TOKEN_CAP, Math.max(0, profile.tokens - tokensToGive + tokensToReceive));
+        profile.tokens = Math.max(0, profile.tokens - tokensToGive + tokensToReceive);
 
         const receivedDemons = [];
         for (const id of approvedTheirIds) {
@@ -3489,7 +3776,7 @@
 
         if (receivedDemons.length > 0) {
           profile.lastPullIds = receivedDemons.map(d => d.id);
-          renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false })), true);
+          renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false, isPity: false })), true);
         }
 
         playTone(784, "triangle", 0.28, 0.18);
@@ -3514,7 +3801,16 @@
         document.getElementById("backToRoomsBtn").click();
         return;
       }
-      if (!confirm(`Delete trade room "${room.name}"?`)) return;
+
+      const hasOffers = roomHasAnyOffer(room) ||
+        mySelectedOffer.length > 0 || theirSelectedOffer.length > 0 ||
+        myOfferOrbs > 0 || myOfferTokens > 0 || theirOfferOrbs > 0 || theirOfferTokens > 0;
+
+      const promptMsg = hasOffers
+        ? `⚠️ This room ("${room.name}") already has active offers loaded! Are you sure you want to permanently delete it?`
+        : `Delete trade room "${room.name}"?`;
+
+      if (!confirm(promptMsg)) return;
 
       stopFiveSecCountdown();
       const idToDel = activeRoomId;
@@ -3536,15 +3832,16 @@
       const ownedPacks = SHOP_ITEMS.filter(p => (profile.packs[p.id] || 0) > 0);
 
       if (ownedPacks.length === 0) {
-        packsArea.innerHTML = `<p style="font-size:0.82rem; color:var(--muted); background:rgba(9,13,24,0.75); padding:14px; border-radius:12px; grid-column:1/-1;">No saved items yet. Visit the Orb Shop to buy Luck Packs or No Duplicate.</p>`;
+        packsArea.innerHTML = `<p style="font-size:0.82rem; color:var(--muted); background:rgba(9,13,24,0.75); padding:14px; border-radius:12px; grid-column:1/-1;">No saved items yet. Visit the Orb Shop to buy Luck Packs, Token Boosters, Token Packs, or No Duplicate.</p>`;
       } else {
         packsArea.innerHTML = ownedPacks.map(p => {
-          const accent = p.kind === "nodup" ? "#00f5d4" : "#fde68a";
+          const accent = getShopAccentForItem(p);
+          const icon = getShopIconForItem(p);
           return `
             <div class="inv-pack-card">
               <div style="min-width:0; flex:1;">
                 <div style="font-weight:900; font-size:0.92rem; color:${accent};">
-                  ${p.kind === "nodup" ? "🛡️" : "🍀"} ${p.name} <span class="badge-count">x${profile.packs[p.id]}</span>
+                  ${icon} ${p.name} <span class="badge-count">x${profile.packs[p.id]}</span>
                 </div>
                 <p style="font-size:0.75rem; color:var(--muted); margin-top:3px; line-height:1.35;">${p.shortDesc}</p>
               </div>
@@ -3556,6 +3853,14 @@
 
       const ownedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0);
       document.getElementById("invOwnedCount").textContent = ownedIds.length;
+
+      let totalDuplicates = 0;
+      for (const id of ownedIds) {
+        const qty = Number(profile.owned[id]) || 0;
+        if (qty > 1) totalDuplicates += (qty - 1);
+      }
+      document.getElementById("invTotalDuplicatesCount").textContent = totalDuplicates.toLocaleString();
+
       const invGrid = document.getElementById("invDemonsGrid");
 
       const ownedDemons = ownedIds
@@ -3592,19 +3897,29 @@
       const item = SHOP_ITEMS.find(p => p.id === itemId);
       if (!item || (profile.packs[item.id] || 0) <= 0) return;
 
-      if (item.kind === "nodup" && isNoDuplicateActive()) {
-        showToast("No Duplicate Shield is already active! Timer extended.");
-      } else if (item.kind === "luck" && profile.activeBoost && profile.activeBoost.remaining > 0) {
-        showToast("Replacing existing Luck Boost with newly activated pack.");
-      }
-
       profile.packs[item.id] -= 1;
 
-      if (item.kind === "nodup") {
+      if (item.kind === "token_pack") {
+        const grant = item.tokensGrant || TOKEN_PACK_AMOUNT;
+        profile.tokens += grant;
+        triggerTokenSoftGlow();
+        showToast(`+${grant} Tokens claimed!`);
+      } else if (item.kind === "token_booster") {
+        const baseTime = Math.max(Date.now(), Number(profile.tokenBoosterUntil) || 0);
+        profile.tokenBoosterUntil = baseTime + (item.durationMs || TOKEN_BOOSTER_DURATION_MS);
+        showToast("Token Booster 3x activated for 10:00!");
+      } else if (item.kind === "nodup") {
+        if (isNoDuplicateActive()) {
+          showToast("No Duplicate Shield is already active! Timer extended.");
+        } else {
+          showToast("No Duplicate activated (1:30)!");
+        }
         const baseTime = Math.max(Date.now(), Number(profile.noDupUntil) || 0);
         profile.noDupUntil = baseTime + (item.durationMs || NO_DUP_DURATION_MS);
-        showToast("No Duplicate activated (1:30)!");
       } else {
+        if (profile.activeBoost && profile.activeBoost.remaining > 0) {
+          showToast("Replacing existing Luck Boost with newly activated pack.");
+        }
         profile.activeBoost = {
           multiplier: item.multiplier,
           remaining: item.rolls,
@@ -3763,8 +4078,9 @@
       });
     });
 
-    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
-    document.getElementById("pull15Btn").addEventListener("click", () => executePull(15));
+    document.getElementById("pull1Btn").addEventListener("click", () => executePull(1, false));
+    document.getElementById("pull5Btn").addEventListener("click", () => executePull(5, false));
+    document.getElementById("pullOrbBtn").addEventListener("click", () => executePull(1, true));
     document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
     document.getElementById("openShopBtn").addEventListener("click", openShopSection);
     document.getElementById("backFromShopSectionBtn").addEventListener("click", () => showSection("home"));
@@ -3799,20 +4115,38 @@
       renderTraderLobby();
     });
 
-    document.getElementById("myOfferOrbsInput").addEventListener("change", e => {
-      const val = Math.max(0, Math.min(profile.orbs, Math.floor(Number(e.target.value) || 0)));
-      myOfferOrbs = val;
-      e.target.value = val;
+    function handleMyCurrencyInput(type, rawVal, inputEl) {
+      const parsed = Math.max(0, Math.floor(Number(rawVal) || 0));
+      const errEl = document.getElementById("myCurrencyError");
+      const maxAllowed = type === "orbs" ? profile.orbs : profile.tokens;
+
+      if (parsed > maxAllowed) {
+        const clamped = maxAllowed;
+        if (type === "orbs") myOfferOrbs = clamped;
+        else myOfferTokens = clamped;
+        inputEl.value = clamped;
+        inputEl.classList.add("invalid-currency");
+        const label = type === "orbs" ? "Orbs" : "Tokens";
+        errEl.textContent = `⚠️ You only have ${maxAllowed.toLocaleString()} ${label}! Capped to max available.`;
+        showToast(`Not enough ${label} (max ${maxAllowed.toLocaleString()})`);
+      } else {
+        if (type === "orbs") myOfferOrbs = parsed;
+        else myOfferTokens = parsed;
+        inputEl.value = parsed;
+        inputEl.classList.remove("invalid-currency");
+        errEl.textContent = "";
+      }
+
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
+    }
+
+    document.getElementById("myOfferOrbsInput").addEventListener("change", e => {
+      handleMyCurrencyInput("orbs", e.target.value, e.target);
     });
 
     document.getElementById("myOfferTokensInput").addEventListener("change", e => {
-      const val = Math.max(0, Math.min(profile.tokens, Math.floor(Number(e.target.value) || 0)));
-      myOfferTokens = val;
-      e.target.value = val;
-      resetAgreementAndSave();
-      renderTradeRoomWorkspace();
+      handleMyCurrencyInput("tokens", e.target.value, e.target);
     });
 
     document.getElementById("theirOfferOrbsInput").addEventListener("change", e => {
@@ -3847,6 +4181,10 @@
     });
 
     document.getElementById("toggleMyYesBtn").addEventListener("click", () => {
+      if (myOfferOrbs > profile.orbs || myOfferTokens > profile.tokens) {
+        showToast("Fix your Orb/Token offer amount first.");
+        return;
+      }
       if (isTradeUnfairToUser() && !unfairConfirmedByUser) {
         showToast("Please choose 'I accept' on the unfair trade warning first.");
         return;
@@ -3876,6 +4214,9 @@
       theirSlotStates = [];
       theirOfferOrbs = 0;
       theirOfferTokens = 0;
+      document.getElementById("myCurrencyError").textContent = "";
+      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
+      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
@@ -3942,6 +4283,7 @@
     document.getElementById("resetBtn").addEventListener("click", () => {
       if (!confirm("Reset all your Tokens, Orbs, Items, Unlocked Demons, Rooms, and Achievements?")) return;
       stopFiveSecCountdown();
+      sessionSingleUnluckyStreak = 0;
       activeRoomId = null;
       lastTokenSampleMs = Date.now();
       isPageActiveForTokens = !document.hidden;
@@ -3950,24 +4292,27 @@
         displayName: profile.displayName || "Player",
         tokens: 0,
         tokenCycleElapsedMs: 0,
+        tokenBoosterUntil: 0,
         orbs: 500,
         pulls: 0,
         tradesCompleted: 0,
         owned: {},
         favorites: [],
-        packs: { no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+        packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
         activeBoost: null,
         noDupUntil: 0,
         lastPullIds: [],
         unlockedAch: [],
         tradeRooms: [],
+        streakDays: 0,
+        lastRollDayKey: "",
         rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
         settings: profile.settings
       };
       saveProfile();
       uiDirty = true;
       document.getElementById("tokenShortageBanner").style.display = "none";
-      document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Summon to begin!</p>`;
+      document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Roll to begin!</p>`;
       showToast("Progress reset.");
       updateAllUI();
     });
