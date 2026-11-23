@@ -18,6 +18,7 @@
       --primary: #3b82f6;
       --orb: #00e5ff;
       --token: #facc15;
+      --touch-min: 38px;
 
       --c-common: #94a3b8;
       --c-rare: #38bdf8;
@@ -27,6 +28,12 @@
       --c-divine: #ff2a6d;
       --c-transcendent: #00f5d4;
       --c-apex: #ffd700;
+    }
+
+    @media (pointer: coarse), (max-width: 768px) {
+      :root {
+        --touch-min: 44px;
+      }
     }
 
     * {
@@ -50,6 +57,10 @@
       align-items: center;
       padding: 14px;
       overflow-x: hidden;
+    }
+
+    body.modal-open-lock {
+      overflow: hidden;
     }
 
     body.shake {
@@ -80,18 +91,18 @@
       transition: opacity 0.45s ease;
     }
 
-    .token-mini-toast {
+    .mini-toast {
       position: fixed;
       top: 16px;
       right: 16px;
       background: rgba(15, 23, 42, 0.96);
       border: 1px solid rgba(250, 204, 21, 0.65);
       color: #fef08a;
-      padding: 9px 14px;
+      padding: 10px 15px;
       border-radius: 12px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 900;
-      z-index: 1001;
+      z-index: 1100;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
       opacity: 0;
       transform: translateY(-10px) scale(0.95);
@@ -99,7 +110,7 @@
       transition: opacity 0.25s ease, transform 0.25s ease;
     }
 
-    .token-mini-toast.show {
+    .mini-toast.show {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
@@ -151,6 +162,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      min-height: var(--touch-min);
     }
 
     .hud-pill strong { color: #fff; font-weight: 800; }
@@ -159,25 +171,48 @@
       border-color: rgba(250, 204, 21, 0.45);
       background: rgba(250, 204, 21, 0.08);
       color: #fde68a;
+      flex-direction: column;
+      align-items: flex-start;
+      border-radius: 14px;
+      gap: 4px;
+      min-width: 175px;
     }
     .hud-pill.tokens-pill strong { color: var(--token); }
+
+    .token-progress-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .token-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #facc15, #f59e0b);
+      transition: width 0.25s linear;
+    }
 
     .icon-btn {
       background: rgba(15, 20, 35, 0.9);
       border: 1px solid var(--border);
       color: #fff;
       padding: 8px 12px;
+      min-height: var(--touch-min);
       border-radius: 12px;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
       transition: all 0.15s ease;
     }
 
-    .icon-btn:hover { background: #232c47; }
+    .icon-btn:hover:not(:disabled) { background: #232c47; }
+    .icon-btn:disabled { opacity: 0.45; cursor: not-allowed; }
     .icon-btn.active-toggle {
       border-color: var(--primary);
       background: rgba(59, 130, 246, 0.2);
@@ -230,7 +265,8 @@
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 12px 12px;
+      padding: 12px;
+      min-height: var(--touch-min);
       color: #fff;
       font-weight: 800;
       font-size: 0.88rem;
@@ -262,6 +298,26 @@
       font-weight: 900;
     }
 
+    .section-panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    .section-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
     .summon-stage {
       background: var(--bg-panel);
       backdrop-filter: blur(16px);
@@ -284,32 +340,30 @@
       gap: 8px;
     }
 
-    .active-buffs-wrap { display: flex; flex-direction: column; }
-
-    .active-luck-banner {
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(255, 42, 109, 0.2));
-      border-bottom: 1px solid rgba(251, 191, 36, 0.35);
-      padding: 8px 16px;
+    .alert-strip {
+      padding: 9px 16px;
       font-size: 0.82rem;
       font-weight: 800;
-      color: #fde68a;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .active-luck-banner {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(255, 42, 109, 0.2));
+      color: #fde68a;
     }
 
     .nodup-banner {
       background: linear-gradient(90deg, rgba(0, 245, 212, 0.18), rgba(59, 130, 246, 0.18));
-      border-bottom: 1px solid rgba(0, 245, 212, 0.35);
-      padding: 8px 16px;
-      font-size: 0.82rem;
-      font-weight: 800;
       color: #99f6e4;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
+    }
+
+    .warning-banner {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
     }
 
     .stage-arena {
@@ -476,7 +530,7 @@
     .rp-transcendent { background: rgba(0, 245, 212, 0.22); color: var(--c-transcendent); border: 1px solid rgba(0, 245, 212, 0.5); }
     .rp-apex { background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), rgba(255, 42, 109, 0.3)); color: #ffd700; border: 1px solid #ffd700; }
 
-    .fav-star { background: none; border: none; font-size: 1.05rem; cursor: pointer; color: var(--muted); padding: 0 2px; }
+    .fav-star { background: none; border: none; font-size: 1.05rem; cursor: pointer; color: var(--muted); padding: 0 4px; min-height: var(--touch-min); min-width: var(--touch-min); display: inline-flex; align-items: center; justify-content: center; }
     .fav-star.active { color: #fbbf24; text-shadow: 0 0 8px rgba(251, 191, 36, 0.7); }
 
     .card-title { font-size: 1.05rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -497,6 +551,7 @@
       background: #1b2136;
       color: #fff;
       padding: 13px 16px;
+      min-height: var(--touch-min);
       border-radius: 12px;
       font-weight: 800;
       font-size: 0.94rem;
@@ -528,6 +583,7 @@
 
     .f-pill {
       padding: 6px 11px;
+      min-height: var(--touch-min);
       font-size: 0.75rem;
       font-weight: 700;
       border-radius: 8px;
@@ -539,15 +595,21 @@
 
     .f-pill.active { background: var(--primary); border-color: var(--primary); }
 
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
     .search-box {
       width: 100%;
       background: rgba(8, 11, 20, 0.9);
       border: 1px solid var(--border);
       color: #fff;
       padding: 11px 14px;
+      min-height: var(--touch-min);
       border-radius: 12px;
       font-size: 0.88rem;
-      margin-bottom: 14px;
       outline: none;
     }
 
@@ -575,7 +637,7 @@
     }
 
     .dex-grid.list-view .dex-card { display: flex; align-items: center; }
-    .dex-card.locked { opacity: 0.38; filter: grayscale(85%); }
+    .dex-card.locked { opacity: 0.44; filter: grayscale(75%); }
 
     .dex-thumb { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: #070910; display: block; }
     .dex-grid.list-view .dex-thumb { width: 120px; flex-shrink: 0; }
@@ -633,6 +695,45 @@
       gap: 10px;
     }
 
+    .inspect-img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #070910;
+      overflow: hidden;
+    }
+
+    .inspect-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .inspect-img-wrap.gray-locked img {
+      filter: grayscale(80%) brightness(0.75);
+    }
+
+    .inspect-mini-box {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(6, 8, 14, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+    }
+
+    .inspect-mini-box.gray-box {
+      background: rgba(30, 35, 48, 0.92);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
     .shop-orb-box {
       background: linear-gradient(135deg, rgba(0, 229, 255, 0.14), rgba(59, 130, 246, 0.14));
       border: 1px solid rgba(0, 229, 255, 0.4);
@@ -642,6 +743,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .inv-token-box {
@@ -689,9 +792,14 @@
       color: #fff;
       font-weight: 900;
       padding: 10px 16px;
+      min-height: var(--touch-min);
       border-radius: 10px;
       cursor: pointer;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -701,10 +809,22 @@
       border: 1px solid rgba(59, 130, 246, 0.35);
       border-radius: 12px;
       padding: 11px 14px;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: #cbd5e1;
       margin-bottom: 14px;
-      line-height: 1.4;
+      line-height: 1.45;
+    }
+
+    .display-name-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .room-create-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
@@ -719,10 +839,31 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
     .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
     .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; }
+
+    .currency-offer-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .mini-num-input {
+      width: 100%;
+      background: rgba(7, 9, 16, 0.9);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 10px;
+      min-height: var(--touch-min);
+      border-radius: 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      outline: none;
+    }
 
     .trade-slots {
       display: flex;
@@ -753,9 +894,10 @@
 
     .mini-act-btn {
       border: none;
-      border-radius: 5px;
-      padding: 2px 6px;
-      font-size: 0.68rem;
+      border-radius: 6px;
+      padding: 4px 8px;
+      min-height: 28px;
+      font-size: 0.72rem;
       font-weight: 900;
       cursor: pointer;
     }
@@ -776,18 +918,46 @@
       background: rgba(9, 12, 22, 0.9);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 7px;
+      padding: 8px;
+      min-height: var(--touch-min);
       font-size: 0.74rem;
       cursor: pointer;
     }
 
     .pick-item.selected { border-color: var(--c-transcendent); background: rgba(0, 245, 212, 0.12); }
 
+    .agree-box {
+      background: rgba(8, 11, 20, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .countdown-box {
+      background: rgba(59, 130, 246, 0.16);
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
     .ext-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
 
     .ext-link-btn {
       text-decoration: none;
       padding: 10px 8px;
+      min-height: var(--touch-min);
       border-radius: 10px;
       font-size: 0.78rem;
       font-weight: 800;
@@ -827,6 +997,7 @@
       .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .results-grid.single-pull { grid-template-columns: 1fr; }
       .ext-links { grid-template-columns: 1fr; }
+      .currency-offer-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -834,7 +1005,7 @@
 
   <canvas id="particlesCanvas"></canvas>
   <div class="flash-overlay" id="flashOverlay"></div>
-  <div class="token-mini-toast" id="tokenMiniToast">+10 Tokens!</div>
+  <div class="mini-toast" id="miniToast">Notice</div>
 
   <header class="topbar">
     <div class="brand">
@@ -846,12 +1017,20 @@
     </div>
 
     <div class="hud-group">
-      <div class="hud-pill tokens-pill">🪙 Tokens: <strong id="tokensCount">10</strong> · ⏳ <strong id="tokenTimerHud">05:00</strong></div>
+      <div class="hud-pill tokens-pill">
+        <div style="display:flex; justify-content:space-between; width:100%; gap:8px;">
+          <span>🪙 Tokens: <strong id="tokensCount">10</strong></span>
+          <span>⏳ <strong id="tokenTimerHud">05:00</strong></span>
+        </div>
+        <div class="token-progress-track">
+          <div class="token-progress-fill" id="tokenProgressBar"></div>
+        </div>
+      </div>
       <div class="hud-pill orbs">💠 Orbs: <strong id="orbsCount">0</strong></div>
       <div class="hud-pill">🎲 Rolls: <strong id="pullsCount">0</strong></div>
       <div class="hud-pill">📚 Dex: <strong id="ownedCount">0</strong>/<strong id="totalCount">0</strong></div>
-      <button class="icon-btn active-toggle" id="soundToggleBtn">🔊 SFX: ON</button>
-      <button class="icon-btn" id="skipToggleBtn">⏩ Skip: OFF</button>
+      <button class="icon-btn active-toggle" id="soundToggleBtn" aria-label="Toggle Sound Effects">🔊 SFX: ON</button>
+      <button class="icon-btn" id="skipToggleBtn" aria-label="Toggle Skip Animations">⏩ Skip: OFF</button>
     </div>
   </header>
 
@@ -862,7 +1041,7 @@
         <div>
           <span class="top1-tag">👑 CURRENT #1 AREDL · APEX TIER</span>
           <h2 id="top1Title" style="font-size:1.1rem; font-weight:900;">Loading...</h2>
-          <p id="top1Sub" style="font-size:0.78rem; color:var(--muted);">Ultra Rare Drop · Pirate Token Odds</p>
+          <p id="top1Sub" style="font-size:0.78rem; color:var(--muted);">Ultra Rare Drop · Token Odds</p>
         </div>
       </div>
       <span style="font-size:0.8rem; font-weight:800; color:var(--c-apex);">Inspect #1 →</span>
@@ -876,156 +1055,216 @@
       <button class="nav-card-btn" id="openStatsBtn">📊 Drop Stats</button>
     </nav>
 
-    <section class="summon-stage">
-      <div class="stage-header">
-        <span id="syncStatus">Syncing AREDL database...</span>
-        <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +10 every 5m</strong>
-      </div>
-
-      <div class="active-buffs-wrap">
-        <div class="active-luck-banner" id="activeLuckBanner" style="display:none;">
-          <span id="activeLuckText">🍀 LUCK BOOST ACTIVE!</span>
-          <span id="activeLuckRemaining">10 rolls left</span>
+    <!-- DEDICATED ORB SHOP SECTION -->
+    <section class="section-panel" id="shopSection" style="display:none;">
+      <div class="section-top-bar">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button class="icon-btn" id="backFromShopSectionBtn">← Back to Gacha</button>
+          <button class="icon-btn" id="backToShopListBtn" style="display:none;">← All Shop Items</button>
+          <h2 style="font-size:1.25rem; font-weight:900;">🛒 Orb Shop</h2>
         </div>
-        <div class="nodup-banner" id="activeNoDupBanner" style="display:none;">
-          <span>🛡️ NO DUPLICATE SHIELD ACTIVE (No duplicate demons!)</span>
-          <span id="activeNoDupTimer">01:30</span>
-        </div>
+        <strong style="font-size:1.2rem; color:var(--orb);" id="shopOrbsBalance">💠 0 Orbs</strong>
       </div>
-
-      <div class="stage-arena" id="stageArena">
-        <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
-          Loading all Extreme Demons from AREDL...
-        </p>
-      </div>
-
-      <div class="summon-controls">
-        <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Summon x1 (1 🪙)</button>
-        <button class="btn-main btn-roll-15" id="pull15Btn" disabled>🔥 Summon x15 (15 🪙)</button>
-        <button class="btn-main" id="syncBtn">🔄 Sync AREDL</button>
-        <button class="btn-main btn-danger" id="resetBtn">🗑️ Reset</button>
-      </div>
+      <p style="font-size:0.82rem; color:var(--muted); margin-bottom:14px;">
+        Tap any item to view its full details, price, what it does, and buy it.
+      </p>
+      <div id="shopPacksList"></div>
+      <div id="shopItemDetailView" style="display:none;"></div>
     </section>
 
-    <section class="dex-panel">
-      <div class="dex-header">
-        <div>
-          <h2 style="font-size:1.12rem; font-weight:900;">AREDL Extreme Demon Index</h2>
-          <span id="filterSummary" style="font-size:0.78rem; color:var(--muted);">0 levels</span>
+    <!-- DEDICATED TRADER SECTION -->
+    <section class="section-panel" id="traderSection" style="display:none;">
+      <div class="section-top-bar">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <button class="icon-btn" id="backFromTraderSectionBtn">← Back to Gacha</button>
+          <button class="icon-btn" id="backToRoomsBtn" style="display:none;">← Rooms List</button>
+          <h2 style="font-size:1.25rem; font-weight:900;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h2>
         </div>
-        <button class="icon-btn" id="viewModeBtn">☷ View: Grid</button>
       </div>
 
-      <div class="filter-pills" id="filterBar">
-        <button class="f-pill active" data-filter="all">All</button>
-        <button class="f-pill" data-filter="owned">✅ Owned</button>
-        <button class="f-pill" data-filter="favorites">⭐ Favorites</button>
-        <button class="f-pill" data-filter="apex" style="color:var(--c-apex)">Apex #1</button>
-        <button class="f-pill" data-filter="transcendent" style="color:var(--c-transcendent)">Transcendent</button>
-        <button class="f-pill" data-filter="divine" style="color:var(--c-divine)">Divine</button>
-        <button class="f-pill" data-filter="mythic" style="color:var(--c-mythic)">Mythic</button>
-        <button class="f-pill" data-filter="legendary" style="color:var(--c-legendary)">Legendary</button>
-        <button class="f-pill" data-filter="epic" style="color:var(--c-epic)">Epic</button>
-        <button class="f-pill" data-filter="rare" style="color:var(--c-rare)">Rare</button>
-        <button class="f-pill" data-filter="common" style="color:var(--c-common)">Common</button>
-      </div>
-
-      <input type="text" class="search-box" id="searchInput" placeholder="Search by demon name, creator, or #rank (e.g. Tidal Wave, #1)..." />
-
-      <div class="dex-grid" id="dexGrid"></div>
-    </section>
-  </main>
-
-  <!-- TRADER MODAL -->
-  <div class="modal-backdrop" id="traderModal">
-    <div class="modal-box" style="max-width:760px;">
-      <div class="modal-head">
-        <h3 style="font-size:1.2rem; font-weight:900;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h3>
-        <div style="display:flex; gap:8px;">
-          <button class="icon-btn" id="backToRoomsBtn" style="display:none;">← Rooms</button>
-          <button class="icon-btn" onclick="closeModal('traderModal')">✕</button>
-        </div>
+      <div class="display-name-bar">
+        <label for="displayNameInput" style="font-weight:800; font-size:0.88rem; color:#93c5fd;">Display name:</label>
+        <input type="text" class="mini-num-input" id="displayNameInput" maxlength="24" placeholder="Enter your Display name..." style="max-width:260px;" />
+        <button class="buy-btn" id="saveDisplayNameBtn">Save Name</button>
+        <span id="currentDisplayNameBadge" style="font-size:0.8rem; color:var(--muted);"></span>
       </div>
 
       <div class="notice-box" id="traderBackendNotice">
-        <strong>Firebase Status:</strong> Connected to <code>https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com</code>. Only the 1–10 demon IDs placed in the room are synced and loaded for the other user. Use ✓ / ✕ on slots for counter-offers. Max: <strong>10 rooms</strong>.
+        <strong>Firebase Status:</strong> Connected to <code>https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com</code>. Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
       </div>
 
       <div id="traderLobbyView">
         <div class="room-create-row">
           <input type="text" class="search-box" id="newRoomNameInput" maxlength="32" placeholder="Enter room name (e.g. Top 50 Hunt)..." style="margin-bottom:0; flex:1; min-width:200px;" />
+          <span id="roomNameCounter" style="font-size:0.76rem; color:var(--muted); align-self:center;">0/32</span>
           <button class="buy-btn" id="createRoomBtn">+ Create Room</button>
         </div>
         <div id="roomsListArea"></div>
       </div>
 
       <div id="traderRoomView" style="display:none;">
+        <div class="alert-strip warning-banner" id="roomExpiryWarning" style="display:none; border-radius:10px; margin-bottom:12px;">
+          <span>⚠️ FINAL 30 SECONDS! This trade room will be deleted if you don't finish trading quickly!</span>
+          <strong id="roomExpirySeconds">30s</strong>
+        </div>
+
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
           <div>
-            <strong id="activeRoomTitle" style="font-size:1.05rem;"></strong>
-            <span id="activeRoomMeta" style="display:block; font-size:0.75rem; color:var(--muted);"></span>
+            <strong id="activeRoomTitle" style="font-size:1.08rem;"></strong>
+            <span id="activeRoomMeta" style="display:block; font-size:0.76rem; color:var(--muted);"></span>
           </div>
-          <button class="icon-btn" style="color:#fca5a5;" id="deleteRoomBtn">Delete Room</button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="hud-pill">⏳ Room Left: <strong id="roomTimerText">10:00</strong></span>
+            <button class="icon-btn" style="color:#fca5a5;" id="deleteRoomBtn">Delete Room</button>
+          </div>
         </div>
 
         <div class="trade-sides">
           <div class="trade-side-box">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="font-size:0.88rem; color:#93c5fd;">Your Offer (1–10 IDs)</strong>
+              <strong style="font-size:0.9rem; color:#93c5fd;">Your Offer (<span id="myDisplayNameLabel">Player</span>)</strong>
               <span style="font-size:0.75rem; color:var(--muted);" id="myOfferCount">0/10</span>
             </div>
             <div class="trade-slots" id="myOfferSlots"></div>
-            <span style="font-size:0.72rem; color:var(--muted);">Tap owned demon to add/remove (max 10). Use ✓/✕ to counter-offer:</span>
+            <div class="currency-offer-row">
+              <div>
+                <label style="font-size:0.7rem; color:var(--orb); font-weight:800;">Offer Orbs (Max: <span id="maxMyOrbs">0</span>)</label>
+                <input type="number" min="0" class="mini-num-input" id="myOfferOrbsInput" value="0" />
+              </div>
+              <div>
+                <label style="font-size:0.7rem; color:var(--token); font-weight:800;">Offer Tokens (Max: <span id="maxMyTokens">0</span>)</label>
+                <input type="number" min="0" class="mini-num-input" id="myOfferTokensInput" value="0" />
+              </div>
+            </div>
+            <span style="display:block; margin-top:8px; font-size:0.72rem; color:var(--muted);">Tap owned demon to add/remove (max 10). Use ✓/✕ to counter-offer:</span>
             <div class="trade-picker-grid" id="myOwnedPicker"></div>
           </div>
 
           <div class="trade-side-box">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="font-size:0.88rem; color:#fde68a;">Incoming Offer (1–10 IDs)</strong>
+              <strong style="font-size:0.9rem; color:#fde68a;">Incoming / Partner Offer</strong>
               <span style="font-size:0.75rem; color:var(--muted);" id="theirOfferCount">0/10</span>
             </div>
             <div class="trade-slots" id="theirOfferSlots"></div>
-            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to set incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-bottom:6px;" />
+            <div class="currency-offer-row">
+              <div>
+                <label style="font-size:0.7rem; color:var(--orb); font-weight:800;">Incoming Orbs</label>
+                <input type="number" min="0" class="mini-num-input" id="theirOfferOrbsInput" value="0" />
+              </div>
+              <div>
+                <label style="font-size:0.7rem; color:var(--token); font-weight:800;">Incoming Tokens</label>
+                <input type="number" min="0" class="mini-num-input" id="theirOfferTokensInput" value="0" />
+              </div>
+            </div>
+            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to add to incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-top:8px; margin-bottom:6px;" />
             <div class="trade-picker-grid" id="theirAredlPicker"></div>
           </div>
         </div>
 
+        <div class="agree-box">
+          <div style="font-size:0.82rem; color:#e2e8f0;">
+            <strong>Both sides must say Yes to trade:</strong><br>
+            <span style="color:var(--muted);">Your status: <strong id="myYesStatusText">NO</strong> · Partner status: <strong id="theirYesStatusText">NO</strong></span>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="buy-btn" id="toggleMyYesBtn">👍 Say Yes (You)</button>
+            <button class="icon-btn" id="toggleTheirYesBtn">🤝 Partner Says Yes</button>
+          </div>
+        </div>
+
+        <div class="countdown-box" id="fiveSecCountdownBox" style="display:none;">
+          <div>
+            <strong style="color:#93c5fd;">⏱️ Finalizing trade in <span id="fiveSecCountdownNum">5</span>s...</strong>
+            <span style="display:block; font-size:0.76rem; color:var(--muted);">Press Cancel if something looks wrong before transfer & verification.</span>
+          </div>
+          <button class="btn-main btn-danger" id="cancelFiveSecBtn">🛑 Cancel</button>
+        </div>
+
         <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="icon-btn" id="clearTradeBtn">Clear All</button>
-          <button class="buy-btn" id="acceptTradeBtn" disabled>✅ Accept Approved Trade</button>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- SHOP MODAL -->
-  <div class="modal-backdrop" id="shopModal">
-    <div class="modal-box" style="max-width:540px;">
-      <div class="modal-head">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="icon-btn" id="backToShopListBtn" style="display:none;">← Shop</button>
-          <h3 style="font-size:1.2rem; font-weight:900;">🛒 Orb Shop</h3>
+    <!-- MAIN GACHA & DEX VIEW -->
+    <div id="gachaHomeView" style="display:flex; flex-direction:column; gap:18px;">
+      <section class="summon-stage" id="summonStage">
+        <div class="stage-header">
+          <span id="syncStatus">Syncing AREDL database...</span>
+          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +10 every 5m</strong>
         </div>
-        <button class="icon-btn" onclick="closeModal('shopModal')">✕</button>
-      </div>
-      <div class="shop-orb-box">
-        <div>
-          <span style="font-size:0.78rem; color:var(--muted); display:block;">Your Balance</span>
-          <strong style="font-size:1.45rem; color:var(--orb);" id="shopOrbsBalance">💠 0 Orbs</strong>
+
+        <div class="active-buffs-wrap">
+          <div class="alert-strip active-luck-banner" id="activeLuckBanner" style="display:none;">
+            <span id="activeLuckText">🍀 LUCK BOOST ACTIVE!</span>
+            <span id="activeLuckRemaining">10 rolls left</span>
+          </div>
+          <div class="alert-strip nodup-banner" id="activeNoDupBanner" style="display:none;">
+            <span>🛡️ NO DUPLICATE SHIELD ACTIVE (No duplicate demons!)</span>
+            <span id="activeNoDupTimer">01:30</span>
+          </div>
+          <div class="alert-strip warning-banner" id="tokenShortageBanner" style="display:none;">
+            <span id="tokenShortageText">Not enough tokens.</span>
+            <strong id="tokenShortageTimer">05:00</strong>
+          </div>
         </div>
-        <span style="font-size:0.76rem; color:var(--muted); text-align:right;">Tap any item to inspect<br>price, effect & buy</span>
-      </div>
-      <div id="shopPacksList"></div>
-      <div id="shopItemDetailView" style="display:none;"></div>
+
+        <div class="stage-arena" id="stageArena">
+          <p style="color: var(--muted); text-align: center; font-size: 0.95rem;">
+            Loading all Extreme Demons from AREDL...
+          </p>
+        </div>
+
+        <div class="summon-controls">
+          <button class="btn-main btn-roll-1" id="pull1Btn" disabled>⚡ Summon x1 (1 🪙)</button>
+          <button class="btn-main btn-roll-15" id="pull15Btn" disabled>🔥 Summon x15 (15 🪙)</button>
+          <button class="btn-main" id="syncBtn">🔄 Sync AREDL</button>
+          <button class="btn-main btn-danger" id="resetBtn">🗑️ Reset</button>
+        </div>
+      </section>
+
+      <section class="dex-panel" id="dexPanel">
+        <div class="dex-header">
+          <div>
+            <h2 style="font-size:1.12rem; font-weight:900;">AREDL Extreme Demon Index</h2>
+            <span id="filterSummary" style="font-size:0.78rem; color:var(--muted);">0 levels</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="icon-btn" id="scrollTopDexBtn">↑ Top</button>
+            <button class="icon-btn" id="viewModeBtn">☷ View: Grid</button>
+          </div>
+        </div>
+
+        <div class="filter-pills" id="filterBar">
+          <button class="f-pill active" data-filter="all">All</button>
+          <button class="f-pill" data-filter="owned">✅ Owned</button>
+          <button class="f-pill" data-filter="favorites">⭐ Favorites</button>
+          <button class="f-pill" data-filter="apex" style="color:var(--c-apex)">Apex #1</button>
+          <button class="f-pill" data-filter="transcendent" style="color:var(--c-transcendent)">Transcendent</button>
+          <button class="f-pill" data-filter="divine" style="color:var(--c-divine)">Divine</button>
+          <button class="f-pill" data-filter="mythic" style="color:var(--c-mythic)">Mythic</button>
+          <button class="f-pill" data-filter="legendary" style="color:var(--c-legendary)">Legendary</button>
+          <button class="f-pill" data-filter="epic" style="color:var(--c-epic)">Epic</button>
+          <button class="f-pill" data-filter="rare" style="color:var(--c-rare)">Rare</button>
+          <button class="f-pill" data-filter="common" style="color:var(--c-common)">Common</button>
+        </div>
+
+        <div class="search-row">
+          <input type="text" class="search-box" id="searchInput" style="margin-bottom:0;" placeholder="Search by demon name, creator, or #rank (e.g. Tidal Wave, #1)..." />
+          <button class="icon-btn" id="clearSearchBtn" aria-label="Clear Search">✕</button>
+        </div>
+
+        <div class="dex-grid" id="dexGrid"></div>
+      </section>
     </div>
-  </div>
+  </main>
 
   <!-- INVENTORY MODAL -->
   <div class="modal-backdrop" id="invModal">
     <div class="modal-box" style="max-width:620px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">🎒 Player Inventory</h3>
-        <button class="icon-btn" onclick="closeModal('invModal')">✕</button>
+        <button class="icon-btn" onclick="closeModal('invModal')" aria-label="Close Inventory">✕</button>
       </div>
 
       <div class="inv-token-box">
@@ -1050,7 +1289,7 @@
     <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">🏆 Achievements</h3>
-        <button class="icon-btn" onclick="closeModal('achModal')">✕</button>
+        <button class="icon-btn" onclick="closeModal('achModal')" aria-label="Close Achievements">✕</button>
       </div>
       <div id="achList"></div>
     </div>
@@ -1061,7 +1300,7 @@
     <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
         <h3 style="font-size:1.2rem; font-weight:900;">📊 Summon Statistics</h3>
-        <button class="icon-btn" onclick="closeModal('statsModal')">✕</button>
+        <button class="icon-btn" onclick="closeModal('statsModal')" aria-label="Close Stats">✕</button>
       </div>
       <div id="statsContent"></div>
     </div>
@@ -1070,19 +1309,22 @@
   <!-- LEVEL INSPECT MODAL -->
   <div class="modal-backdrop" id="inspectModal">
     <div class="modal-box" id="inspectBox" style="padding:0; overflow:hidden; max-width:460px;">
-      <img id="modalImg" src="" alt="" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block; background:#070910;" />
+      <div class="inspect-img-wrap" id="inspectImgWrap">
+        <img id="modalImg" src="" alt="" />
+        <div class="inspect-mini-box" id="inspectMiniBox">???</div>
+      </div>
       <div style="padding:18px; display:flex; flex-direction:column; gap:8px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <span class="rarity-pill" id="modalRarity"></span>
-          <button class="fav-star" id="modalFavBtn" style="font-size:1.3rem;">★</button>
+          <button class="fav-star" id="modalFavBtn" aria-label="Toggle Favorite">★</button>
         </div>
         <h3 id="modalTitle" style="font-size:1.35rem; font-weight:900;"></h3>
         <p id="modalCreator" style="font-size:0.86rem; color:var(--muted);"></p>
         <p id="modalCount" style="font-size:0.86rem; color:#e2e8f0;"></p>
         <div class="ext-links" id="modalLinks">
-          <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener">▶ Verification</a>
-          <a class="ext-link-btn link-aredl" id="linkAredl" href="#" target="_blank" rel="noopener">🏆 AREDL Page</a>
-          <a class="ext-link-btn link-gdb" href="#" id="linkGdb" target="_blank" rel="noopener">🧊 GDBrowser</a>
+          <a class="ext-link-btn link-yt" id="linkYt" href="#" target="_blank" rel="noopener noreferrer">▶ Verification</a>
+          <a class="ext-link-btn link-aredl" id="linkAredl" href="#" target="_blank" rel="noopener noreferrer">🏆 AREDL Page</a>
+          <a class="ext-link-btn link-gdb" href="#" id="linkGdb" target="_blank" rel="noopener noreferrer">🧊 GDBrowser</a>
         </div>
         <button class="btn-main" style="margin-top:8px;" onclick="closeModal('inspectModal')">Close</button>
       </div>
@@ -1092,14 +1334,18 @@
   <script>
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
-    const CACHE_KEY = "aredl_gacha_en_db_v7";
-    const SAVE_KEY = "aredl_gacha_en_save_v7";
+    const CACHE_KEY = "aredl_gacha_en_db_v8";
+    const SAVE_KEY = "aredl_gacha_en_save_v8";
+
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
     const NO_DUP_DURATION_MS = 90000; // 1:30 minute
     const TOKEN_INTERVAL_MS = 300000; // 5 minutes
     const TOKEN_REWARD_AMOUNT = 10;
     const TOKEN_CAP = 100;
+    const ROOM_LIFETIME_MS = 600000; // 10 minutes
+    const ROOM_WARNING_MS = 30000; // final 30 seconds
+    const TRADE_CONFIRM_MS = 5000; // 5 seconds countdown after both say Yes
 
     // Connected to Firebase Realtime Database
     const TRADE_BACKEND_URL = "https://extreme-demon-gacha-trade-default-rtdb.firebaseio.com";
@@ -1180,35 +1426,60 @@
       { id: "first_trade", title: "Deal Maker", desc: "Complete your first demon trade.", reward: 1500, check: p => p.tradesCompleted >= 1 }
     ];
 
-    const nowInit = Date.now();
-    let profile = JSON.parse(localStorage.getItem(SAVE_KEY)) || {
-      tokens: 10,
-      lastTokenTick: nowInit,
-      orbs: 500,
-      pulls: 0,
-      tradesCompleted: 0,
-      owned: {},
-      favorites: [],
-      packs: { no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
-      activeBoost: null,
-      noDupUntil: 0,
-      lastPullIds: [],
-      unlockedAch: [],
-      tradeRooms: [],
-      rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
-      settings: { sfx: true, skip: false, listView: false }
-    };
+    function sanitizeName(raw, fallback = "Player") {
+      const cleaned = String(raw || "").replace(/[<>]/g, "").trim().slice(0, 24);
+      return cleaned || fallback;
+    }
 
-    profile.tokens = typeof profile.tokens === "number" ? profile.tokens : 10;
-    profile.lastTokenTick = typeof profile.lastTokenTick === "number" ? profile.lastTokenTick : nowInit;
-    profile.packs = Object.assign({ no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, profile.packs || {});
-    profile.favorites = profile.favorites || [];
-    profile.unlockedAch = profile.unlockedAch || [];
-    profile.noDupUntil = Number(profile.noDupUntil) || 0;
-    profile.tradeRooms = Array.isArray(profile.tradeRooms) ? profile.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [];
-    profile.tradesCompleted = profile.tradesCompleted || 0;
-    profile.rarityCounts = Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, profile.rarityCounts || {});
-    profile.settings = Object.assign({ sfx: true, skip: false, listView: false }, profile.settings || {});
+    function loadSafeProfile() {
+      const now = Date.now();
+      const defaults = {
+        displayName: "Player",
+        tokens: 10,
+        lastTokenTick: now,
+        orbs: 500,
+        pulls: 0,
+        tradesCompleted: 0,
+        owned: {},
+        favorites: [],
+        packs: { no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+        activeBoost: null,
+        noDupUntil: 0,
+        lastPullIds: [],
+        unlockedAch: [],
+        tradeRooms: [],
+        rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+        settings: { sfx: true, skip: false, listView: false }
+      };
+
+      try {
+        const parsed = JSON.parse(localStorage.getItem(SAVE_KEY) || "null");
+        if (!parsed || typeof parsed !== "object") return defaults;
+
+        return {
+          displayName: sanitizeName(parsed.displayName, "Player"),
+          tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.min(TOKEN_CAP, Math.floor(parsed.tokens))) : 10,
+          lastTokenTick: typeof parsed.lastTokenTick === "number" && Number.isFinite(parsed.lastTokenTick) ? parsed.lastTokenTick : now,
+          orbs: typeof parsed.orbs === "number" && Number.isFinite(parsed.orbs) ? Math.max(0, Math.floor(parsed.orbs)) : 500,
+          pulls: typeof parsed.pulls === "number" && Number.isFinite(parsed.pulls) ? Math.max(0, Math.floor(parsed.pulls)) : 0,
+          tradesCompleted: typeof parsed.tradesCompleted === "number" && Number.isFinite(parsed.tradesCompleted) ? Math.max(0, Math.floor(parsed.tradesCompleted)) : 0,
+          owned: parsed.owned && typeof parsed.owned === "object" ? parsed.owned : {},
+          favorites: Array.isArray(parsed.favorites) ? parsed.favorites.map(String) : [],
+          packs: Object.assign({ no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 }, parsed.packs || {}),
+          activeBoost: parsed.activeBoost && typeof parsed.activeBoost === "object" ? parsed.activeBoost : null,
+          noDupUntil: typeof parsed.noDupUntil === "number" ? parsed.noDupUntil : 0,
+          lastPullIds: Array.isArray(parsed.lastPullIds) ? parsed.lastPullIds.map(String) : [],
+          unlockedAch: Array.isArray(parsed.unlockedAch) ? parsed.unlockedAch.map(String) : [],
+          tradeRooms: Array.isArray(parsed.tradeRooms) ? parsed.tradeRooms.slice(0, MAX_TRADE_ROOMS) : [],
+          rarityCounts: Object.assign({ common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 }, parsed.rarityCounts || {}),
+          settings: Object.assign({ sfx: true, skip: false, listView: false }, parsed.settings || {})
+        };
+      } catch (_) {
+        return defaults;
+      }
+    }
+
+    let profile = loadSafeProfile();
 
     let allDemons = [];
     let demonMap = {};
@@ -1222,22 +1493,32 @@
     let activeRoomId = null;
     let mySelectedOffer = [];
     let mySlotStates = [];
+    let myOfferOrbs = 0;
+    let myOfferTokens = 0;
+    let myAgreed = false;
+
     let theirSelectedOffer = [];
     let theirSlotStates = [];
+    let theirOfferOrbs = 0;
+    let theirOfferTokens = 0;
+    let theirAgreed = false;
     let theirSearchQuery = "";
+
+    let fiveSecInterval = null;
+    let fiveSecSecondsLeft = 0;
 
     function saveProfile() {
       localStorage.setItem(SAVE_KEY, JSON.stringify(profile));
     }
 
-    function showMiniTokenToast(gainedAmount) {
-      const toast = document.getElementById("tokenMiniToast");
-      toast.textContent = `+${gainedAmount} Tokens!`;
+    function showToast(msg) {
+      const toast = document.getElementById("miniToast");
+      toast.textContent = msg;
       toast.classList.add("show");
       if (toastTimeout) clearTimeout(toastTimeout);
       toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
-      }, 2200);
+      }, 2400);
     }
 
     function tickTokensByTime() {
@@ -1252,7 +1533,7 @@
         const actualGain = profile.tokens - prevTokens;
         saveProfile();
         if (actualGain > 0) {
-          showMiniTokenToast(actualGain);
+          showToast(`+${actualGain} Tokens!`);
         }
       }
     }
@@ -1432,7 +1713,7 @@
         top1Img.src = imgs.primary;
         document.getElementById("top1Title").textContent = `#1 ${top1.name} — by ${top1.creator}`;
         banner.style.display = "flex";
-        banner.onclick = () => openInspectModal(top1.id);
+        banner.onclick = () => openInspectModal(top1.id, false);
       }
 
       if (profile.lastPullIds && profile.lastPullIds.length > 0) {
@@ -1456,14 +1737,16 @@
       syncBtn.disabled = true;
 
       if (!forceRefresh) {
-        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
-        if (cached && Array.isArray(cached.levels) && cached.levels.length > 0) {
-          allDemons = cached.levels;
-          rebuildIndexes();
-          syncStatus.textContent = `AREDL Active (${allDemons.length} Extreme Demons)`;
-          syncBtn.disabled = false;
-          return;
-        }
+        try {
+          const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+          if (cached && Array.isArray(cached.levels) && cached.levels.length > 0) {
+            allDemons = cached.levels;
+            rebuildIndexes();
+            syncStatus.textContent = `AREDL Active (${allDemons.length} Extreme Demons)`;
+            syncBtn.disabled = false;
+            return;
+          }
+        } catch (_) {}
       }
 
       syncStatus.textContent = "Downloading AREDL Extreme Demons...";
@@ -1474,8 +1757,9 @@
         const list = Array.isArray(data) ? data : (data.data || data.levels || []);
         processAndStoreLevels(list);
         syncStatus.textContent = `AREDL Synced (${allDemons.length} Extreme Demons)`;
-      } catch (err) {
-        syncStatus.textContent = "Failed to sync AREDL (Check connection)";
+      } catch (_) {
+        syncStatus.textContent = "Offline / Sync failed — check connection";
+        showToast("Connection error while syncing AREDL");
       } finally {
         syncBtn.disabled = false;
       }
@@ -1536,12 +1820,30 @@
       return pool[pool.length - 1];
     }
 
+    function showTokenShortageAlert(needed) {
+      tickTokensByTime();
+      const missing = Math.max(0, needed - profile.tokens);
+      const banner = document.getElementById("tokenShortageBanner");
+      document.getElementById("tokenShortageText").textContent =
+        `Not enough tokens! You need ${needed} tokens (missing ${missing}) for this summon.`;
+      document.getElementById("tokenShortageTimer").textContent =
+        `+10 in ${formatClockMMSS(getMsUntilNextTokens())}`;
+      banner.style.display = "flex";
+      showToast(`Need ${missing} more token(s)!`);
+    }
+
     async function executePull(times) {
       tickTokensByTime();
-      if (isRolling || allDemons.length === 0 || profile.tokens < times) return;
+      if (isRolling || allDemons.length === 0) return;
 
+      if (profile.tokens < times) {
+        showTokenShortageAlert(times);
+        return;
+      }
+
+      document.getElementById("tokenShortageBanner").style.display = "none";
       isRolling = true;
-      profile.tokens -= times;
+      profile.tokens = Math.max(0, profile.tokens - times);
       saveProfile();
       updateAllUI();
 
@@ -1628,8 +1930,8 @@
 
     function updateSummonButtonsState() {
       const ready = !isRolling && allDemons.length > 0;
-      document.getElementById("pull1Btn").disabled = !(ready && profile.tokens >= 1);
-      document.getElementById("pull15Btn").disabled = !(ready && profile.tokens >= 15);
+      document.getElementById("pull1Btn").disabled = !ready;
+      document.getElementById("pull15Btn").disabled = !ready;
     }
 
     function renderStageCards(pullOutputs, animate) {
@@ -1654,7 +1956,7 @@
             const orbBadge = item.orbsEarned > 0 ? `<span class="card-orbs-gain">+${item.orbsEarned} 💠</span>` : "";
 
             return `
-              <article class="pull-card r-${d.rarity}" ${delay} onclick="openInspectModal('${d.id}')">
+              <article class="pull-card r-${d.rarity}" ${delay} onclick="openInspectModal('${d.id}', false)">
                 <div class="card-media">
                   <img src="${imgs.primary}" alt="${d.name}"
                     onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
@@ -1700,7 +2002,11 @@
     function refreshTimersUI() {
       const msLeft = getMsUntilNextTokens();
       const clock = formatClockMMSS(msLeft);
+      const pct = Math.max(0, Math.min(100, ((TOKEN_INTERVAL_MS - msLeft) / TOKEN_INTERVAL_MS) * 100));
+
       document.getElementById("tokenTimerHud").textContent = clock;
+      document.getElementById("tokenProgressBar").style.width = `${pct.toFixed(1)}%`;
+
       const invTimer = document.getElementById("invTokenTimer");
       if (invTimer) invTimer.textContent = clock;
 
@@ -1711,6 +2017,15 @@
         document.getElementById("activeNoDupTimer").textContent = formatClockMMSS(dupMsLeft);
       } else {
         noDupBanner.style.display = "none";
+      }
+
+      const shortageBanner = document.getElementById("tokenShortageBanner");
+      if (shortageBanner.style.display === "flex") {
+        document.getElementById("tokenShortageTimer").textContent = `+10 in ${clock}`;
+      }
+
+      if (activeRoomId) {
+        refreshActiveRoomTimer();
       }
     }
 
@@ -1744,23 +2059,21 @@
 
     setInterval(() => {
       tickTokensByTime();
-      document.getElementById("tokensCount").textContent = profile.tokens.toLocaleString();
-      const invTokens = document.getElementById("invTokensBalance");
-      if (invTokens) invTokens.textContent = `🪙 ${profile.tokens.toLocaleString()} Tokens`;
-      refreshTimersUI();
-      updateSummonButtonsState();
+      pruneExpiredRooms();
+      updateAllUI();
     }, 500);
 
     function renderDexGrid() {
       const dexGrid = document.getElementById("dexGrid");
       dexGrid.className = `dex-grid ${profile.settings.listView ? "list-view" : ""}`;
+      const isSearching = searchQuery.length > 0;
 
       const filtered = allDemons.filter(d => {
         const count = profile.owned[d.id] || 0;
         if (currentFilter === "owned" && count === 0) return false;
         if (currentFilter === "favorites" && !profile.favorites.includes(d.id)) return false;
         if (RARITY_TIERS[currentFilter] && d.rarity !== currentFilter) return false;
-        if (searchQuery) {
+        if (isSearching) {
           const q = searchQuery.toLowerCase();
           const matchName = d.name.toLowerCase().includes(q);
           const matchCreator = d.creator.toLowerCase().includes(q);
@@ -1772,6 +2085,11 @@
 
       document.getElementById("filterSummary").textContent = `Showing ${filtered.length} demons`;
 
+      if (filtered.length === 0) {
+        dexGrid.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; grid-column:1/-1; padding:14px; text-align:center;">No demons match your current filter or search.</p>`;
+        return;
+      }
+
       dexGrid.innerHTML = filtered.map(d => {
         const count = profile.owned[d.id] || 0;
         const imgs = getImageSources(d);
@@ -1779,7 +2097,7 @@
         return `
           <div class="dex-card ${count === 0 ? "locked" : ""}"
             style="border-bottom: 3px solid var(--c-${d.rarity});"
-            onclick="openInspectModal('${d.id}')">
+            onclick="openInspectModal('${d.id}', ${isSearching})">
             <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}" loading="lazy"
               onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
             ${count > 0 ? `<span class="copy-pill">x${count}</span>` : ""}
@@ -1795,356 +2113,15 @@
       }).join("");
     }
 
-    function normalizeStates(arr, states) {
-      return arr.map((_, i) => (states && states[i]) ? states[i] : "pending");
+    // Section navigation (Orb Shop & Trader have dedicated sections + back buttons)
+    function showSection(sectionName) {
+      document.getElementById("gachaHomeView").style.display = sectionName === "home" ? "flex" : "none";
+      document.getElementById("shopSection").style.display = sectionName === "shop" ? "block" : "none";
+      document.getElementById("traderSection").style.display = sectionName === "trader" ? "block" : "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function sanitizeRoomPayload(room) {
-      const myOffer = Array.isArray(room.myOffer) ? room.myOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
-      const theirOffer = Array.isArray(room.theirOffer) ? room.theirOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
-      return {
-        id: String(room.id),
-        name: String(room.name).slice(0, 32),
-        myOffer,
-        mySlotStates: normalizeStates(myOffer, room.mySlotStates),
-        theirOffer,
-        theirSlotStates: normalizeStates(theirOffer, room.theirSlotStates),
-        updatedAt: Number(room.updatedAt) || Date.now()
-      };
-    }
-
-    function updateBackendNotice() {
-      const el = document.getElementById("traderBackendNotice");
-      if (TRADE_BACKEND_URL) {
-        el.innerHTML = `<strong>Firebase Status:</strong> Connected to <code>${escapeHtml(TRADE_BACKEND_URL)}</code>. Only placed IDs are loaded and synced. Use ✓ / ✕ on slots for counter-offers. Max: <strong>10 rooms</strong>.`;
-      } else {
-        el.innerHTML = `<strong>Firebase Status:</strong> Local browser mode. Max: <strong>10 rooms</strong>.`;
-      }
-    }
-
-    async function syncRoomsFromBackend() {
-      if (!TRADE_BACKEND_URL) return;
-      try {
-        const res = await fetch(`${TRADE_BACKEND_URL}/rooms.json`);
-        if (!res.ok) return;
-        const data = await res.json();
-        if (data && typeof data === "object") {
-          profile.tradeRooms = Object.values(data).map(sanitizeRoomPayload).slice(0, MAX_TRADE_ROOMS);
-          saveProfile();
-        }
-      } catch (_) {}
-    }
-
-    async function pushRoomToBackend(room) {
-      if (!TRADE_BACKEND_URL) return;
-      try {
-        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(room.id)}.json`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(sanitizeRoomPayload(room))
-        });
-      } catch (_) {}
-    }
-
-    async function removeRoomFromBackend(roomId) {
-      if (!TRADE_BACKEND_URL) return;
-      try {
-        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(roomId)}.json`, { method: "DELETE" });
-      } catch (_) {}
-    }
-
-    async function openTraderModal() {
-      updateBackendNotice();
-      activeRoomId = null;
-      mySelectedOffer = [];
-      mySlotStates = [];
-      theirSelectedOffer = [];
-      theirSlotStates = [];
-      theirSearchQuery = "";
-      document.getElementById("theirSearchInput").value = "";
-      document.getElementById("traderRoomView").style.display = "none";
-      document.getElementById("backToRoomsBtn").style.display = "none";
-      document.getElementById("traderLobbyView").style.display = "block";
-      await syncRoomsFromBackend();
-      renderTraderLobby();
-      document.getElementById("traderModal").classList.add("open");
-    }
-
-    function renderTraderLobby() {
-      document.getElementById("traderRoomCount").textContent = profile.tradeRooms.length;
-      document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
-      document.getElementById("createRoomBtn").disabled = profile.tradeRooms.length >= MAX_TRADE_ROOMS;
-
-      const listArea = document.getElementById("roomsListArea");
-      if (profile.tradeRooms.length === 0) {
-        listArea.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; text-align:center; padding:18px;">No active trade rooms yet. Create one above (max ${MAX_TRADE_ROOMS}).</p>`;
-        return;
-      }
-
-      listArea.innerHTML = profile.tradeRooms.map(room => `
-        <div class="room-card">
-          <div>
-            <div style="font-weight:900; font-size:0.96rem;">🏠 ${escapeHtml(room.name)}</div>
-            <div style="font-size:0.76rem; color:var(--muted);">
-              Your IDs: ${room.myOffer.length}/10 · Incoming IDs: ${room.theirOffer.length}/10
-            </div>
-          </div>
-          <button class="buy-btn" onclick="enterTradeRoom('${room.id}')">Enter Room</button>
-        </div>
-      `).join("");
-    }
-
-    function escapeHtml(str) {
-      return String(str).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[m]));
-    }
-
-    async function createTradeRoom() {
-      if (profile.tradeRooms.length >= MAX_TRADE_ROOMS) {
-        alert(`Maximum of ${MAX_TRADE_ROOMS} rooms reached.`);
-        return;
-      }
-      const input = document.getElementById("newRoomNameInput");
-      const name = input.value.trim() || `Trade Room #${profile.tradeRooms.length + 1}`;
-      const room = sanitizeRoomPayload({
-        id: "room_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
-        name,
-        myOffer: [],
-        mySlotStates: [],
-        theirOffer: [],
-        theirSlotStates: [],
-        updatedAt: Date.now()
-      });
-      profile.tradeRooms.push(room);
-      saveProfile();
-      await pushRoomToBackend(room);
-      input.value = "";
-      updateAllUI();
-      enterTradeRoom(room.id);
-    }
-
-    function enterTradeRoom(roomId) {
-      const room = profile.tradeRooms.find(r => r.id === roomId);
-      if (!room) return;
-      activeRoomId = room.id;
-      mySelectedOffer = [...(room.myOffer || [])].filter(id => (profile.owned[id] || 0) > 0).slice(0, MAX_TRADE_ITEMS);
-      mySlotStates = normalizeStates(mySelectedOffer, room.mySlotStates);
-      theirSelectedOffer = [...(room.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
-      theirSlotStates = normalizeStates(theirSelectedOffer, room.theirSlotStates);
-
-      document.getElementById("traderLobbyView").style.display = "none";
-      document.getElementById("traderRoomView").style.display = "block";
-      document.getElementById("backToRoomsBtn").style.display = "inline-flex";
-      document.getElementById("activeRoomTitle").textContent = `🏠 ${room.name}`;
-      document.getElementById("activeRoomMeta").textContent = `Select 1–10 demons per side & use ✓/✕ for counter-offers`;
-      renderTradeRoomWorkspace();
-    }
-
-    function countSelectedInMyOffer(id) {
-      return mySelectedOffer.filter(x => x === id).length;
-    }
-
-    function toggleMyOfferDemon(id) {
-      const ownedQty = profile.owned[id] || 0;
-      if (ownedQty <= 0) return;
-
-      const idx = mySelectedOffer.indexOf(id);
-      if (idx >= 0) {
-        mySelectedOffer.splice(idx, 1);
-        mySlotStates.splice(idx, 1);
-      } else {
-        if (mySelectedOffer.length >= MAX_TRADE_ITEMS) return;
-        if (countSelectedInMyOffer(id) >= ownedQty) return;
-        mySelectedOffer.push(id);
-        mySlotStates.push("pending");
-      }
-      persistRoomOffers();
-      renderTradeRoomWorkspace();
-    }
-
-    function toggleTheirOfferDemon(id) {
-      if (!demonMap[id]) return;
-      const idx = theirSelectedOffer.indexOf(id);
-      if (idx >= 0) {
-        theirSelectedOffer.splice(idx, 1);
-        theirSlotStates.splice(idx, 1);
-      } else {
-        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) return;
-        theirSelectedOffer.push(id);
-        theirSlotStates.push("pending");
-      }
-      persistRoomOffers();
-      renderTradeRoomWorkspace();
-    }
-
-    function setSlotCounterState(side, index, nextState) {
-      const states = side === "my" ? mySlotStates : theirSlotStates;
-      states[index] = states[index] === nextState ? "pending" : nextState;
-      persistRoomOffers();
-      renderTradeRoomWorkspace();
-    }
-
-    function removeSlotAt(side, index) {
-      if (side === "my") {
-        mySelectedOffer.splice(index, 1);
-        mySlotStates.splice(index, 1);
-      } else {
-        theirSelectedOffer.splice(index, 1);
-        theirSlotStates.splice(index, 1);
-      }
-      persistRoomOffers();
-      renderTradeRoomWorkspace();
-    }
-
-    function persistRoomOffers() {
-      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
-      if (!room) return;
-      room.myOffer = [...mySelectedOffer];
-      room.mySlotStates = normalizeStates(mySelectedOffer, mySlotStates);
-      room.theirOffer = [...theirSelectedOffer];
-      room.theirSlotStates = normalizeStates(theirSelectedOffer, theirSlotStates);
-      room.updatedAt = Date.now();
-      saveProfile();
-      pushRoomToBackend(room);
-    }
-
-    function renderTradeRoomWorkspace() {
-      const activeMyCount = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected").length;
-      const activeTheirCount = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected").length;
-
-      document.getElementById("myOfferCount").textContent = `${activeMyCount}/${MAX_TRADE_ITEMS}`;
-      document.getElementById("theirOfferCount").textContent = `${activeTheirCount}/${MAX_TRADE_ITEMS}`;
-
-      const mySlots = document.getElementById("myOfferSlots");
-      mySlots.innerHTML = mySelectedOffer.length === 0
-        ? `<span style="font-size:0.74rem; color:var(--muted);">No demons placed yet (min 1)</span>`
-        : mySelectedOffer.map((id, i) => {
-            const d = demonMap[id];
-            if (!d) return "";
-            const st = mySlotStates[i] || "pending";
-            const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
-            return `
-              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}">
-                #${d.rank} ${d.name}
-                <button class="mini-act-btn btn-ok" title="Approve" onclick="setSlotCounterState('my', ${i}, 'accepted')">✓</button>
-                <button class="mini-act-btn btn-no" title="Reject" onclick="setSlotCounterState('my', ${i}, 'rejected')">✕</button>
-                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="removeSlotAt('my', ${i})">×</button>
-              </span>
-            `;
-          }).join("");
-
-      const theirSlots = document.getElementById("theirOfferSlots");
-      theirSlots.innerHTML = theirSelectedOffer.length === 0
-        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed yet (min 1)</span>`
-        : theirSelectedOffer.map((id, i) => {
-            const d = demonMap[id];
-            if (!d) return "";
-            const st = theirSlotStates[i] || "pending";
-            const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
-            return `
-              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}">
-                #${d.rank} ${d.name}
-                <button class="mini-act-btn btn-ok" title="Approve" onclick="setSlotCounterState('their', ${i}, 'accepted')">✓</button>
-                <button class="mini-act-btn btn-no" title="Reject" onclick="setSlotCounterState('their', ${i}, 'rejected')">✕</button>
-                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="removeSlotAt('their', ${i})">×</button>
-              </span>
-            `;
-          }).join("");
-
-      const myOwnedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0 && demonMap[id]);
-      const myPicker = document.getElementById("myOwnedPicker");
-      if (myOwnedIds.length === 0) {
-        myPicker.innerHTML = `<p style="font-size:0.74rem; color:var(--muted); grid-column:1/-1;">Summon demons first to offer them.</p>`;
-      } else {
-        myPicker.innerHTML = myOwnedIds.map(id => {
-          const d = demonMap[id];
-          const used = countSelectedInMyOffer(id);
-          const avail = profile.owned[id] - used;
-          return `
-            <div class="pick-item ${used > 0 ? "selected" : ""}" onclick="toggleMyOfferDemon('${id}')">
-              <div style="font-weight:800;">#${d.rank} ${d.name}</div>
-              <div style="color:var(--muted); font-size:0.68rem;">Avail: x${avail} ${used > 0 ? `(Pick x${used})` : ""}</div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      const q = theirSearchQuery.toLowerCase();
-      const candidates = allDemons.filter(d => {
-        if (!q) return true;
-        return d.name.toLowerCase().includes(q) || String(d.rank) === q || ("#" + d.rank) === q;
-      }).slice(0, 60);
-
-      document.getElementById("theirAredlPicker").innerHTML = candidates.map(d => {
-        const picked = theirSelectedOffer.includes(d.id);
-        return `
-          <div class="pick-item ${picked ? "selected" : ""}" onclick="toggleTheirOfferDemon('${d.id}')">
-            <div style="font-weight:800;">#${d.rank} ${d.name}</div>
-            <div style="color:var(--c-${d.rarity}); font-size:0.68rem; font-weight:800;">${RARITY_TIERS[d.rarity].label}</div>
-          </div>
-        `;
-      }).join("");
-
-      document.getElementById("acceptTradeBtn").disabled = !(activeMyCount >= 1 && activeTheirCount >= 1);
-    }
-
-    async function acceptCurrentTrade() {
-      const approvedMyIds = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected");
-      const approvedTheirIds = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected");
-      if (approvedMyIds.length < 1 || approvedTheirIds.length < 1) return;
-
-      const neededCounts = {};
-      for (const id of approvedMyIds) {
-        neededCounts[id] = (neededCounts[id] || 0) + 1;
-        if ((profile.owned[id] || 0) < neededCounts[id]) {
-          alert("You no longer have enough copies for the approved offer.");
-          return;
-        }
-      }
-
-      for (const id of approvedMyIds) {
-        profile.owned[id] -= 1;
-        if (profile.owned[id] <= 0) delete profile.owned[id];
-      }
-
-      const receivedDemons = [];
-      for (const id of approvedTheirIds) {
-        const d = demonMap[id];
-        if (!d) continue;
-        profile.owned[id] = (profile.owned[id] || 0) + 1;
-        profile.rarityCounts[d.rarity] = (profile.rarityCounts[d.rarity] || 0) + 1;
-        receivedDemons.push(d);
-      }
-
-      profile.tradesCompleted += 1;
-      if (receivedDemons.length > 0) {
-        profile.lastPullIds = receivedDemons.map(d => d.id);
-        renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false })), true);
-      }
-
-      mySelectedOffer = [];
-      mySlotStates = [];
-      theirSelectedOffer = [];
-      theirSlotStates = [];
-      persistRoomOffers();
-      checkAchievements();
-      saveProfile();
-      playTone(784, "triangle", 0.3, 0.2);
-      updateAllUI();
-      renderTradeRoomWorkspace();
-      alert("Approved trade completed!");
-    }
-
-    async function deleteActiveRoom() {
-      if (!activeRoomId) return;
-      const idToDel = activeRoomId;
-      profile.tradeRooms = profile.tradeRooms.filter(r => r.id !== idToDel);
-      saveProfile();
-      await removeRoomFromBackend(idToDel);
-      updateAllUI();
-      document.getElementById("backToRoomsBtn").click();
-    }
-
-    function openShopModal() {
+    function openShopSection() {
       selectedShopItemId = null;
       document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
       document.getElementById("backToShopListBtn").style.display = "none";
@@ -2167,7 +2144,7 @@
         </div>
       `).join("");
 
-      document.getElementById("shopModal").classList.add("open");
+      showSection("shop");
     }
 
     function openShopItemDetail(itemId) {
@@ -2209,9 +2186,590 @@
       profile.packs[item.id] = (profile.packs[item.id] || 0) + 1;
       saveProfile();
       playTone(660, "triangle", 0.25, 0.18);
+      showToast(`Bought ${item.name}!`);
       updateAllUI();
       document.getElementById("shopOrbsBalance").textContent = `💠 ${profile.orbs.toLocaleString()} Orbs`;
       openShopItemDetail(item.id);
+    }
+
+    // Trader with Display Name, Orbs & Tokens, Both Say Yes + 5s Cancel + 10m expiry
+    function normalizeStates(arr, states) {
+      return arr.map((_, i) => (states && states[i]) ? states[i] : "pending");
+    }
+
+    function sanitizeRoomPayload(room) {
+      const now = Date.now();
+      const createdAt = typeof room.createdAt === "number" && Number.isFinite(room.createdAt) ? room.createdAt : now;
+      const expiresAt = typeof room.expiresAt === "number" && Number.isFinite(room.expiresAt) ? room.expiresAt : (createdAt + ROOM_LIFETIME_MS);
+      const myOffer = Array.isArray(room.myOffer) ? room.myOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
+      const theirOffer = Array.isArray(room.theirOffer) ? room.theirOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
+
+      return {
+        id: String(room.id),
+        name: sanitizeName(room.name, "Trade Room").slice(0, 32),
+        hostDisplayName: sanitizeName(room.hostDisplayName, profile.displayName),
+        myOffer,
+        mySlotStates: normalizeStates(myOffer, room.mySlotStates),
+        myOfferOrbs: Math.max(0, Math.floor(Number(room.myOfferOrbs) || 0)),
+        myOfferTokens: Math.max(0, Math.floor(Number(room.myOfferTokens) || 0)),
+        myAgreed: Boolean(room.myAgreed),
+        theirOffer,
+        theirSlotStates: normalizeStates(theirOffer, room.theirSlotStates),
+        theirOfferOrbs: Math.max(0, Math.floor(Number(room.theirOfferOrbs) || 0)),
+        theirOfferTokens: Math.max(0, Math.floor(Number(room.theirOfferTokens) || 0)),
+        theirAgreed: Boolean(room.theirAgreed),
+        createdAt,
+        expiresAt,
+        updatedAt: Number(room.updatedAt) || now
+      };
+    }
+
+    function pruneExpiredRooms() {
+      const now = Date.now();
+      const beforeCount = profile.tradeRooms.length;
+      const expiredIds = profile.tradeRooms.filter(r => now >= (r.expiresAt || 0)).map(r => r.id);
+
+      if (expiredIds.length === 0) return;
+
+      profile.tradeRooms = profile.tradeRooms.filter(r => now < (r.expiresAt || 0));
+      saveProfile();
+
+      expiredIds.forEach(id => removeRoomFromBackend(id));
+
+      if (activeRoomId && expiredIds.includes(activeRoomId)) {
+        stopFiveSecCountdown();
+        activeRoomId = null;
+        document.getElementById("traderRoomView").style.display = "none";
+        document.getElementById("backToRoomsBtn").style.display = "none";
+        document.getElementById("traderLobbyView").style.display = "block";
+        renderTraderLobby();
+        showToast("Trade room expired after 10 minutes.");
+      } else if (profile.tradeRooms.length !== beforeCount && document.getElementById("traderSection").style.display === "block") {
+        renderTraderLobby();
+      }
+    }
+
+    async function syncRoomsFromBackend() {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        const res = await fetch(`${TRADE_BACKEND_URL}/rooms.json`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && typeof data === "object") {
+          const now = Date.now();
+          profile.tradeRooms = Object.values(data)
+            .map(sanitizeRoomPayload)
+            .filter(r => now < r.expiresAt)
+            .slice(0, MAX_TRADE_ROOMS);
+          saveProfile();
+        }
+      } catch (_) {}
+    }
+
+    async function pushRoomToBackend(room) {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(room.id)}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sanitizeRoomPayload(room))
+        });
+      } catch (_) {}
+    }
+
+    async function removeRoomFromBackend(roomId) {
+      if (!TRADE_BACKEND_URL) return;
+      try {
+        await fetch(`${TRADE_BACKEND_URL}/rooms/${encodeURIComponent(roomId)}.json`, { method: "DELETE" });
+      } catch (_) {}
+    }
+
+    function syncDisplayNameUI() {
+      document.getElementById("displayNameInput").value = profile.displayName;
+      document.getElementById("currentDisplayNameBadge").textContent = `Active: ${profile.displayName}`;
+      document.getElementById("myDisplayNameLabel").textContent = profile.displayName;
+    }
+
+    async function openTraderSection() {
+      pruneExpiredRooms();
+      syncDisplayNameUI();
+      stopFiveSecCountdown();
+      activeRoomId = null;
+      theirSearchQuery = "";
+      document.getElementById("theirSearchInput").value = "";
+      document.getElementById("traderRoomView").style.display = "none";
+      document.getElementById("backToRoomsBtn").style.display = "none";
+      document.getElementById("traderLobbyView").style.display = "block";
+      await syncRoomsFromBackend();
+      renderTraderLobby();
+      showSection("trader");
+    }
+
+    function renderTraderLobby() {
+      pruneExpiredRooms();
+      document.getElementById("traderRoomCount").textContent = profile.tradeRooms.length;
+      document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
+      document.getElementById("createRoomBtn").disabled = profile.tradeRooms.length >= MAX_TRADE_ROOMS;
+
+      const listArea = document.getElementById("roomsListArea");
+      if (profile.tradeRooms.length === 0) {
+        listArea.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; text-align:center; padding:18px;">No active trade rooms yet. Create one above (max ${MAX_TRADE_ROOMS}, 10m limit).</p>`;
+        return;
+      }
+
+      const now = Date.now();
+      listArea.innerHTML = profile.tradeRooms.map(room => {
+        const msLeft = Math.max(0, (room.expiresAt || 0) - now);
+        return `
+          <div class="room-card">
+            <div>
+              <div style="font-weight:900; font-size:0.96rem;">🏠 ${escapeHtml(room.name)}</div>
+              <div style="font-size:0.76rem; color:var(--muted);">
+                Host: ${escapeHtml(room.hostDisplayName || "Player")} · Your IDs: ${room.myOffer.length}/10 · Incoming: ${room.theirOffer.length}/10 · ⏳ ${formatClockMMSS(msLeft)}
+              </div>
+            </div>
+            <button class="buy-btn" onclick="enterTradeRoom('${room.id}')">Enter Room</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[m]));
+    }
+
+    async function createTradeRoom() {
+      pruneExpiredRooms();
+      if (profile.tradeRooms.length >= MAX_TRADE_ROOMS) {
+        showToast(`Maximum of ${MAX_TRADE_ROOMS} rooms reached.`);
+        return;
+      }
+      const typedName = document.getElementById("newRoomNameInput").value.trim();
+      const name = sanitizeName(typedName, `Trade Room #${profile.tradeRooms.length + 1}`).slice(0, 32);
+      const now = Date.now();
+      const room = sanitizeRoomPayload({
+        id: "room_" + now + "_" + Math.random().toString(36).slice(2, 6),
+        name,
+        hostDisplayName: profile.displayName,
+        myOffer: [],
+        mySlotStates: [],
+        myOfferOrbs: 0,
+        myOfferTokens: 0,
+        myAgreed: false,
+        theirOffer: [],
+        theirSlotStates: [],
+        theirOfferOrbs: 0,
+        theirOfferTokens: 0,
+        theirAgreed: false,
+        createdAt: now,
+        expiresAt: now + ROOM_LIFETIME_MS,
+        updatedAt: now
+      });
+      profile.tradeRooms.push(room);
+      saveProfile();
+      await pushRoomToBackend(room);
+      document.getElementById("newRoomNameInput").value = "";
+      document.getElementById("roomNameCounter").textContent = "0/32";
+      showToast("Room created (10:00 timer)!");
+      updateAllUI();
+      enterTradeRoom(room.id);
+    }
+
+    function enterTradeRoom(roomId) {
+      pruneExpiredRooms();
+      const room = profile.tradeRooms.find(r => r.id === roomId);
+      if (!room) {
+        showToast("This trade room no longer exists.");
+        renderTraderLobby();
+        return;
+      }
+
+      stopFiveSecCountdown();
+      activeRoomId = room.id;
+      mySelectedOffer = [...(room.myOffer || [])].filter(id => (profile.owned[id] || 0) > 0).slice(0, MAX_TRADE_ITEMS);
+      mySlotStates = normalizeStates(mySelectedOffer, room.mySlotStates);
+      myOfferOrbs = Math.max(0, Math.min(profile.orbs, Math.floor(Number(room.myOfferOrbs) || 0)));
+      myOfferTokens = Math.max(0, Math.min(profile.tokens, Math.floor(Number(room.myOfferTokens) || 0)));
+      myAgreed = Boolean(room.myAgreed);
+
+      theirSelectedOffer = [...(room.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
+      theirSlotStates = normalizeStates(theirSelectedOffer, room.theirSlotStates);
+      theirOfferOrbs = Math.max(0, Math.floor(Number(room.theirOfferOrbs) || 0));
+      theirOfferTokens = Math.max(0, Math.floor(Number(room.theirOfferTokens) || 0));
+      theirAgreed = Boolean(room.theirAgreed);
+
+      document.getElementById("traderLobbyView").style.display = "none";
+      document.getElementById("traderRoomView").style.display = "block";
+      document.getElementById("backToRoomsBtn").style.display = "inline-flex";
+      document.getElementById("activeRoomTitle").textContent = `🏠 ${room.name}`;
+      document.getElementById("activeRoomMeta").textContent = `Display name: ${profile.displayName} · 10m max room time`;
+
+      renderTradeRoomWorkspace();
+      refreshActiveRoomTimer();
+      evaluateBothAgreedCountdown();
+    }
+
+    function refreshActiveRoomTimer() {
+      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
+      if (!room) return;
+      const msLeft = Math.max(0, (room.expiresAt || 0) - Date.now());
+      document.getElementById("roomTimerText").textContent = formatClockMMSS(msLeft);
+
+      const warnBox = document.getElementById("roomExpiryWarning");
+      if (msLeft > 0 && msLeft <= ROOM_WARNING_MS) {
+        warnBox.style.display = "flex";
+        document.getElementById("roomExpirySeconds").textContent = `${Math.ceil(msLeft / 1000)}s`;
+      } else {
+        warnBox.style.display = "none";
+      }
+    }
+
+    function countSelectedInMyOffer(id) {
+      return mySelectedOffer.filter(x => x === id).length;
+    }
+
+    function toggleMyOfferDemon(id) {
+      const ownedQty = profile.owned[id] || 0;
+      if (ownedQty <= 0) return;
+
+      const idx = mySelectedOffer.indexOf(id);
+      if (idx >= 0) {
+        mySelectedOffer.splice(idx, 1);
+        mySlotStates.splice(idx, 1);
+      } else {
+        if (mySelectedOffer.length >= MAX_TRADE_ITEMS) return;
+        if (countSelectedInMyOffer(id) >= ownedQty) return;
+        mySelectedOffer.push(id);
+        mySlotStates.push("pending");
+      }
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    function toggleTheirOfferDemon(id) {
+      if (!demonMap[id]) return;
+      const idx = theirSelectedOffer.indexOf(id);
+      if (idx >= 0) {
+        theirSelectedOffer.splice(idx, 1);
+        theirSlotStates.splice(idx, 1);
+      } else {
+        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) return;
+        theirSelectedOffer.push(id);
+        theirSlotStates.push("pending");
+      }
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    function setSlotCounterState(side, index, nextState) {
+      const states = side === "my" ? mySlotStates : theirSlotStates;
+      states[index] = states[index] === nextState ? "pending" : nextState;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    function removeSlotAt(side, index) {
+      if (side === "my") {
+        mySelectedOffer.splice(index, 1);
+        mySlotStates.splice(index, 1);
+      } else {
+        theirSelectedOffer.splice(index, 1);
+        theirSlotStates.splice(index, 1);
+      }
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    }
+
+    function resetAgreementAndSave() {
+      stopFiveSecCountdown();
+      myAgreed = false;
+      theirAgreed = false;
+      persistRoomOffers();
+    }
+
+    function persistRoomOffers() {
+      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
+      if (!room) return;
+      room.hostDisplayName = profile.displayName;
+      room.myOffer = [...mySelectedOffer];
+      room.mySlotStates = normalizeStates(mySelectedOffer, mySlotStates);
+      room.myOfferOrbs = Math.max(0, Math.min(profile.orbs, Math.floor(Number(myOfferOrbs) || 0)));
+      room.myOfferTokens = Math.max(0, Math.min(profile.tokens, Math.floor(Number(myOfferTokens) || 0)));
+      room.myAgreed = Boolean(myAgreed);
+
+      room.theirOffer = [...theirSelectedOffer];
+      room.theirSlotStates = normalizeStates(theirSelectedOffer, theirSlotStates);
+      room.theirOfferOrbs = Math.max(0, Math.floor(Number(theirOfferOrbs) || 0));
+      room.theirOfferTokens = Math.max(0, Math.floor(Number(theirOfferTokens) || 0));
+      room.theirAgreed = Boolean(theirAgreed);
+      room.updatedAt = Date.now();
+      saveProfile();
+      pushRoomToBackend(room);
+    }
+
+    function hasAnyOfferOnSide(side) {
+      if (side === "my") {
+        const activeDemons = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected").length;
+        return activeDemons > 0 || myOfferOrbs > 0 || myOfferTokens > 0;
+      } else {
+        const activeDemons = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected").length;
+        return activeDemons > 0 || theirOfferOrbs > 0 || theirOfferTokens > 0;
+      }
+    }
+
+    function renderTradeRoomWorkspace() {
+      document.getElementById("myDisplayNameLabel").textContent = profile.displayName;
+      document.getElementById("maxMyOrbs").textContent = profile.orbs.toLocaleString();
+      document.getElementById("maxMyTokens").textContent = profile.tokens.toLocaleString();
+
+      document.getElementById("myOfferOrbsInput").value = myOfferOrbs;
+      document.getElementById("myOfferTokensInput").value = myOfferTokens;
+      document.getElementById("theirOfferOrbsInput").value = theirOfferOrbs;
+      document.getElementById("theirOfferTokensInput").value = theirOfferTokens;
+
+      const activeMyCount = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected").length;
+      const activeTheirCount = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected").length;
+
+      document.getElementById("myOfferCount").textContent = `${activeMyCount}/${MAX_TRADE_ITEMS}`;
+      document.getElementById("theirOfferCount").textContent = `${activeTheirCount}/${MAX_TRADE_ITEMS}`;
+
+      const mySlots = document.getElementById("myOfferSlots");
+      mySlots.innerHTML = mySelectedOffer.length === 0
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No demons placed (you can also offer Orbs or Tokens)</span>`
+        : mySelectedOffer.map((id, i) => {
+            const d = demonMap[id];
+            if (!d) return "";
+            const st = mySlotStates[i] || "pending";
+            const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
+            return `
+              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}">
+                #${d.rank} ${d.name}
+                <button class="mini-act-btn btn-ok" title="Approve" onclick="setSlotCounterState('my', ${i}, 'accepted')">✓</button>
+                <button class="mini-act-btn btn-no" title="Reject" onclick="setSlotCounterState('my', ${i}, 'rejected')">✕</button>
+                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="removeSlotAt('my', ${i})">×</button>
+              </span>
+            `;
+          }).join("");
+
+      const theirSlots = document.getElementById("theirOfferSlots");
+      theirSlots.innerHTML = theirSelectedOffer.length === 0
+        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed (you can set incoming Orbs or Tokens)</span>`
+        : theirSelectedOffer.map((id, i) => {
+            const d = demonMap[id];
+            if (!d) return "";
+            const st = theirSlotStates[i] || "pending";
+            const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
+            return `
+              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}">
+                #${d.rank} ${d.name}
+                <button class="mini-act-btn btn-ok" title="Approve" onclick="setSlotCounterState('their', ${i}, 'accepted')">✓</button>
+                <button class="mini-act-btn btn-no" title="Reject" onclick="setSlotCounterState('their', ${i}, 'rejected')">✕</button>
+                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="removeSlotAt('their', ${i})">×</button>
+              </span>
+            `;
+          }).join("");
+
+      const myOwnedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0 && demonMap[id]);
+      const myPicker = document.getElementById("myOwnedPicker");
+      if (myOwnedIds.length === 0) {
+        myPicker.innerHTML = `<p style="font-size:0.74rem; color:var(--muted); grid-column:1/-1;">No owned demons yet. You can still offer Orbs or Tokens.</p>`;
+      } else {
+        myPicker.innerHTML = myOwnedIds.map(id => {
+          const d = demonMap[id];
+          const used = countSelectedInMyOffer(id);
+          const avail = profile.owned[id] - used;
+          return `
+            <div class="pick-item ${used > 0 ? "selected" : ""}" onclick="toggleMyOfferDemon('${id}')">
+              <div style="font-weight:800;">#${d.rank} ${d.name}</div>
+              <div style="color:var(--muted); font-size:0.68rem;">Avail: x${avail} ${used > 0 ? `(Pick x${used})` : ""}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      const q = theirSearchQuery.toLowerCase();
+      const candidates = allDemons.filter(d => {
+        if (!q) return true;
+        return d.name.toLowerCase().includes(q) || String(d.rank) === q || ("#" + d.rank) === q;
+      }).slice(0, 60);
+
+      document.getElementById("theirAredlPicker").innerHTML = candidates.map(d => {
+        const picked = theirSelectedOffer.includes(d.id);
+        return `
+          <div class="pick-item ${picked ? "selected" : ""}" onclick="toggleTheirOfferDemon('${d.id}')">
+            <div style="font-weight:800;">#${d.rank} ${d.name}</div>
+            <div style="color:var(--c-${d.rarity}); font-size:0.68rem; font-weight:800;">${RARITY_TIERS[d.rarity].label}</div>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("myYesStatusText").textContent = myAgreed ? "YES 👍" : "NO";
+      document.getElementById("theirYesStatusText").textContent = theirAgreed ? "YES 👍" : "NO";
+      document.getElementById("toggleMyYesBtn").textContent = myAgreed ? "✅ You Said Yes" : "👍 Say Yes (You)";
+      document.getElementById("toggleTheirYesBtn").textContent = theirAgreed ? "✅ Partner Said Yes" : "🤝 Partner Says Yes";
+    }
+
+    function stopFiveSecCountdown() {
+      if (fiveSecInterval) {
+        clearInterval(fiveSecInterval);
+        fiveSecInterval = null;
+      }
+      fiveSecSecondsLeft = 0;
+      document.getElementById("fiveSecCountdownBox").style.display = "none";
+    }
+
+    function evaluateBothAgreedCountdown() {
+      if (!(myAgreed && theirAgreed)) {
+        stopFiveSecCountdown();
+        return;
+      }
+
+      if (!hasAnyOfferOnSide("my") || !hasAnyOfferOnSide("their")) {
+        myAgreed = false;
+        theirAgreed = false;
+        persistRoomOffers();
+        renderTradeRoomWorkspace();
+        showToast("Both sides must offer at least one demon, Orb, or Token.");
+        return;
+      }
+
+      if (fiveSecInterval) return;
+
+      fiveSecSecondsLeft = Math.ceil(TRADE_CONFIRM_MS / 1000);
+      document.getElementById("fiveSecCountdownNum").textContent = fiveSecSecondsLeft;
+      document.getElementById("fiveSecCountdownBox").style.display = "flex";
+
+      fiveSecInterval = setInterval(() => {
+        fiveSecSecondsLeft -= 1;
+        if (fiveSecSecondsLeft <= 0) {
+          stopFiveSecCountdown();
+          finalizeAndVerifyTrade();
+        } else {
+          document.getElementById("fiveSecCountdownNum").textContent = fiveSecSecondsLeft;
+        }
+      }, 1000);
+    }
+
+    function cancelFiveSecCountdown() {
+      stopFiveSecCountdown();
+      myAgreed = false;
+      theirAgreed = false;
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+      showToast("Trade countdown cancelled.");
+    }
+
+    async function finalizeAndVerifyTrade() {
+      const approvedMyIds = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected");
+      const approvedTheirIds = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected");
+
+      const orbsToGive = Math.max(0, Math.floor(Number(myOfferOrbs) || 0));
+      const tokensToGive = Math.max(0, Math.floor(Number(myOfferTokens) || 0));
+      const orbsToReceive = Math.max(0, Math.floor(Number(theirOfferOrbs) || 0));
+      const tokensToReceive = Math.max(0, Math.floor(Number(theirOfferTokens) || 0));
+
+      if (profile.orbs < orbsToGive || profile.tokens < tokensToGive) {
+        myAgreed = false;
+        theirAgreed = false;
+        persistRoomOffers();
+        renderTradeRoomWorkspace();
+        showToast("Insufficient Orbs or Tokens to complete trade safely.");
+        return;
+      }
+
+      const neededCounts = {};
+      for (const id of approvedMyIds) {
+        neededCounts[id] = (neededCounts[id] || 0) + 1;
+        if ((profile.owned[id] || 0) < neededCounts[id]) {
+          myAgreed = false;
+          theirAgreed = false;
+          persistRoomOffers();
+          renderTradeRoomWorkspace();
+          showToast("Missing approved demon copy; trade aborted safely.");
+          return;
+        }
+      }
+
+      // Snapshot before transfer for atomic rollback safety
+      const snapshot = JSON.parse(JSON.stringify(profile));
+
+      try {
+        for (const id of approvedMyIds) {
+          profile.owned[id] -= 1;
+          if (profile.owned[id] <= 0) delete profile.owned[id];
+        }
+        profile.orbs = profile.orbs - orbsToGive + orbsToReceive;
+        profile.tokens = Math.min(TOKEN_CAP, Math.max(0, profile.tokens - tokensToGive + tokensToReceive));
+
+        const receivedDemons = [];
+        for (const id of approvedTheirIds) {
+          const d = demonMap[id];
+          if (!d) continue;
+          profile.owned[id] = (profile.owned[id] || 0) + 1;
+          profile.rarityCounts[d.rarity] = (profile.rarityCounts[d.rarity] || 0) + 1;
+          receivedDemons.push(d);
+        }
+
+        // Integrity verification check
+        const verifiedDemons = approvedTheirIds.every(id => (profile.owned[id] || 0) >= 1);
+        const verifiedBalances = Number.isFinite(profile.orbs) && profile.orbs >= 0 && Number.isFinite(profile.tokens) && profile.tokens >= 0;
+        if (!verifiedDemons || !verifiedBalances) {
+          throw new Error("Verification check failed");
+        }
+
+        profile.tradesCompleted += 1;
+        mySelectedOffer = [];
+        mySlotStates = [];
+        myOfferOrbs = 0;
+        myOfferTokens = 0;
+        myAgreed = false;
+
+        theirSelectedOffer = [];
+        theirSlotStates = [];
+        theirOfferOrbs = 0;
+        theirOfferTokens = 0;
+        theirAgreed = false;
+
+        persistRoomOffers();
+        checkAchievements();
+        saveProfile();
+
+        if (receivedDemons.length > 0) {
+          profile.lastPullIds = receivedDemons.map(d => d.id);
+          renderStageCards(receivedDemons.map(d => ({ demon: d, isDup: false, orbsEarned: 0, isTroll: false })), true);
+        }
+
+        playTone(784, "triangle", 0.3, 0.2);
+        updateAllUI();
+        renderTradeRoomWorkspace();
+        showToast("Trade verified & completed cleanly!");
+      } catch (_) {
+        profile = snapshot;
+        saveProfile();
+        updateAllUI();
+        renderTradeRoomWorkspace();
+        showToast("Trade safety check triggered — no items lost!");
+      }
+    }
+
+    async function deleteActiveRoom() {
+      if (!activeRoomId) return;
+      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
+      if (!room) {
+        showToast("Room already removed.");
+        document.getElementById("backToRoomsBtn").click();
+        return;
+      }
+      if (!confirm(`Delete trade room "${room.name}"?`)) return;
+
+      stopFiveSecCountdown();
+      const idToDel = activeRoomId;
+      profile.tradeRooms = profile.tradeRooms.filter(r => r.id !== idToDel);
+      saveProfile();
+      await removeRoomFromBackend(idToDel);
+      showToast("Room deleted.");
+      updateAllUI();
+      document.getElementById("backToRoomsBtn").click();
     }
 
     function openInvModal() {
@@ -2253,7 +2811,7 @@
         invGrid.innerHTML = ownedDemons.map(d => {
           const imgs = getImageSources(d);
           return `
-            <div class="dex-card" style="border-bottom:3px solid var(--c-${d.rarity});" onclick="closeModal('invModal'); openInspectModal('${d.id}')">
+            <div class="dex-card" style="border-bottom:3px solid var(--c-${d.rarity});" onclick="closeModal('invModal'); openInspectModal('${d.id}', false)">
               <img class="dex-thumb" src="${imgs.primary}" alt="${d.name}"
                 onerror="handleImgError(this, '${imgs.secondary}', '${imgs.fallback}')">
               <span class="copy-pill">x${profile.owned[d.id]}</span>
@@ -2266,24 +2824,32 @@
         }).join("");
       }
 
-      document.getElementById("invModal").classList.add("open");
+      openModal("invModal");
     }
 
     function activateShopItem(itemId) {
       const item = SHOP_ITEMS.find(p => p.id === itemId);
       if (!item || (profile.packs[item.id] || 0) <= 0) return;
 
+      if (item.kind === "nodup" && isNoDuplicateActive()) {
+        showToast("No Duplicate Shield is already active! Timer extended.");
+      } else if (item.kind === "luck" && profile.activeBoost && profile.activeBoost.remaining > 0) {
+        showToast("Replacing existing Luck Boost with newly activated pack.");
+      }
+
       profile.packs[item.id] -= 1;
 
       if (item.kind === "nodup") {
         const baseTime = Math.max(Date.now(), Number(profile.noDupUntil) || 0);
         profile.noDupUntil = baseTime + (item.durationMs || NO_DUP_DURATION_MS);
+        showToast("No Duplicate activated (1:30)!");
       } else {
         profile.activeBoost = {
           multiplier: item.multiplier,
           remaining: item.rolls,
           name: item.name
         };
+        showToast(`${item.name} activated!`);
       }
 
       saveProfile();
@@ -2305,7 +2871,7 @@
           </div>
         `;
       }).join("");
-      document.getElementById("achModal").classList.add("open");
+      openModal("achModal");
     }
 
     function openStatsModal() {
@@ -2320,22 +2886,37 @@
         `;
       }).join("");
       document.getElementById("statsContent").innerHTML = rows;
-      document.getElementById("statsModal").classList.add("open");
+      openModal("statsModal");
     }
 
-    function openInspectModal(id) {
+    function openInspectModal(id, fromSearch = false) {
       const d = demonMap[id];
       if (!d) return;
       const count = profile.owned[d.id] || 0;
+      const isOwned = count > 0;
+      const revealName = isOwned || Boolean(fromSearch);
       const isFav = profile.favorites.includes(d.id);
       const imgs = getImageSources(d);
 
       const box = document.getElementById("inspectBox");
+      const imgWrap = document.getElementById("inspectImgWrap");
+      const miniBox = document.getElementById("inspectMiniBox");
       const img = document.getElementById("modalImg");
+
       box.style.border = `2px solid var(--c-${d.rarity})`;
       img.dataset.triedSecondary = "";
       img.onerror = () => handleImgError(img, imgs.secondary, imgs.fallback);
       img.src = imgs.primary;
+
+      if (!isOwned) {
+        imgWrap.classList.add("gray-locked");
+        miniBox.classList.add("gray-box");
+        miniBox.textContent = "???";
+      } else {
+        imgWrap.classList.remove("gray-locked");
+        miniBox.classList.remove("gray-box");
+        miniBox.textContent = d.name;
+      }
 
       const rarEl = document.getElementById("modalRarity");
       rarEl.className = `rarity-pill rp-${d.rarity}`;
@@ -2345,19 +2926,19 @@
       favBtn.className = `fav-star ${isFav ? "active" : ""}`;
       favBtn.onclick = () => {
         toggleFavorite(d.id);
-        openInspectModal(d.id);
+        openInspectModal(d.id, fromSearch);
       };
 
-      document.getElementById("modalTitle").textContent = count > 0 ? d.name : `Locked Demon (#${d.rank})`;
-      document.getElementById("modalCreator").textContent = count > 0
+      document.getElementById("modalTitle").textContent = revealName ? d.name : "???";
+      document.getElementById("modalCreator").textContent = isOwned
         ? `Published by ${d.creator} · Level ID: ${d.levelId}`
-        : "Summon this demon in the Gacha to reveal its full details";
-      document.getElementById("modalCount").textContent = count > 0
+        : (fromSearch ? `Searched preview · Published by ${d.creator} · Not owned yet` : "Not unlocked yet — summon it in the Gacha");
+      document.getElementById("modalCount").textContent = isOwned
         ? `Copies owned: x${count} · Reward value: ${RARITY_TIERS[d.rarity].orbs.toLocaleString()} Orbs`
-        : "Status: Not unlocked yet";
+        : "Status: Locked";
 
       const linksDiv = document.getElementById("modalLinks");
-      if (count > 0) {
+      if (isOwned) {
         linksDiv.style.display = "grid";
         document.getElementById("linkYt").href = d.yt
           ? `https://www.youtube.com/watch?v=${d.yt}`
@@ -2368,50 +2949,145 @@
         linksDiv.style.display = "none";
       }
 
-      document.getElementById("inspectModal").classList.add("open");
+      openModal("inspectModal");
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add("open");
+      document.body.classList.add("modal-open-lock");
     }
 
     function closeModal(id) {
       document.getElementById(id).classList.remove("open");
+      const anyOpen = document.querySelector(".modal-backdrop.open");
+      if (!anyOpen) document.body.classList.remove("modal-open-lock");
     }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
+        document.body.classList.remove("modal-open-lock");
+      }
+    });
 
     document.querySelectorAll(".modal-backdrop").forEach(m => {
       m.addEventListener("click", e => {
-        if (e.target === m) m.classList.remove("open");
+        if (e.target === m) closeModal(m.id);
       });
     });
 
     document.getElementById("pull1Btn").addEventListener("click", () => executePull(1));
     document.getElementById("pull15Btn").addEventListener("click", () => executePull(15));
     document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
-    document.getElementById("openShopBtn").addEventListener("click", openShopModal);
-    document.getElementById("backToShopListBtn").addEventListener("click", openShopModal);
+    document.getElementById("openShopBtn").addEventListener("click", openShopSection);
+    document.getElementById("backFromShopSectionBtn").addEventListener("click", () => showSection("home"));
+    document.getElementById("backToShopListBtn").addEventListener("click", openShopSection);
     document.getElementById("openInvBtn").addEventListener("click", openInvModal);
-    document.getElementById("openTraderBtn").addEventListener("click", openTraderModal);
+    document.getElementById("openTraderBtn").addEventListener("click", openTraderSection);
+    document.getElementById("backFromTraderSectionBtn").addEventListener("click", () => {
+      stopFiveSecCountdown();
+      showSection("home");
+    });
     document.getElementById("openAchBtn").addEventListener("click", openAchModal);
     document.getElementById("openStatsBtn").addEventListener("click", openStatsModal);
 
+    document.getElementById("saveDisplayNameBtn").addEventListener("click", () => {
+      profile.displayName = sanitizeName(document.getElementById("displayNameInput").value, "Player");
+      saveProfile();
+      syncDisplayNameUI();
+      if (activeRoomId) persistRoomOffers();
+      showToast(`Display name saved: ${profile.displayName}`);
+    });
+
+    document.getElementById("newRoomNameInput").addEventListener("input", e => {
+      document.getElementById("roomNameCounter").textContent = `${e.target.value.length}/32`;
+    });
+
     document.getElementById("createRoomBtn").addEventListener("click", createTradeRoom);
     document.getElementById("backToRoomsBtn").addEventListener("click", () => {
+      stopFiveSecCountdown();
       activeRoomId = null;
       document.getElementById("traderRoomView").style.display = "none";
       document.getElementById("backToRoomsBtn").style.display = "none";
       document.getElementById("traderLobbyView").style.display = "block";
       renderTraderLobby();
     });
+
+    document.getElementById("myOfferOrbsInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.min(profile.orbs, Math.floor(Number(e.target.value) || 0)));
+      myOfferOrbs = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("myOfferTokensInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.min(profile.tokens, Math.floor(Number(e.target.value) || 0)));
+      myOfferTokens = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("theirOfferOrbsInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
+      theirOfferOrbs = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("theirOfferTokensInput").addEventListener("change", e => {
+      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
+      theirOfferTokens = val;
+      e.target.value = val;
+      resetAgreementAndSave();
+      renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("toggleMyYesBtn").addEventListener("click", () => {
+      myAgreed = !myAgreed;
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+      evaluateBothAgreedCountdown();
+    });
+
+    document.getElementById("toggleTheirYesBtn").addEventListener("click", () => {
+      theirAgreed = !theirAgreed;
+      persistRoomOffers();
+      renderTradeRoomWorkspace();
+      evaluateBothAgreedCountdown();
+    });
+
+    document.getElementById("cancelFiveSecBtn").addEventListener("click", cancelFiveSecCountdown);
+
     document.getElementById("clearTradeBtn").addEventListener("click", () => {
       mySelectedOffer = [];
       mySlotStates = [];
+      myOfferOrbs = 0;
+      myOfferTokens = 0;
       theirSelectedOffer = [];
       theirSlotStates = [];
-      persistRoomOffers();
+      theirOfferOrbs = 0;
+      theirOfferTokens = 0;
+      resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
-    document.getElementById("acceptTradeBtn").addEventListener("click", acceptCurrentTrade);
+
     document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
     document.getElementById("theirSearchInput").addEventListener("input", e => {
       theirSearchQuery = e.target.value.trim();
       renderTradeRoomWorkspace();
+    });
+
+    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
+      document.getElementById("dexGrid").scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("clearSearchBtn").addEventListener("click", () => {
+      document.getElementById("searchInput").value = "";
+      searchQuery = "";
+      renderDexGrid();
     });
 
     const soundBtn = document.getElementById("soundToggleBtn");
@@ -2449,8 +3125,11 @@
 
     document.getElementById("resetBtn").addEventListener("click", () => {
       if (!confirm("Reset all your Tokens, Orbs, Items, Unlocked Demons, Rooms, and Achievements?")) return;
+      stopFiveSecCountdown();
+      activeRoomId = null;
       const resetNow = Date.now();
       profile = {
+        displayName: profile.displayName || "Player",
         tokens: 10,
         lastTokenTick: resetNow,
         orbs: 500,
@@ -2468,7 +3147,9 @@
         settings: profile.settings
       };
       saveProfile();
+      document.getElementById("tokenShortageBanner").style.display = "none";
       document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Summon to begin!</p>`;
+      showToast("Progress reset.");
       updateAllUI();
     });
 
@@ -2486,6 +3167,7 @@
     });
 
     tickTokensByTime();
+    pruneExpiredRooms();
     syncToggleButtons();
     loadAREDL(false);
   </script>
