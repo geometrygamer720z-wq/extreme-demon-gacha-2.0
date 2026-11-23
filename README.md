@@ -1,4 +1,4 @@
-# [Extreme Demon Roulette](https://matcool.github.io/extreme-demon-roulette/)
+# [https://geometrygamer720z-wq.github.io/extreme-demon-gacha-2.0/)
 
 ![screenshot of the website](https://i.imgur.com/0Ws36xN.png)
 
