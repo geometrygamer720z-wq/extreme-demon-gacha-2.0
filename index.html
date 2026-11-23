@@ -106,6 +106,11 @@
       100% { box-shadow: 0 0 0 rgba(250, 204, 21, 0); border-color: rgba(250, 204, 21, 0.45); }
     }
 
+    @keyframes claimPulse {
+      0%, 100% { box-shadow: 0 0 12px rgba(250, 204, 21, 0.45); transform: scale(1); }
+      50% { box-shadow: 0 0 22px rgba(250, 204, 21, 0.85); transform: scale(1.02); }
+    }
+
     .orb-icon {
       width: 1.18em;
       height: 1.18em;
@@ -172,6 +177,54 @@
       transform: translate3d(0, 0, 0) scale(1);
     }
 
+    .claim-alert-toast {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: linear-gradient(135deg, rgba(24, 20, 8, 0.97), rgba(45, 33, 6, 0.97));
+      border: 1.5px solid #facc15;
+      color: #fef08a;
+      padding: 11px 15px;
+      border-radius: 14px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      z-index: 1090;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.65), 0 0 22px rgba(250, 204, 21, 0.35);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: freshFadeIn 0.2s var(--ease-fresh) both;
+    }
+
+    .claim-alert-toast.visible {
+      display: inline-flex;
+    }
+
+    .claim-tokens-btn {
+      background: linear-gradient(135deg, #facc15, #f59e0b);
+      color: #090c14;
+      border: none;
+      border-radius: 9px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      animation: claimPulse 1.6s ease-in-out infinite;
+      transition: transform 0.12s var(--ease-fresh);
+    }
+
+    .claim-tokens-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .claim-tokens-btn:active {
+      transform: scale(0.96);
+    }
+
     .topbar {
       width: 100%;
       max-width: 1060px;
@@ -232,8 +285,8 @@
       flex-direction: column;
       align-items: flex-start;
       border-radius: 14px;
-      gap: 4px;
-      min-width: 184px;
+      gap: 5px;
+      min-width: 196px;
     }
     .hud-pill.tokens-pill strong { color: var(--token); }
 
@@ -781,6 +834,18 @@
       color: var(--muted);
       flex-wrap: wrap;
       gap: 8px;
+    }
+
+    .timer-claim-bar {
+      padding: 10px 18px;
+      background: linear-gradient(90deg, rgba(250, 204, 21, 0.1), rgba(59, 130, 246, 0.08));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.82rem;
     }
 
     .alert-strip {
@@ -1566,6 +1631,11 @@
   <div class="flash-overlay" id="flashOverlay"></div>
   <div class="mini-toast" id="miniToast">Notice</div>
 
+  <div class="claim-alert-toast" id="claimAlertToast" role="status" aria-live="polite">
+    <span>🪙 <strong id="claimAlertCount">5</strong> Tokens ready to claim!</span>
+    <button type="button" class="claim-tokens-btn" id="toastClaimBtn">Claim Now</button>
+  </div>
+
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon">GD</div>
@@ -1584,6 +1654,9 @@
         <div class="token-progress-track">
           <div class="token-progress-fill" id="tokenProgressBar"></div>
         </div>
+        <button type="button" class="claim-tokens-btn" id="hudClaimTokensBtn" style="display:none; width:100%;">
+          🎁 Claim <span id="hudClaimAmount">5</span> Tokens
+        </button>
       </div>
       <div class="hud-pill orbs"><span class="orb-icon-slot"></span> Orbs: <strong id="orbsCount">0</strong></div>
       <div class="hud-pill">🎲 Rolls: <strong id="pullsCount">0</strong></div>
@@ -1771,7 +1844,17 @@
       <section class="summon-stage" id="summonStage">
         <div class="stage-header">
           <span id="syncStatus">Syncing AREDL Extreme Demon database...</span>
-          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +10 every 5m (active tab)</strong>
+          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +5 every 5m (Claim to collect)</strong>
+        </div>
+
+        <div class="timer-claim-bar" id="timerClaimBar">
+          <div>
+            <span>⏳ Token Timer (5m): <strong id="stageTokenTimer" style="color:var(--token);">05:00</strong></span>
+            <span style="margin-left:10px; color:var(--muted);" id="pendingTokensLabel">Ready to claim: <strong style="color:var(--token);" id="pendingTokensCount">0</strong> 🪙</span>
+          </div>
+          <button type="button" class="claim-tokens-btn" id="stageClaimTokensBtn" style="display:none;">
+            🎁 Claim <span id="stageClaimAmount">5</span> Tokens
+          </button>
         </div>
 
         <div class="active-buffs-wrap">
@@ -1784,7 +1867,7 @@
             <span id="activeNoDupTimer">01:30</span>
           </div>
           <div class="alert-strip active-luck-banner" id="activeTokenBoosterBanner" style="display:none;">
-            <span>⚡ TOKEN BOOSTER 3X ACTIVE (Fast recharge in active tab)</span>
+            <span>⚡ TOKEN BOOSTER 3X ACTIVE (Fast recharge)</span>
             <span id="activeTokenBoosterTimer">10:00</span>
           </div>
           <div class="alert-strip warning-banner" id="tokenShortageBanner" style="display:none;">
@@ -1861,8 +1944,11 @@
           <span style="font-size:0.72rem; color:#fde68a; display:block; font-weight:800; letter-spacing:0.5px;">SUMMON TOKENS</span>
           <strong style="font-size:1.35rem; color:var(--token);" id="invTokensBalance">🪙 0 Tokens</strong>
         </div>
-        <div style="text-align:right; font-size:0.8rem; color:#e2e8f0;">
-          Next +10 Tokens in: <strong style="color:var(--token);" id="invTokenTimer">05:00</strong>
+        <div style="text-align:right; font-size:0.8rem; color:#e2e8f0; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+          <div>Next +5 Tokens in: <strong style="color:var(--token);" id="invTokenTimer">05:00</strong></div>
+          <button type="button" class="claim-tokens-btn" id="invClaimTokensBtn" style="display:none;">
+            🎁 Claim <span id="invClaimAmount">5</span> Tokens
+          </button>
         </div>
       </div>
 
@@ -1928,7 +2014,7 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v14";
+    const SAVE_KEY = "aredl_gacha_en_save_v15";
     const STARTER_GRANTED_KEY = "aredl_gacha_starter_granted_v2";
 
     const ORB_SPRITE_SRC = "image_generation_content/15459961638449512081";
@@ -1947,8 +2033,8 @@
     const MAX_TRADE_ITEMS = 10;
     const MAX_PARTICLES = 56;
     const NO_DUP_DURATION_MS = 90000;
-    const TOKEN_INTERVAL_MS = 300000;
-    const TOKEN_REWARD_AMOUNT = 10;
+    const TOKEN_INTERVAL_MS = 300000; // 5 minutes
+    const TOKEN_REWARD_AMOUNT = 5; // 5 tokens per cycle
     const STARTER_TOKENS = 5;
     const ROOM_LIFETIME_MS = 600000;
     const ROOM_WARNING_MS = 30000;
@@ -2017,8 +2103,8 @@
         durationMs: TOKEN_BOOSTER_DURATION_MS,
         cost: TOKEN_BOOSTER_COST_ORBS,
         name: "Token Booster (10 Min)",
-        shortDesc: "3x token recharge speed for 10 minutes while active.",
-        effectDesc: "Once activated from Inventory, speeds up token generation by 3x for 10 full minutes whenever this tab is active."
+        shortDesc: "3x token recharge speed for 10 minutes.",
+        effectDesc: "Once activated from Inventory, speeds up token generation by 3x for 10 full minutes."
       },
       {
         id: "no_duplicate",
@@ -2073,7 +2159,7 @@
       { id: "first_trade", title: "Deal Maker", desc: "Complete your first demon trade.", reward: 1500, check: p => p.tradesCompleted >= 1 }
     ];
 
-    /* ================= PROFANITY BLOCKER (IDEA #34) ================= */
+    /* ================= PROFANITY BLOCKER ================= */
     const BLOCKED_BAD_WORDS = [
       "puta", "puto", "putita", "putito", "mierda", "cabron", "cabrona", "pendejo", "pendeja",
       "imbecil", "idiota", "estupido", "estupida", "zorra", "culero", "culera", "culo", "verga",
@@ -2133,15 +2219,16 @@
       return getLocalDayKey(dt.getTime());
     }
 
-    let isPageActiveForTokens = !document.hidden;
     let lastTokenSampleMs = Date.now();
     let starterBonusJustAwarded = false;
     let sessionSingleUnluckyStreak = 0;
 
     function loadSafeProfile() {
+      const now = Date.now();
       const defaults = {
         displayName: "Player",
         tokens: 0,
+        pendingClaimTokens: 0,
         tokenCycleElapsedMs: 0,
         tokenBoosterUntil: 0,
         orbs: 500,
@@ -2172,6 +2259,7 @@
             profileObj = {
               displayName: sanitizeName(parsed.displayName, "Player"),
               tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.floor(parsed.tokens)) : 0,
+              pendingClaimTokens: typeof parsed.pendingClaimTokens === "number" && Number.isFinite(parsed.pendingClaimTokens) ? Math.max(0, Math.floor(parsed.pendingClaimTokens)) : 0,
               tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
                 ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
                 : 0,
@@ -2206,6 +2294,7 @@
         }
       } catch (_) {}
 
+      lastTokenSampleMs = now;
       return profileObj;
     }
 
@@ -2281,21 +2370,8 @@
     function computeCurrentCycleElapsedMs(now = Date.now()) {
       let elapsed = Number(profile.tokenCycleElapsedMs) || 0;
       if (!Number.isFinite(elapsed) || elapsed < 0) elapsed = 0;
-      if (isPageActiveForTokens && !document.hidden) {
-        elapsed += computeElapsedDeltaMs(lastTokenSampleMs, now);
-      }
+      elapsed += computeElapsedDeltaMs(lastTokenSampleMs, now);
       return elapsed;
-    }
-
-    function handleVisibilityTransition(now = Date.now()) {
-      const nextActive = !document.hidden;
-      if (isPageActiveForTokens && !nextActive) {
-        const delta = computeElapsedDeltaMs(lastTokenSampleMs, now);
-        profile.tokenCycleElapsedMs = Math.min(TOKEN_INTERVAL_MS - 1, (Number(profile.tokenCycleElapsedMs) || 0) + delta);
-        saveProfile();
-      }
-      isPageActiveForTokens = nextActive;
-      lastTokenSampleMs = now;
     }
 
     function tickTokensByTime() {
@@ -2312,24 +2388,39 @@
         elapsedInCycle = elapsedInCycle % TOKEN_INTERVAL_MS;
         profile.tokenCycleElapsedMs = elapsedInCycle;
 
-        const gained = cycles * TOKEN_REWARD_AMOUNT;
-        profile.tokens += gained;
+        const readyGained = cycles * TOKEN_REWARD_AMOUNT;
+        profile.pendingClaimTokens = (Number(profile.pendingClaimTokens) || 0) + readyGained;
         saveProfile();
         uiDirty = true;
-        if (gained > 0) {
-          triggerTokenSoftGlow();
-          showToast(`+${gained} Tokens!`);
-        }
       } else {
         profile.tokenCycleElapsedMs = elapsedInCycle;
       }
+    }
+
+    function claimPendingTokens() {
+      tickTokensByTime();
+      const pending = Number(profile.pendingClaimTokens) || 0;
+      if (pending <= 0) {
+        showToast("No tokens ready to claim yet.");
+        return;
+      }
+      profile.pendingClaimTokens = 0;
+      profile.tokens = (Number(profile.tokens) || 0) + pending;
+      saveProfile();
+      uiDirty = true;
+      triggerTokenSoftGlow();
+      playTone(784, "triangle", 0.24, 0.16);
+      showToast(`Claimed +${pending} Tokens!`);
+      updateAllUI();
+      const invTokens = document.getElementById("invTokensBalance");
+      if (invTokens) invTokens.textContent = `🪙 ${profile.tokens.toLocaleString()} Tokens`;
     }
 
     function getMsUntilNextTokens() {
       const elapsed = computeCurrentCycleElapsedMs(Date.now());
       const clamped = Math.max(0, Math.min(TOKEN_INTERVAL_MS, elapsed));
       const remainingWeighted = Math.max(0, TOKEN_INTERVAL_MS - clamped);
-      const isBoostedNow = isPageActiveForTokens && !document.hidden && Date.now() < (Number(profile.tokenBoosterUntil) || 0);
+      const isBoostedNow = Date.now() < (Number(profile.tokenBoosterUntil) || 0);
       return isBoostedNow ? Math.ceil(remainingWeighted / TOKEN_BOOSTER_RATE_MULT) : remainingWeighted;
     }
 
@@ -2511,8 +2602,9 @@
     }
 
     document.addEventListener("visibilitychange", () => {
-      handleVisibilityTransition(Date.now());
       if (document.hidden) {
+        tickTokensByTime();
+        saveProfile();
         for (let i = 0; i < MAX_PARTICLES; i++) particlePool[i].active = false;
         activeParticleCount = 0;
         if (particleRafId) {
@@ -2529,7 +2621,7 @@
     });
 
     window.addEventListener("beforeunload", () => {
-      handleVisibilityTransition(Date.now());
+      tickTokensByTime();
       saveProfile();
     });
 
@@ -2769,7 +2861,7 @@
       document.getElementById("tokenShortageText").textContent =
         `Not enough tokens for x${needed}! Need ${needed} tokens (missing ${missing}).`;
       document.getElementById("tokenShortageTimer").textContent =
-        `+10 in ${formatClockMMSS(getMsUntilNextTokens())}`;
+        `+5 in ${formatClockMMSS(getMsUntilNextTokens())}`;
       banner.style.display = "flex";
       showToast(`Missing ${missing} token(s) for x${needed}!`);
     }
@@ -2872,7 +2964,6 @@
         ? 1550
         : (times > 1 ? 720 : 560);
 
-      // No skip allowed for x1 or x5 pulls
       playTone(anyTroll ? 659 : 310, "triangle", animDuration / 1000, 0.16);
       const orbCls = anyTroll
         ? "dramatic"
@@ -3064,16 +3155,49 @@
       const clock = formatClockMMSS(msLeft);
       const elapsed = Math.max(0, Math.min(TOKEN_INTERVAL_MS, computeCurrentCycleElapsedMs(Date.now())));
       const pct = (elapsed / TOKEN_INTERVAL_MS) * 100;
+      const pendingClaim = Number(profile.pendingClaimTokens) || 0;
+      const hasClaimable = pendingClaim > 0;
 
       document.getElementById("tokensCount").textContent = profile.tokens.toLocaleString();
-      document.getElementById("tokenTimerHud").textContent = isPageActiveForTokens ? clock : `${clock} ⏸`;
+      document.getElementById("tokenTimerHud").textContent = clock;
       document.getElementById("tokenProgressBar").style.width = `${pct.toFixed(1)}%`;
+
+      const stageTimer = document.getElementById("stageTokenTimer");
+      if (stageTimer) stageTimer.textContent = clock;
+
+      const pendingCountEl = document.getElementById("pendingTokensCount");
+      if (pendingCountEl) pendingCountEl.textContent = pendingClaim.toLocaleString();
+
+      const hudClaimBtn = document.getElementById("hudClaimTokensBtn");
+      const stageClaimBtn = document.getElementById("stageClaimTokensBtn");
+      const invClaimBtn = document.getElementById("invClaimTokensBtn");
+
+      if (hudClaimBtn) {
+        hudClaimBtn.style.display = hasClaimable ? "inline-flex" : "none";
+        document.getElementById("hudClaimAmount").textContent = pendingClaim.toLocaleString();
+      }
+      if (stageClaimBtn) {
+        stageClaimBtn.style.display = hasClaimable ? "inline-flex" : "none";
+        document.getElementById("stageClaimAmount").textContent = pendingClaim.toLocaleString();
+      }
+      if (invClaimBtn) {
+        invClaimBtn.style.display = hasClaimable ? "inline-flex" : "none";
+        document.getElementById("invClaimAmount").textContent = pendingClaim.toLocaleString();
+      }
+
+      // Mini alert toast inside the page when tokens are ready to claim
+      const claimToast = document.getElementById("claimAlertToast");
+      const claimAlertCount = document.getElementById("claimAlertCount");
+      if (claimToast && claimAlertCount) {
+        claimAlertCount.textContent = pendingClaim.toLocaleString();
+        claimToast.classList.toggle("visible", hasClaimable && !document.hidden);
+      }
 
       const invTokens = document.getElementById("invTokensBalance");
       if (invTokens) invTokens.textContent = `🪙 ${profile.tokens.toLocaleString()} Tokens`;
 
       const invTimer = document.getElementById("invTokenTimer");
-      if (invTimer) invTimer.textContent = isPageActiveForTokens ? clock : `${clock} (Paused)`;
+      if (invTimer) invTimer.textContent = clock;
 
       const noDupBanner = document.getElementById("activeNoDupBanner");
       const dupMsLeft = (Number(profile.noDupUntil) || 0) - Date.now();
@@ -3095,7 +3219,7 @@
 
       const shortageBanner = document.getElementById("tokenShortageBanner");
       if (shortageBanner.style.display === "flex") {
-        document.getElementById("tokenShortageTimer").textContent = `+10 in ${clock}`;
+        document.getElementById("tokenShortageTimer").textContent = `+5 in ${clock}`;
       }
 
       if (activeRoomId) {
@@ -3154,13 +3278,7 @@
     }
 
     setInterval(() => {
-      if (document.hidden) {
-        isPageActiveForTokens = false;
-        lastTokenSampleMs = Date.now();
-      } else {
-        isPageActiveForTokens = true;
-        tickTokensByTime();
-      }
+      tickTokensByTime();
       pruneExpiredRooms();
       refreshTimersUI();
     }, 500);
@@ -4076,6 +4194,7 @@
       tickTokensByTime();
       document.getElementById("invTokensBalance").textContent = `🪙 ${profile.tokens.toLocaleString()} Tokens`;
       document.getElementById("invTokenTimer").textContent = formatClockMMSS(getMsUntilNextTokens());
+      refreshTimersUI();
 
       const packsArea = document.getElementById("invPacksArea");
       const ownedPacks = SHOP_ITEMS.filter(p => (profile.packs[p.id] || 0) > 0);
@@ -4290,6 +4409,11 @@
       const el = document.getElementById(id);
       if (el) el.classList.remove("open");
     }
+
+    document.getElementById("hudClaimTokensBtn").addEventListener("click", claimPendingTokens);
+    document.getElementById("stageClaimTokensBtn").addEventListener("click", claimPendingTokens);
+    document.getElementById("invClaimTokensBtn").addEventListener("click", claimPendingTokens);
+    document.getElementById("toastClaimBtn").addEventListener("click", claimPendingTokens);
 
     document.getElementById("closeInvModalBtn").addEventListener("click", e => {
       e.preventDefault();
@@ -4572,11 +4696,11 @@
       sessionSingleUnluckyStreak = 0;
       activeRoomId = null;
       lastTokenSampleMs = Date.now();
-      isPageActiveForTokens = !document.hidden;
       try { localStorage.setItem(STARTER_GRANTED_KEY, "1"); } catch (_) {}
       profile = {
         displayName: profile.displayName || "Player",
         tokens: 0,
+        pendingClaimTokens: 0,
         tokenCycleElapsedMs: 0,
         tokenBoosterUntil: 0,
         orbs: 500,
@@ -4618,7 +4742,6 @@
     });
 
     hydrateOrbIcons();
-    isPageActiveForTokens = !document.hidden;
     lastTokenSampleMs = Date.now();
     tickTokensByTime();
     pruneExpiredRooms();
