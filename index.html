@@ -111,6 +111,11 @@
       50% { box-shadow: 0 0 22px rgba(250, 204, 21, 0.85); transform: scale(1.02); }
     }
 
+    @keyframes liveDotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.82); }
+    }
+
     .orb-icon {
       width: 1.18em;
       height: 1.18em;
@@ -128,7 +133,7 @@
 
     .micro-tag {
       font-size: 0.62rem;
-      opacity: 0.44;
+      opacity: 0.48;
       font-weight: 700;
       letter-spacing: 0.35px;
     }
@@ -578,64 +583,170 @@
     .buy-btn:active:not(:disabled) { transform: scale(0.97); }
     .buy-btn:disabled { opacity: 0.42; cursor: not-allowed; box-shadow: none; }
 
-    /* ================= TRADER SECTION ================= */
+    /* ================= ULTRA-UPGRADED TRADER SECTION UI ================= */
     #traderSection {
-      background: var(--bg-panel);
-      border-color: var(--border);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(0, 245, 212, 0.14), transparent 42%),
+        radial-gradient(circle at 92% 8%, rgba(59, 130, 246, 0.16), transparent 46%),
+        linear-gradient(170deg, rgba(15, 22, 41, 0.97), rgba(8, 12, 23, 0.98));
+      border: 1px solid rgba(0, 245, 212, 0.25);
+      box-shadow: 0 26px 64px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
-    .notice-box {
-      background: rgba(59, 130, 246, 0.11);
-      border: 1px solid rgba(59, 130, 246, 0.32);
-      border-radius: 13px;
-      padding: 11px 14px;
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      margin-bottom: 14px;
-      line-height: 1.45;
-    }
-
-    .display-name-bar {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 12px 14px;
-      display: flex;
+    .live-sync-pill {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      color: #6ee7b7;
     }
 
-    .room-create-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+      animation: liveDotPulse 1.4s ease-in-out infinite;
+    }
 
-    .room-card {
-      background: linear-gradient(145deg, var(--bg-card-elev), var(--bg-card));
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 13px 15px;
-      display: flex;
+    .live-change-banner {
+      background: linear-gradient(90deg, rgba(0, 245, 212, 0.2), rgba(59, 130, 246, 0.22));
+      border: 1px solid rgba(0, 245, 212, 0.55);
+      border-radius: 13px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #ccfbf1;
+      display: none;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh);
+      animation: freshFadeIn 0.2s var(--ease-fresh) both;
     }
 
-    .room-card:hover { transform: translate3d(0, -1px, 0); border-color: rgba(0, 245, 212, 0.35); }
+    .live-change-banner.show {
+      display: flex;
+    }
+
+    .presence-strip {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(20, 30, 56, 0.92));
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 15px;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .presence-avatars {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .player-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      background: rgba(8, 12, 24, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #f8fafc;
+    }
+
+    .player-chip.partner-active {
+      border-color: rgba(0, 245, 212, 0.55);
+      background: rgba(0, 245, 212, 0.12);
+      color: #99f6e4;
+    }
+
+    .player-chip.partner-waiting {
+      border-style: dashed;
+      border-color: rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+    }
+
+    .notice-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(0, 245, 212, 0.07));
+      border: 1px solid rgba(59, 130, 246, 0.34);
+      border-radius: 14px;
+      padding: 12px 15px;
+      font-size: 0.81rem;
+      color: #cbd5e1;
+      margin-bottom: 14px;
+      line-height: 1.48;
+    }
+
+    .display-name-bar {
+      background: linear-gradient(145deg, rgba(20, 29, 52, 0.95), rgba(12, 18, 34, 0.96));
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 16px;
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .room-create-row {
+      background: rgba(10, 15, 28, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .room-card {
+      background: linear-gradient(150deg, rgba(24, 34, 62, 0.95), rgba(12, 18, 34, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 16px;
+      padding: 15px 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      transition: transform 0.16s var(--ease-fresh), border-color 0.16s var(--ease-fresh), box-shadow 0.16s var(--ease-fresh);
+    }
+
+    .room-card:hover {
+      transform: translate3d(0, -2px, 0);
+      border-color: rgba(0, 245, 212, 0.45);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.48);
+    }
 
     .room-badges {
       display: inline-flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-top: 6px;
+      margin-top: 7px;
     }
 
     .room-status-badge {
-      font-size: 0.68rem;
+      font-size: 0.69rem;
       font-weight: 900;
-      padding: 2px 8px;
+      padding: 3px 9px;
       border-radius: 999px;
       letter-spacing: 0.3px;
     }
@@ -644,6 +755,12 @@
       background: rgba(0, 245, 212, 0.16);
       border: 1px solid rgba(0, 245, 212, 0.45);
       color: #5eead4;
+    }
+
+    .badge-partner-joined {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(96, 165, 250, 0.5);
+      color: #93c5fd;
     }
 
     .badge-empty-room {
@@ -658,21 +775,44 @@
       color: #fca5a5;
     }
 
-    .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-    .trade-side-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 15px; padding: 13px; }
+    .trade-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+    .trade-side-box {
+      background: linear-gradient(165deg, rgba(20, 29, 53, 0.96), rgba(11, 16, 30, 0.98));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 18px;
+      padding: 15px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .trade-side-box.partner-side {
+      border-color: rgba(251, 191, 36, 0.32);
+    }
+
+    .partner-stock-card {
+      background: rgba(8, 12, 23, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+    }
+
+    .stock-ok { color: #86efac; font-weight: 800; }
+    .stock-bad { color: #fca5a5; font-weight: 900; }
 
     .trade-summary-strip {
-      background: rgba(8, 11, 20, 0.88);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 10px 14px;
-      font-size: 0.8rem;
+      background: linear-gradient(90deg, rgba(11, 17, 32, 0.95), rgba(18, 27, 50, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 15px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
       color: #e2e8f0;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
@@ -707,7 +847,7 @@
 
     .mini-num-input:focus { border-color: var(--primary); }
     .mini-num-input.invalid-currency { border-color: #ef4444; background: rgba(239, 68, 68, 0.14); }
-    .mini-num-input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .mini-num-input:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .currency-error-note {
       font-size: 0.72rem;
@@ -720,21 +860,22 @@
     .trade-slots {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      min-height: 74px;
-      background: rgba(7, 9, 16, 0.75);
-      border: 1px dashed rgba(255, 255, 255, 0.16);
-      border-radius: 11px;
-      padding: 8px;
+      gap: 7px;
+      min-height: 82px;
+      background: rgba(6, 9, 18, 0.82);
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 13px;
+      padding: 9px;
       margin: 8px 0;
+      align-content: flex-start;
     }
 
     .trade-chip {
-      background: #1b243c;
+      background: linear-gradient(135deg, #1b2540, #131b31);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 8px;
-      padding: 5px 8px;
-      font-size: 0.73rem;
+      border-radius: 9px;
+      padding: 6px 9px;
+      font-size: 0.74rem;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
@@ -742,8 +883,9 @@
       cursor: pointer;
     }
 
-    .trade-chip.accepted-chip { border-color: #22c55e; background: rgba(34, 197, 94, 0.14); }
-    .trade-chip.rejected-chip { border-color: #ef4444; background: rgba(239, 68, 68, 0.14); opacity: 0.75; }
+    .trade-chip.accepted-chip { border-color: #22c55e; background: rgba(34, 197, 94, 0.16); }
+    .trade-chip.rejected-chip { border-color: #ef4444; background: rgba(239, 68, 68, 0.16); opacity: 0.75; }
+    .trade-chip.unverified-chip { border-color: #f59e0b; background: rgba(245, 158, 11, 0.14); }
 
     .mini-act-btn {
       border: none;
@@ -771,7 +913,7 @@
     .pick-item {
       background: rgba(9, 12, 22, 0.92);
       border: 1px solid var(--border);
-      border-radius: 9px;
+      border-radius: 10px;
       padding: 8px;
       min-height: var(--touch-min);
       font-size: 0.74rem;
@@ -782,10 +924,10 @@
     .pick-item.selected { border-color: var(--c-transcendent); background: rgba(0, 245, 212, 0.12); }
 
     .agree-box {
-      background: rgba(8, 11, 20, 0.88);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(10, 15, 28, 0.92), rgba(18, 25, 45, 0.92));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      padding: 13px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -1709,10 +1851,14 @@
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <button class="icon-btn" id="backFromTraderSectionBtn">← Back to Gacha</button>
           <button class="icon-btn" id="backToRoomsBtn" style="display:none;">← Rooms List</button>
-          <h2 style="font-size:1.25rem; font-weight:900;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h2>
+          <div>
+            <h2 style="font-size:1.28rem; font-weight:900; letter-spacing:-0.3px;">🤝 Demon Trader (<span id="traderRoomCount">0</span>/10 Rooms)</h2>
+            <span style="font-size:0.76rem; color:var(--muted);">Verified offers · Live auto-update on demon, Orb, Token & Yes changes</span>
+          </div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <button class="icon-btn" id="refreshLiveRoomsBtn">🔄 Live Sync</button>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span class="live-sync-pill"><span class="live-dot"></span> Auto-Sync ON</span>
+          <button class="buy-btn" id="refreshLiveRoomsBtn">🔄 Reload & Check Players</button>
           <span class="micro-tag" id="traderHeaderNameTag"></span>
         </div>
       </div>
@@ -1725,10 +1871,18 @@
       </div>
 
       <div class="notice-box" id="traderBackendNotice">
-        <strong>Trade Rules:</strong> Live room sync active while in Trader. Rooms auto-expire after <strong>10 minutes</strong> (30s warning at the end). Both sides must say <strong>Yes</strong>, then a <strong>5-second</strong> Cancel window runs before safe verification.
+        <strong>Verified Trade Rules:</strong> You can only offer Demons, Orbs, and Tokens you actually own. The partner side displays the <strong>partner's real synced offer & verified stock</strong>—you cannot force the partner to give items they don't have. Any change to Demons, Orbs, Tokens, or <strong>Yes</strong> updates automatically in real time and resets confirmation. Rooms expire after <strong>10 minutes</strong> (30s warning at the end), followed by a <strong>5-second</strong> Cancel safety window.
       </div>
 
       <div id="traderLobbyView">
+        <div class="presence-strip" id="lobbyPlayersStrip">
+          <div style="font-size:0.8rem; color:#cbd5e1;">
+            <strong>👥 Active Players & Room Hosts:</strong>
+            <span id="lobbyPlayersSummary" style="color:var(--muted); margin-left:6px;">Checking players...</span>
+          </div>
+          <button class="icon-btn" id="lobbyCheckPlayersBtn">👥 Check Who Joined</button>
+        </div>
+
         <div class="room-create-row">
           <input type="text" class="search-box" id="newRoomNameInput" maxlength="32" placeholder="Enter room name (e.g. Top 50 Hunt)..." style="margin-bottom:0; flex:1; min-width:200px;" />
           <span id="roomNameCounter" style="font-size:0.76rem; color:var(--muted); align-self:center;">0/32</span>
@@ -1738,20 +1892,28 @@
       </div>
 
       <div id="traderRoomView" style="display:none;">
+        <div class="live-change-banner" id="livePartnerChangeBanner">
+          <span id="livePartnerChangeText">⚡ Partner updated their trade offer!</span>
+          <button type="button" class="icon-btn" style="padding:4px 10px; min-height:30px; font-size:0.74rem;" id="dismissLiveBannerBtn">Got it</button>
+        </div>
+
         <div class="alert-strip warning-banner" id="roomExpiryWarning" style="display:none; border-radius:10px; margin-bottom:12px;">
           <span>⚠️ FINAL 30 SECONDS! This trade room will be deleted if you don't finish trading quickly!</span>
           <strong id="roomExpirySeconds">30s</strong>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
-          <div>
-            <strong id="activeRoomTitle" style="font-size:1.08rem;"></strong>
-            <span id="activeRoomMeta" style="display:block; font-size:0.76rem; color:var(--muted);"></span>
-          </div>
-          <div style="display:flex; align-items:center; gap:8px;">
+        <div class="presence-strip" id="roomPlayersStrip">
+          <div class="presence-avatars" id="roomPlayersAvatars"></div>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span class="hud-pill">⏳ Room Left: <strong id="roomTimerText">10:00</strong></span>
+            <button class="icon-btn" id="roomCheckPlayersBtn">🔄 Reload Room</button>
             <button class="icon-btn" style="color:#fca5a5;" id="deleteRoomBtn">Delete Room</button>
           </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <strong id="activeRoomTitle" style="font-size:1.12rem;"></strong>
+          <span id="activeRoomMeta" style="display:block; font-size:0.76rem; color:var(--muted);"></span>
         </div>
 
         <div class="trade-summary-strip" id="tradeSummaryStrip">
@@ -1770,9 +1932,10 @@
         </div>
 
         <div class="trade-sides">
+          <!-- YOUR SIDE -->
           <div class="trade-side-box">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="font-size:0.9rem; color:#93c5fd;">Your Offer (<span id="myDisplayNameLabel">Player</span>)</strong>
+              <strong style="font-size:0.92rem; color:#93c5fd;">Your Offer (<span id="myDisplayNameLabel">Player</span>)</strong>
               <span style="font-size:0.75rem; color:var(--muted);" id="myOfferCount">0/10</span>
             </div>
             <div class="trade-slots" id="myOfferSlots"></div>
@@ -1791,25 +1954,29 @@
             <div class="trade-picker-grid" id="myOwnedPicker"></div>
           </div>
 
-          <div class="trade-side-box">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong style="font-size:0.9rem; color:#fde68a;">Incoming / Partner Offer</strong>
+          <!-- PARTNER / INCOMING VERIFIED SIDE -->
+          <div class="trade-side-box partner-side">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+              <strong style="font-size:0.92rem; color:#fde68a;">Partner Offer (<span id="partnerDisplayNameLabel">Waiting for Partner</span>)</strong>
               <span style="font-size:0.75rem; color:var(--muted);" id="theirOfferCount">0/10</span>
             </div>
             <div class="trade-slots" id="theirOfferSlots"></div>
+
             <div class="currency-offer-row">
               <div>
-                <label style="font-size:0.7rem; color:var(--orb); font-weight:800;">Incoming Orbs</label>
-                <input type="number" min="0" class="mini-num-input" id="theirOfferOrbsInput" value="0" />
+                <label style="font-size:0.7rem; color:var(--orb); font-weight:800;">Partner Offered Orbs</label>
+                <input type="text" readonly class="mini-num-input" id="theirOfferOrbsDisplay" value="0" />
               </div>
               <div>
-                <label style="font-size:0.7rem; color:var(--token); font-weight:800;">Incoming Tokens</label>
-                <input type="number" min="0" class="mini-num-input" id="theirOfferTokensInput" value="0" />
+                <label style="font-size:0.7rem; color:var(--token); font-weight:800;">Partner Offered Tokens</label>
+                <input type="text" readonly class="mini-num-input" id="theirOfferTokensDisplay" value="0" />
               </div>
             </div>
-            <div class="currency-error-note"></div>
-            <input type="text" class="search-box" id="theirSearchInput" placeholder="Search AREDL demon to add to incoming offer..." style="padding:7px 10px; font-size:0.78rem; margin-top:4px; margin-bottom:6px;" />
-            <div class="trade-picker-grid" id="theirAredlPicker"></div>
+
+            <div class="partner-stock-card" id="partnerVerificationCard">
+              <div style="font-weight:800; color:#e2e8f0; margin-bottom:4px;">🔒 Verified Partner Inventory Check</div>
+              <div id="partnerStockStatusText" style="color:var(--muted);">Waiting for a partner to join and publish their offer...</div>
+            </div>
           </div>
         </div>
 
@@ -1820,7 +1987,7 @@
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button class="buy-btn" id="toggleMyYesBtn">👍 Say Yes (You)</button>
-            <button class="icon-btn" id="toggleTheirYesBtn">🤝 Partner Says Yes</button>
+            <span class="hud-pill" id="partnerYesPill">Partner: <strong>NO</strong></span>
           </div>
         </div>
 
@@ -1834,7 +2001,7 @@
 
         <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
           <button class="icon-btn" id="clearRejectedBtn">Clear Rejected (✕)</button>
-          <button class="icon-btn" id="clearTradeBtn">Clear All</button>
+          <button class="icon-btn" id="clearTradeBtn">Clear My Offer</button>
         </div>
       </div>
     </section>
@@ -2014,8 +2181,9 @@
     const AREDL_API = "https://api.aredl.net/v2/api/aredl/levels";
     const AREDL_FULL_THUMBS = "https://raw.githubusercontent.com/All-Rated-Extreme-Demon-List/Thumbnails/main/levels/full";
     const CACHE_KEY = "aredl_gacha_en_db_v9";
-    const SAVE_KEY = "aredl_gacha_en_save_v15";
+    const SAVE_KEY = "aredl_gacha_en_save_v16";
     const STARTER_GRANTED_KEY = "aredl_gacha_starter_granted_v2";
+    const CLIENT_ID_KEY = "aredl_gacha_client_id_v1";
 
     const ORB_SPRITE_SRC = "image_generation_content/15459961638449512081";
 
@@ -2028,6 +2196,21 @@
         el.innerHTML = orbImgHtml();
       });
     }
+
+    function getOrCreateClientId() {
+      try {
+        let cid = localStorage.getItem(CLIENT_ID_KEY);
+        if (!cid) {
+          cid = "usr_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+          localStorage.setItem(CLIENT_ID_KEY, cid);
+        }
+        return cid;
+      } catch (_) {
+        return "usr_session";
+      }
+    }
+
+    const LOCAL_CLIENT_ID = getOrCreateClientId();
 
     const MAX_TRADE_ROOMS = 10;
     const MAX_TRADE_ITEMS = 10;
@@ -2312,6 +2495,7 @@
     let toastTimeout = null;
     let uiDirty = true;
 
+    // Trade state
     let activeRoomId = null;
     let mySelectedOffer = [];
     let mySlotStates = [];
@@ -2319,13 +2503,22 @@
     let myOfferTokens = 0;
     let myAgreed = false;
 
+    // Partner's real synced offer & verified stock (NOT manually faked by local user)
+    let partnerClientId = "";
+    let partnerDisplayName = "";
+    let partnerLastSeen = 0;
     let theirSelectedOffer = [];
     let theirSlotStates = [];
     let theirOfferOrbs = 0;
     let theirOfferTokens = 0;
     let theirAgreed = false;
-    let theirSearchQuery = "";
+    let partnerOwnedStock = {}; // { demonId: count }
+    let partnerAvailableOrbs = null;
+    let partnerAvailableTokens = null;
+
     let unfairConfirmedByUser = false;
+    let lastObservedPartnerSignature = "";
+    let lastKnownLobbyPlayerNames = [];
 
     let fiveSecInterval = null;
     let fiveSecSecondsLeft = 0;
@@ -2617,6 +2810,9 @@
         pruneExpiredRooms();
         uiDirty = true;
         refreshTimersUI();
+        if (currentSection === "trader") {
+          performLiveTraderSync(false);
+        }
       }
     });
 
@@ -3185,7 +3381,6 @@
         document.getElementById("invClaimAmount").textContent = pendingClaim.toLocaleString();
       }
 
-      // Mini alert toast inside the page when tokens are ready to claim
       const claimToast = document.getElementById("claimAlertToast");
       const claimAlertCount = document.getElementById("claimAlertCount");
       if (claimToast && claimAlertCount) {
@@ -3283,17 +3478,12 @@
       refreshTimersUI();
     }, 500);
 
-    // Live rooms sync while inside Trader
+    // Live auto-sync loop while inside Trader
     setInterval(() => {
       if (!document.hidden && currentSection === "trader" && TRADE_BACKEND_URL) {
-        syncRoomsFromBackend().then(() => {
-          if (currentSection === "trader" && !activeRoomId) {
-            renderTraderLobby();
-            document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
-          }
-        });
+        performLiveTraderSync(false);
       }
-    }, 2200);
+    }, 1800);
 
     function renderDexGrid() {
       const dexGrid = document.getElementById("dexGrid");
@@ -3471,35 +3661,259 @@
       openShopItemDetail(item.id);
     }
 
+    /* ================= REAL-TIME TRADER & PARTNER VERIFICATION ================= */
     function normalizeStates(arr, states) {
       return arr.map((_, i) => (states && states[i]) ? states[i] : "pending");
+    }
+
+    function sanitizeSideOfferObj(rawSide, fallbackClientId = "", fallbackName = "") {
+      const obj = rawSide && typeof rawSide === "object" ? rawSide : {};
+      const demons = Array.isArray(obj.demons) ? obj.demons.slice(0, MAX_TRADE_ITEMS).map(String) : [];
+      return {
+        clientId: String(obj.clientId || fallbackClientId || ""),
+        displayName: sanitizeName(obj.displayName || fallbackName || "", ""),
+        demons,
+        slotStates: normalizeStates(demons, obj.slotStates),
+        orbs: Math.max(0, Math.floor(Number(obj.orbs) || 0)),
+        tokens: Math.max(0, Math.floor(Number(obj.tokens) || 0)),
+        agreed: Boolean(obj.agreed),
+        updatedAt: Number(obj.updatedAt) || 0,
+        lastSeen: Number(obj.lastSeen) || 0,
+        stockOwned: obj.stockOwned && typeof obj.stockOwned === "object" ? obj.stockOwned : null,
+        availableOrbs: typeof obj.availableOrbs === "number" && Number.isFinite(obj.availableOrbs) ? Math.max(0, Math.floor(obj.availableOrbs)) : null,
+        availableTokens: typeof obj.availableTokens === "number" && Number.isFinite(obj.availableTokens) ? Math.max(0, Math.floor(obj.availableTokens)) : null
+      };
     }
 
     function sanitizeRoomPayload(room) {
       const now = Date.now();
       const createdAt = typeof room.createdAt === "number" && Number.isFinite(room.createdAt) ? room.createdAt : now;
       const expiresAt = typeof room.expiresAt === "number" && Number.isFinite(room.expiresAt) ? room.expiresAt : (createdAt + ROOM_LIFETIME_MS);
-      const myOffer = Array.isArray(room.myOffer) ? room.myOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
-      const theirOffer = Array.isArray(room.theirOffer) ? room.theirOffer.slice(0, MAX_TRADE_ITEMS).map(String) : [];
+
+      const hostSide = sanitizeSideOfferObj(
+        room.hostOffer || {
+          clientId: room.hostClientId || LOCAL_CLIENT_ID,
+          displayName: room.hostDisplayName || profile.displayName,
+          demons: room.myOffer,
+          slotStates: room.mySlotStates,
+          orbs: room.myOfferOrbs,
+          tokens: room.myOfferTokens,
+          agreed: room.myAgreed
+        },
+        room.hostClientId || LOCAL_CLIENT_ID,
+        room.hostDisplayName || profile.displayName
+      );
+
+      const guestSide = sanitizeSideOfferObj(
+        room.guestOffer || {
+          clientId: room.guestClientId || "",
+          displayName: room.guestDisplayName || "",
+          demons: room.theirOffer,
+          slotStates: room.theirSlotStates,
+          orbs: room.theirOfferOrbs,
+          tokens: room.theirOfferTokens,
+          agreed: room.theirAgreed
+        },
+        room.guestClientId || "",
+        room.guestDisplayName || ""
+      );
+
+      const participants = room.participants && typeof room.participants === "object" ? room.participants : {};
 
       return {
         id: String(room.id),
         name: sanitizeName(room.name, "Trade Room").slice(0, 32),
-        hostDisplayName: sanitizeName(room.hostDisplayName, profile.displayName),
-        myOffer,
-        mySlotStates: normalizeStates(myOffer, room.mySlotStates),
-        myOfferOrbs: Math.max(0, Math.floor(Number(room.myOfferOrbs) || 0)),
-        myOfferTokens: Math.max(0, Math.floor(Number(room.myOfferTokens) || 0)),
-        myAgreed: Boolean(room.myAgreed),
-        theirOffer,
-        theirSlotStates: normalizeStates(theirOffer, room.theirSlotStates),
-        theirOfferOrbs: Math.max(0, Math.floor(Number(room.theirOfferOrbs) || 0)),
-        theirOfferTokens: Math.max(0, Math.floor(Number(room.theirOfferTokens) || 0)),
-        theirAgreed: Boolean(room.theirAgreed),
+        hostClientId: hostSide.clientId || LOCAL_CLIENT_ID,
+        hostDisplayName: hostSide.displayName || profile.displayName,
+        hostOffer: hostSide,
+        guestOffer: guestSide,
+        participants,
+        // Backward-compatible flat fields for lobby display
+        myOffer: [...hostSide.demons],
+        mySlotStates: [...hostSide.slotStates],
+        myOfferOrbs: hostSide.orbs,
+        myOfferTokens: hostSide.tokens,
+        myAgreed: hostSide.agreed,
+        theirOffer: [...guestSide.demons],
+        theirSlotStates: [...guestSide.slotStates],
+        theirOfferOrbs: guestSide.orbs,
+        theirOfferTokens: guestSide.tokens,
+        theirAgreed: guestSide.agreed,
         createdAt,
         expiresAt,
         updatedAt: Number(room.updatedAt) || now
       };
+    }
+
+    function getMyCurrentStockSnapshot() {
+      const snap = {};
+      for (const [id, qty] of Object.entries(profile.owned || {})) {
+        if ((Number(qty) || 0) > 0) snap[String(id)] = Math.floor(Number(qty));
+      }
+      return snap;
+    }
+
+    function applyLocalOfferToRoomStruct(room) {
+      const now = Date.now();
+      const mySidePayload = {
+        clientId: LOCAL_CLIENT_ID,
+        displayName: profile.displayName,
+        demons: [...mySelectedOffer],
+        slotStates: normalizeStates(mySelectedOffer, mySlotStates),
+        orbs: Math.max(0, Math.min(profile.orbs, Math.floor(Number(myOfferOrbs) || 0))),
+        tokens: Math.max(0, Math.min(profile.tokens, Math.floor(Number(myOfferTokens) || 0))),
+        agreed: Boolean(myAgreed),
+        updatedAt: now,
+        lastSeen: now,
+        stockOwned: getMyCurrentStockSnapshot(),
+        availableOrbs: Math.max(0, Math.floor(Number(profile.orbs) || 0)),
+        availableTokens: Math.max(0, Math.floor(Number(profile.tokens) || 0))
+      };
+
+      const isHost = room.hostClientId === LOCAL_CLIENT_ID;
+      if (isHost) {
+        room.hostOffer = mySidePayload;
+        room.hostDisplayName = profile.displayName;
+      } else {
+        room.guestOffer = mySidePayload;
+        if (!room.guestOffer.clientId) room.guestOffer.clientId = LOCAL_CLIENT_ID;
+      }
+
+      room.participants = room.participants && typeof room.participants === "object" ? room.participants : {};
+      room.participants[LOCAL_CLIENT_ID] = {
+        displayName: profile.displayName,
+        lastSeen: now,
+        roomId: room.id
+      };
+
+      room.myOffer = [...room.hostOffer.demons];
+      room.mySlotStates = [...room.hostOffer.slotStates];
+      room.myOfferOrbs = room.hostOffer.orbs;
+      room.myOfferTokens = room.hostOffer.tokens;
+      room.myAgreed = room.hostOffer.agreed;
+
+      room.theirOffer = [...room.guestOffer.demons];
+      room.theirSlotStates = [...room.guestOffer.slotStates];
+      room.theirOfferOrbs = room.guestOffer.orbs;
+      room.theirOfferTokens = room.guestOffer.tokens;
+      room.theirAgreed = room.guestOffer.agreed;
+      room.updatedAt = now;
+      return sanitizeRoomPayload(room);
+    }
+
+    function extractPartnerStateFromRoom(room) {
+      const sanitized = sanitizeRoomPayload(room);
+      const isHost = sanitized.hostClientId === LOCAL_CLIENT_ID;
+      const now = Date.now();
+
+      // Check active participants in room other than local client
+      let activePartnerEntry = null;
+      if (sanitized.participants && typeof sanitized.participants === "object") {
+        for (const [cid, pInfo] of Object.entries(sanitized.participants)) {
+          if (cid !== LOCAL_CLIENT_ID && pInfo && (now - (Number(pInfo.lastSeen) || 0)) < 120000) {
+            activePartnerEntry = { clientId: cid, displayName: sanitizeName(pInfo.displayName, "Partner"), lastSeen: Number(pInfo.lastSeen) || 0 };
+            break;
+          }
+        }
+      }
+
+      const rawPartnerSide = isHost ? sanitized.guestOffer : sanitized.hostOffer;
+      const partnerHasPublishedOffer =
+        (rawPartnerSide.clientId && rawPartnerSide.clientId !== LOCAL_CLIENT_ID) ||
+        rawPartnerSide.demons.length > 0 ||
+        rawPartnerSide.orbs > 0 ||
+        rawPartnerSide.tokens > 0 ||
+        rawPartnerSide.agreed;
+
+      if (partnerHasPublishedOffer) {
+        return {
+          hasPartner: true,
+          clientId: rawPartnerSide.clientId || (activePartnerEntry ? activePartnerEntry.clientId : "partner"),
+          displayName: rawPartnerSide.displayName || (activePartnerEntry ? activePartnerEntry.displayName : "Partner"),
+          lastSeen: Math.max(rawPartnerSide.lastSeen || 0, activePartnerEntry ? activePartnerEntry.lastSeen : 0),
+          demons: [...rawPartnerSide.demons],
+          slotStates: normalizeStates(rawPartnerSide.demons, rawPartnerSide.slotStates),
+          orbs: rawPartnerSide.orbs,
+          tokens: rawPartnerSide.tokens,
+          agreed: Boolean(rawPartnerSide.agreed),
+          stockOwned: rawPartnerSide.stockOwned,
+          availableOrbs: rawPartnerSide.availableOrbs,
+          availableTokens: rawPartnerSide.availableTokens
+        };
+      }
+
+      if (activePartnerEntry) {
+        return {
+          hasPartner: true,
+          clientId: activePartnerEntry.clientId,
+          displayName: activePartnerEntry.displayName,
+          lastSeen: activePartnerEntry.lastSeen,
+          demons: [],
+          slotStates: [],
+          orbs: 0,
+          tokens: 0,
+          agreed: false,
+          stockOwned: null,
+          availableOrbs: null,
+          availableTokens: null
+        };
+      }
+
+      return {
+        hasPartner: false,
+        clientId: "",
+        displayName: "Waiting for Partner",
+        lastSeen: 0,
+        demons: [],
+        slotStates: [],
+        orbs: 0,
+        tokens: 0,
+        agreed: false,
+        stockOwned: null,
+        availableOrbs: null,
+        availableTokens: null
+      };
+    }
+
+    function computePartnerOfferSignature(pState) {
+      return JSON.stringify({
+        name: pState.displayName,
+        demons: pState.demons,
+        states: pState.slotStates,
+        orbs: pState.orbs,
+        tokens: pState.tokens,
+        agreed: pState.agreed
+      });
+    }
+
+    function checkPartnerHasEnoughForOffer() {
+      const issues = [];
+      // If partner published stockOwned, verify every requested demon against it
+      if (partnerOwnedStock && typeof partnerOwnedStock === "object") {
+        const neededCounts = {};
+        theirSelectedOffer.forEach((id, idx) => {
+          if (theirSlotStates[idx] !== "rejected") {
+            neededCounts[id] = (neededCounts[id] || 0) + 1;
+          }
+        });
+        for (const [id, needQty] of Object.entries(neededCounts)) {
+          const haveQty = Number(partnerOwnedStock[id]) || 0;
+          if (haveQty < needQty) {
+            const dName = demonMap[id] ? `#${demonMap[id].rank} ${demonMap[id].name}` : id;
+            issues.push(`Partner lacks ${dName} (has x${haveQty}, offered x${needQty})`);
+          }
+        }
+      }
+
+      if (typeof partnerAvailableOrbs === "number" && theirOfferOrbs > partnerAvailableOrbs) {
+        issues.push(`Partner lacks Orbs (has ${partnerAvailableOrbs.toLocaleString()}, offered ${theirOfferOrbs.toLocaleString()})`);
+      }
+
+      if (typeof partnerAvailableTokens === "number" && theirOfferTokens > partnerAvailableTokens) {
+        issues.push(`Partner lacks Tokens (has ${partnerAvailableTokens.toLocaleString()}, offered ${theirOfferTokens.toLocaleString()})`);
+      }
+
+      return issues;
     }
 
     function pruneExpiredRooms() {
@@ -3528,22 +3942,85 @@
       }
     }
 
-    async function syncRoomsFromBackend() {
+    async function heartbeatPresence(roomId = null) {
       if (!TRADE_BACKEND_URL) return;
+      const now = Date.now();
+      try {
+        await fetch(`${TRADE_BACKEND_URL}/presence/${encodeURIComponent(LOCAL_CLIENT_ID)}.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            clientId: LOCAL_CLIENT_ID,
+            displayName: profile.displayName,
+            roomId: roomId || null,
+            lastSeen: now
+          })
+        });
+      } catch (_) {}
+    }
+
+    async function fetchActivePresenceList() {
+      const now = Date.now();
+      const mapByName = new Map();
+      mapByName.set(profile.displayName, { displayName: profile.displayName, isYou: true, roomId: activeRoomId });
+
+      profile.tradeRooms.forEach(r => {
+        if (r.hostDisplayName && r.hostClientId !== LOCAL_CLIENT_ID) {
+          mapByName.set(r.hostDisplayName, { displayName: r.hostDisplayName, isYou: false, roomId: r.id });
+        }
+        if (r.participants && typeof r.participants === "object") {
+          for (const [cid, p] of Object.entries(r.participants)) {
+            if (cid !== LOCAL_CLIENT_ID && p && (now - (Number(p.lastSeen) || 0)) < 120000) {
+              const pName = sanitizeName(p.displayName, "Player");
+              mapByName.set(pName, { displayName: pName, isYou: false, roomId: p.roomId || r.id });
+            }
+          }
+        }
+      });
+
+      if (TRADE_BACKEND_URL) {
+        try {
+          const res = await fetch(`${TRADE_BACKEND_URL}/presence.json`);
+          if (res.ok) {
+            const pData = await res.json();
+            if (pData && typeof pData === "object") {
+              for (const [cid, p] of Object.entries(pData)) {
+                if (cid !== LOCAL_CLIENT_ID && p && (now - (Number(p.lastSeen) || 0)) < 120000) {
+                  const pName = sanitizeName(p.displayName, "Player");
+                  mapByName.set(pName, { displayName: pName, isYou: false, roomId: p.roomId || null });
+                }
+              }
+            }
+          }
+        } catch (_) {}
+      }
+
+      return Array.from(mapByName.values());
+    }
+
+    async function syncRoomsFromBackend() {
+      if (!TRADE_BACKEND_URL) return false;
       try {
         const res = await fetch(`${TRADE_BACKEND_URL}/rooms.json`);
-        if (!res.ok) return;
+        if (!res.ok) return false;
         const data = await res.json();
         if (data && typeof data === "object") {
           const now = Date.now();
-          profile.tradeRooms = Object.values(data)
+          const remoteRooms = Object.values(data)
             .map(sanitizeRoomPayload)
             .filter(r => now < r.expiresAt)
             .slice(0, MAX_TRADE_ROOMS);
+
+          // Keep any local room that was just created and hasn't appeared in remote yet
+          const remoteIds = new Set(remoteRooms.map(r => r.id));
+          const freshLocalOnly = profile.tradeRooms.filter(r => !remoteIds.has(r.id) && (now - (r.createdAt || 0)) < 5000);
+          profile.tradeRooms = [...remoteRooms, ...freshLocalOnly].slice(0, MAX_TRADE_ROOMS);
           saveProfile();
           uiDirty = true;
+          return true;
         }
       } catch (_) {}
+      return false;
     }
 
     async function pushRoomToBackend(room) {
@@ -3572,22 +4049,112 @@
       document.getElementById("traderHeaderNameTag").textContent = `NAME: ${profile.displayName}`;
     }
 
+    async function performLiveTraderSync(showFeedback = false) {
+      await heartbeatPresence(activeRoomId);
+      await syncRoomsFromBackend();
+      pruneExpiredRooms();
+
+      const players = await fetchActivePresenceList();
+      const nonSelfNames = players.filter(p => !p.isYou).map(p => p.displayName).sort();
+      const prevNonSelfSorted = [...lastKnownLobbyPlayerNames].sort();
+      const newArrivals = nonSelfNames.filter(n => !prevNonSelfSorted.includes(n));
+      lastKnownLobbyPlayerNames = nonSelfNames;
+
+      const summaryEl = document.getElementById("lobbyPlayersSummary");
+      if (summaryEl) {
+        if (nonSelfNames.length === 0) {
+          summaryEl.innerHTML = `<span style="color:var(--muted);">You (${escapeHtml(profile.displayName)}) are currently alone in Trader.</span>`;
+        } else {
+          summaryEl.innerHTML = players.map(p =>
+            `<span class="player-chip ${p.isYou ? "" : "partner-active"}">${p.isYou ? "🟢" : "⚡"} ${escapeHtml(p.displayName)}${p.isYou ? " (You)" : ""}</span>`
+          ).join(" ");
+        }
+      }
+
+      if (activeRoomId) {
+        const updatedRoom = profile.tradeRooms.find(r => r.id === activeRoomId);
+        if (!updatedRoom) {
+          stopFiveSecCountdown();
+          activeRoomId = null;
+          document.getElementById("traderRoomView").style.display = "none";
+          document.getElementById("backToRoomsBtn").style.display = "none";
+          document.getElementById("traderLobbyView").style.display = "block";
+          renderTraderLobby();
+          showToast("Room was closed or expired.");
+          return;
+        }
+
+        const pState = extractPartnerStateFromRoom(updatedRoom);
+        const nextSig = computePartnerOfferSignature(pState);
+        const partnerChanged = lastObservedPartnerSignature !== "" && nextSig !== lastObservedPartnerSignature;
+        const partnerJustJoined = !partnerClientId && pState.hasPartner;
+
+        partnerClientId = pState.clientId;
+        partnerDisplayName = pState.displayName;
+        partnerLastSeen = pState.lastSeen;
+        theirSelectedOffer = [...pState.demons];
+        theirSlotStates = [...pState.slotStates];
+        theirOfferOrbs = pState.orbs;
+        theirOfferTokens = pState.tokens;
+        theirAgreed = pState.agreed;
+        partnerOwnedStock = pState.stockOwned;
+        partnerAvailableOrbs = pState.availableOrbs;
+        partnerAvailableTokens = pState.availableTokens;
+        lastObservedPartnerSignature = nextSig;
+
+        if (partnerChanged || partnerJustJoined) {
+          stopFiveSecCountdown();
+          unfairConfirmedByUser = false;
+          if (myAgreed) {
+            myAgreed = false;
+            persistRoomOffers();
+          }
+          const banner = document.getElementById("livePartnerChangeBanner");
+          const bannerText = document.getElementById("livePartnerChangeText");
+          if (partnerJustJoined) {
+            bannerText.textContent = `⚡ ${partnerDisplayName} joined the room! Trade synced automatically.`;
+            showToast(`${partnerDisplayName} joined the room!`);
+          } else {
+            bannerText.textContent = `🔄 ${partnerDisplayName} updated their offer (Demons, Orbs, Tokens, or Yes). Confirmation reset for safety.`;
+            showToast(`${partnerDisplayName} updated their offer!`);
+          }
+          banner.classList.add("show");
+          playTone(587.33, "sine", 0.16, 0.12);
+          renderTradeRoomWorkspace();
+        } else {
+          renderRoomPlayersBar();
+          renderTradeRoomWorkspace();
+        }
+
+        if (showFeedback && !partnerChanged && !partnerJustJoined) {
+          showToast(pState.hasPartner ? `Synced! ${pState.displayName} is in room.` : "Synced — waiting for another player to join.");
+        }
+      } else {
+        renderTraderLobby();
+        document.getElementById("roomsBadge").textContent = `${profile.tradeRooms.length}/${MAX_TRADE_ROOMS}`;
+        if (showFeedback) {
+          if (newArrivals.length > 0) {
+            showToast(`Player joined: ${newArrivals.join(", ")}!`);
+          } else {
+            showToast(`Checked players (${players.length} active) & synced rooms.`);
+          }
+        }
+      }
+    }
+
     async function openTraderSection() {
       pruneExpiredRooms();
       syncDisplayNameUI();
       stopFiveSecCountdown();
       activeRoomId = null;
-      theirSearchQuery = "";
-      document.getElementById("theirSearchInput").value = "";
       document.getElementById("myCurrencyError").textContent = "";
       document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
       document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderRoomView").style.display = "none";
       document.getElementById("backToRoomsBtn").style.display = "none";
       document.getElementById("traderLobbyView").style.display = "block";
-      await syncRoomsFromBackend();
-      renderTraderLobby();
       showSection("trader");
+      await performLiveTraderSync(false);
     }
 
     function roomHasAnyOffer(room) {
@@ -3604,7 +4171,7 @@
 
       const listArea = document.getElementById("roomsListArea");
       if (profile.tradeRooms.length === 0) {
-        listArea.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; text-align:center; padding:18px;">No active trade rooms yet. Create one above (max ${MAX_TRADE_ROOMS}, 10m limit).</p>`;
+        listArea.innerHTML = `<p style="color:var(--muted); font-size:0.86rem; text-align:center; padding:22px; background:rgba(9,14,26,0.7); border-radius:15px; border:1px dashed rgba(255,255,255,0.12);">No active trade rooms yet. Create one above (max ${MAX_TRADE_ROOMS}, 10m limit).</p>`;
         return;
       }
 
@@ -3613,17 +4180,26 @@
         const msLeft = Math.max(0, (room.expiresAt || 0) - now);
         const hasOffers = roomHasAnyOffer(room);
         const expiringSoon = msLeft > 0 && msLeft <= ROOM_WARNING_MS;
+        const pState = extractPartnerStateFromRoom(room);
+        const isYourRoom = room.hostClientId === LOCAL_CLIENT_ID;
+
         return `
           <div class="room-card">
             <div>
-              <div style="font-weight:900; font-size:0.96rem;">🏠 ${escapeHtml(room.name)} <span class="micro-tag">HOST: ${escapeHtml(room.hostDisplayName || "Player")}</span></div>
-              <div style="font-size:0.76rem; color:var(--muted);">
-                Your IDs: ${room.myOffer.length}/10 · Incoming: ${room.theirOffer.length}/10 · ⏳ ${formatClockMMSS(msLeft)}
+              <div style="font-weight:900; font-size:1rem;">
+                🏠 ${escapeHtml(room.name)}
+                <span class="micro-tag">HOST: ${escapeHtml(room.hostDisplayName || "Player")}${isYourRoom ? " (YOU)" : ""}</span>
+              </div>
+              <div style="font-size:0.77rem; color:var(--muted); margin-top:2px;">
+                Host Offer: ${room.myOffer.length}/10 · Partner Offer: ${room.theirOffer.length}/10 · ⏳ ${formatClockMMSS(msLeft)}
               </div>
               <div class="room-badges">
+                ${pState.hasPartner
+                  ? `<span class="room-status-badge badge-partner-joined">⚡ ${escapeHtml(pState.displayName)} in Room</span>`
+                  : `<span class="room-status-badge badge-empty-room">⏳ Waiting for Partner</span>`}
                 ${hasOffers
                   ? `<span class="room-status-badge badge-offers">📦 Offers Loaded</span>`
-                  : `<span class="room-status-badge badge-empty-room">○ Empty Room</span>`}
+                  : `<span class="room-status-badge badge-empty-room">○ No Items Yet</span>`}
                 ${expiringSoon ? `<span class="room-status-badge badge-expiring">⏰ Expiring Soon</span>` : ""}
               </div>
             </div>
@@ -3653,25 +4229,54 @@
       const room = sanitizeRoomPayload({
         id: "room_" + now + "_" + Math.random().toString(36).slice(2, 6),
         name,
+        hostClientId: LOCAL_CLIENT_ID,
         hostDisplayName: profile.displayName,
-        myOffer: [],
-        mySlotStates: [],
-        myOfferOrbs: 0,
-        myOfferTokens: 0,
-        myAgreed: false,
-        theirOffer: [],
-        theirSlotStates: [],
-        theirOfferOrbs: 0,
-        theirOfferTokens: 0,
-        theirAgreed: false,
+        hostOffer: {
+          clientId: LOCAL_CLIENT_ID,
+          displayName: profile.displayName,
+          demons: [],
+          slotStates: [],
+          orbs: 0,
+          tokens: 0,
+          agreed: false,
+          updatedAt: now,
+          lastSeen: now,
+          stockOwned: getMyCurrentStockSnapshot(),
+          availableOrbs: profile.orbs,
+          availableTokens: profile.tokens
+        },
+        guestOffer: {
+          clientId: "",
+          displayName: "",
+          demons: [],
+          slotStates: [],
+          orbs: 0,
+          tokens: 0,
+          agreed: false,
+          updatedAt: 0,
+          lastSeen: 0,
+          stockOwned: null,
+          availableOrbs: null,
+          availableTokens: null
+        },
+        participants: {
+          [LOCAL_CLIENT_ID]: {
+            displayName: profile.displayName,
+            lastSeen: now,
+            roomId: null
+          }
+        },
         createdAt: now,
         expiresAt: now + ROOM_LIFETIME_MS,
         updatedAt: now
       });
+      room.participants[LOCAL_CLIENT_ID].roomId = room.id;
+
       profile.tradeRooms.push(room);
       saveProfile();
       uiDirty = true;
       await pushRoomToBackend(room);
+      await heartbeatPresence(room.id);
       document.getElementById("newRoomNameInput").value = "";
       document.getElementById("roomNameCounter").textContent = "0/32";
       showToast("Room created (10:00 timer)!");
@@ -3691,30 +4296,59 @@
       stopFiveSecCountdown();
       unfairConfirmedByUser = false;
       activeRoomId = room.id;
-      mySelectedOffer = [...(room.myOffer || [])].filter(id => (profile.owned[id] || 0) > 0).slice(0, MAX_TRADE_ITEMS);
-      mySlotStates = normalizeStates(mySelectedOffer, room.mySlotStates);
-      myOfferOrbs = Math.max(0, Math.min(profile.orbs, Math.floor(Number(room.myOfferOrbs) || 0)));
-      myOfferTokens = Math.max(0, Math.min(profile.tokens, Math.floor(Number(room.myOfferTokens) || 0)));
-      myAgreed = Boolean(room.myAgreed);
 
-      theirSelectedOffer = [...(room.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
-      theirSlotStates = normalizeStates(theirSelectedOffer, room.theirSlotStates);
-      theirOfferOrbs = Math.max(0, Math.floor(Number(room.theirOfferOrbs) || 0));
-      theirOfferTokens = Math.max(0, Math.floor(Number(room.theirOfferTokens) || 0));
-      theirAgreed = Boolean(room.theirAgreed);
+      const sanitized = sanitizeRoomPayload(room);
+      const isHost = sanitized.hostClientId === LOCAL_CLIENT_ID;
+      const mySide = isHost ? sanitized.hostOffer : sanitized.guestOffer;
 
+      mySelectedOffer = [...(mySide.demons || [])].filter(id => (profile.owned[id] || 0) > 0).slice(0, MAX_TRADE_ITEMS);
+      mySlotStates = normalizeStates(mySelectedOffer, mySide.slotStates);
+      myOfferOrbs = Math.max(0, Math.min(profile.orbs, Math.floor(Number(mySide.orbs) || 0)));
+      myOfferTokens = Math.max(0, Math.min(profile.tokens, Math.floor(Number(mySide.tokens) || 0)));
+      myAgreed = Boolean(mySide.agreed);
+
+      const pState = extractPartnerStateFromRoom(sanitized);
+      partnerClientId = pState.clientId;
+      partnerDisplayName = pState.displayName;
+      partnerLastSeen = pState.lastSeen;
+      theirSelectedOffer = [...pState.demons];
+      theirSlotStates = [...pState.slotStates];
+      theirOfferOrbs = pState.orbs;
+      theirOfferTokens = pState.tokens;
+      theirAgreed = pState.agreed;
+      partnerOwnedStock = pState.stockOwned;
+      partnerAvailableOrbs = pState.availableOrbs;
+      partnerAvailableTokens = pState.availableTokens;
+      lastObservedPartnerSignature = computePartnerOfferSignature(pState);
+
+      document.getElementById("livePartnerChangeBanner").classList.remove("show");
       document.getElementById("myCurrencyError").textContent = "";
       document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
       document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderLobbyView").style.display = "none";
       document.getElementById("traderRoomView").style.display = "block";
       document.getElementById("backToRoomsBtn").style.display = "inline-flex";
-      document.getElementById("activeRoomTitle").textContent = `🏠 ${room.name}`;
-      document.getElementById("activeRoomMeta").textContent = `Display name: ${profile.displayName} · Host: ${room.hostDisplayName || "Player"} · 10m max time`;
+      document.getElementById("activeRoomTitle").textContent = `🏠 ${sanitized.name}`;
+      document.getElementById("activeRoomMeta").textContent = `You: ${profile.displayName} · Host: ${sanitized.hostDisplayName || "Player"} · 10m max time`;
 
+      persistRoomOffers();
+      heartbeatPresence(room.id);
+      renderRoomPlayersBar();
       renderTradeRoomWorkspace();
       refreshActiveRoomTimer();
       evaluateBothAgreedCountdown();
+    }
+
+    function renderRoomPlayersBar() {
+      const wrap = document.getElementById("roomPlayersAvatars");
+      if (!wrap) return;
+      const hasActivePartner = Boolean(partnerClientId && partnerClientId !== LOCAL_CLIENT_ID && partnerDisplayName);
+      wrap.innerHTML = `
+        <span class="player-chip">🟢 ${escapeHtml(profile.displayName)} (You)</span>
+        ${hasActivePartner
+          ? `<span class="player-chip partner-active">⚡ ${escapeHtml(partnerDisplayName)} (Partner)</span>`
+          : `<span class="player-chip partner-waiting">⏳ Waiting for another player to join...</span>`}
+      `;
     }
 
     function refreshActiveRoomTimer() {
@@ -3787,42 +4421,17 @@
       renderTradeRoomWorkspace();
     }
 
-    function toggleTheirOfferDemon(id) {
+    function setMySlotCounterState(index, nextState) {
       if (fiveSecInterval) return;
-      if (!demonMap[id]) return;
-      const idx = theirSelectedOffer.indexOf(id);
-      if (idx >= 0) {
-        theirSelectedOffer.splice(idx, 1);
-        theirSlotStates.splice(idx, 1);
-      } else {
-        if (theirSelectedOffer.length >= MAX_TRADE_ITEMS) {
-          showToast(`Max ${MAX_TRADE_ITEMS} demons per offer.`);
-          return;
-        }
-        theirSelectedOffer.push(id);
-        theirSlotStates.push("pending");
-      }
+      mySlotStates[index] = mySlotStates[index] === nextState ? "pending" : nextState;
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     }
 
-    function setSlotCounterState(side, index, nextState) {
+    function removeMySlotAt(index) {
       if (fiveSecInterval) return;
-      const states = side === "my" ? mySlotStates : theirSlotStates;
-      states[index] = states[index] === nextState ? "pending" : nextState;
-      resetAgreementAndSave();
-      renderTradeRoomWorkspace();
-    }
-
-    function removeSlotAt(side, index) {
-      if (fiveSecInterval) return;
-      if (side === "my") {
-        mySelectedOffer.splice(index, 1);
-        mySlotStates.splice(index, 1);
-      } else {
-        theirSelectedOffer.splice(index, 1);
-        theirSlotStates.splice(index, 1);
-      }
+      mySelectedOffer.splice(index, 1);
+      mySlotStates.splice(index, 1);
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     }
@@ -3837,18 +4446,8 @@
           nextMySt.push(mySlotStates[i] || "pending");
         }
       });
-      const nextTheir = [];
-      const nextTheirSt = [];
-      theirSelectedOffer.forEach((id, i) => {
-        if (theirSlotStates[i] !== "rejected") {
-          nextTheir.push(id);
-          nextTheirSt.push(theirSlotStates[i] || "pending");
-        }
-      });
       mySelectedOffer = nextMy;
       mySlotStates = nextMySt;
-      theirSelectedOffer = nextTheir;
-      theirSlotStates = nextTheirSt;
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     }
@@ -3857,28 +4456,16 @@
       stopFiveSecCountdown();
       unfairConfirmedByUser = false;
       myAgreed = false;
-      theirAgreed = false;
       persistRoomOffers();
     }
 
     function persistRoomOffers() {
-      const room = profile.tradeRooms.find(r => r.id === activeRoomId);
-      if (!room) return;
-      room.hostDisplayName = profile.displayName;
-      room.myOffer = [...mySelectedOffer];
-      room.mySlotStates = normalizeStates(mySelectedOffer, mySlotStates);
-      room.myOfferOrbs = Math.max(0, Math.min(profile.orbs, Math.floor(Number(myOfferOrbs) || 0)));
-      room.myOfferTokens = Math.max(0, Math.min(profile.tokens, Math.floor(Number(myOfferTokens) || 0)));
-      room.myAgreed = Boolean(myAgreed);
-
-      room.theirOffer = [...theirSelectedOffer];
-      room.theirSlotStates = normalizeStates(theirSelectedOffer, theirSlotStates);
-      room.theirOfferOrbs = Math.max(0, Math.floor(Number(theirOfferOrbs) || 0));
-      room.theirOfferTokens = Math.max(0, Math.floor(Number(theirOfferTokens) || 0));
-      room.theirAgreed = Boolean(theirAgreed);
-      room.updatedAt = Date.now();
+      const roomIndex = profile.tradeRooms.findIndex(r => r.id === activeRoomId);
+      if (roomIndex < 0) return;
+      const updated = applyLocalOfferToRoomStruct(profile.tradeRooms[roomIndex]);
+      profile.tradeRooms[roomIndex] = updated;
       saveProfile();
-      pushRoomToBackend(room);
+      pushRoomToBackend(updated);
     }
 
     function hasAnyOfferOnSide(side) {
@@ -3894,23 +4481,27 @@
     function renderTradeRoomWorkspace() {
       const lockedByCountdown = Boolean(fiveSecInterval);
       document.getElementById("myDisplayNameLabel").textContent = profile.displayName;
+      document.getElementById("partnerDisplayNameLabel").textContent = partnerDisplayName || "Waiting for Partner";
       document.getElementById("maxMyOrbs").textContent = profile.orbs.toLocaleString();
       document.getElementById("maxMyTokens").textContent = profile.tokens.toLocaleString();
 
       const myOrbsEl = document.getElementById("myOfferOrbsInput");
       const myTokEl = document.getElementById("myOfferTokensInput");
-      const theirOrbsEl = document.getElementById("theirOfferOrbsInput");
-      const theirTokEl = document.getElementById("theirOfferTokensInput");
+      const theirOrbsDisp = document.getElementById("theirOfferOrbsDisplay");
+      const theirTokDisp = document.getElementById("theirOfferTokensDisplay");
 
       myOrbsEl.value = myOfferOrbs;
       myTokEl.value = myOfferTokens;
-      theirOrbsEl.value = theirOfferOrbs;
-      theirTokEl.value = theirOfferTokens;
+      theirOrbsDisp.value = theirOfferOrbs.toLocaleString();
+      theirTokDisp.value = theirOfferTokens.toLocaleString();
 
-      [myOrbsEl, myTokEl, theirOrbsEl, theirTokEl].forEach(el => { el.disabled = lockedByCountdown; });
+      [myOrbsEl, myTokEl].forEach(el => { el.disabled = lockedByCountdown; });
 
       const activeMyCount = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected").length;
       const activeTheirCount = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected").length;
+
+      document.getElementById("myOfferCount").textContent = `${mySelectedOffer.length}/${MAX_TRADE_ITEMS}`;
+      document.getElementById("theirOfferCount").textContent = `${theirSelectedOffer.length}/${MAX_TRADE_ITEMS}`;
 
       const myVal = computeSideValue("my");
       const theirVal = computeSideValue("their");
@@ -3940,32 +4531,48 @@
             const st = mySlotStates[i] || "pending";
             const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
             return `
-              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}" onclick="removeSlotAt('my', ${i})">
+              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}" onclick="removeMySlotAt(${i})">
                 #${d.rank} ${d.name}
-                <button class="mini-act-btn btn-ok" title="Approve" onclick="event.stopPropagation(); setSlotCounterState('my', ${i}, 'accepted')">✓</button>
-                <button class="mini-act-btn btn-no" title="Reject" onclick="event.stopPropagation(); setSlotCounterState('my', ${i}, 'rejected')">✕</button>
-                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="event.stopPropagation(); removeSlotAt('my', ${i})">×</button>
+                <button class="mini-act-btn btn-ok" title="Approve" onclick="event.stopPropagation(); setMySlotCounterState(${i}, 'accepted')">✓</button>
+                <button class="mini-act-btn btn-no" title="Reject" onclick="event.stopPropagation(); setMySlotCounterState(${i}, 'rejected')">✕</button>
+                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="event.stopPropagation(); removeMySlotAt(${i})">×</button>
               </span>
             `;
           }).join("");
 
       const theirSlots = document.getElementById("theirOfferSlots");
-      theirSlots.innerHTML = theirSelectedOffer.length === 0
-        ? `<span style="font-size:0.74rem; color:var(--muted);">No incoming demons placed (empty side unless Orbs/Tokens added)</span>`
-        : theirSelectedOffer.map((id, i) => {
-            const d = demonMap[id];
-            if (!d) return "";
-            const st = theirSlotStates[i] || "pending";
-            const cls = st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : "");
-            return `
-              <span class="trade-chip ${cls}" style="border-color:${st === "pending" ? `var(--c-${d.rarity})` : ""}" onclick="removeSlotAt('their', ${i})">
-                #${d.rank} ${d.name}
-                <button class="mini-act-btn btn-ok" title="Approve" onclick="event.stopPropagation(); setSlotCounterState('their', ${i}, 'accepted')">✓</button>
-                <button class="mini-act-btn btn-no" title="Reject" onclick="event.stopPropagation(); setSlotCounterState('their', ${i}, 'rejected')">✕</button>
-                <button class="mini-act-btn" style="background:rgba(255,255,255,0.1); color:#fff;" title="Remove" onclick="event.stopPropagation(); removeSlotAt('their', ${i})">×</button>
-              </span>
-            `;
-          }).join("");
+      if (theirSelectedOffer.length === 0) {
+        theirSlots.innerHTML = `<span style="font-size:0.74rem; color:var(--muted);">Partner hasn't added any demons yet.</span>`;
+      } else {
+        theirSlots.innerHTML = theirSelectedOffer.map((id, i) => {
+          const d = demonMap[id];
+          if (!d) return "";
+          const st = theirSlotStates[i] || "pending";
+          const hasStock = !partnerOwnedStock || ((Number(partnerOwnedStock[id]) || 0) >= theirSelectedOffer.filter(x => x === id).length);
+          const cls = !hasStock ? "unverified-chip" : (st === "accepted" ? "accepted-chip" : (st === "rejected" ? "rejected-chip" : ""));
+          return `
+            <span class="trade-chip ${cls}" style="border-color:${hasStock && st === "pending" ? `var(--c-${d.rarity})` : ""}" onclick="openInspectModal('${d.id}', true)">
+              #${d.rank} ${d.name} ${hasStock ? "" : "⚠️"}
+            </span>
+          `;
+        }).join("");
+      }
+
+      const stockIssues = checkPartnerHasEnoughForOffer();
+      const stockCard = document.getElementById("partnerVerificationCard");
+      const stockStatusText = document.getElementById("partnerStockStatusText");
+      if (!partnerClientId || partnerClientId === LOCAL_CLIENT_ID) {
+        stockCard.style.borderColor = "rgba(148, 163, 184, 0.22)";
+        stockStatusText.innerHTML = `<span style="color:var(--muted);">No partner has joined this room yet. Share or open the room from another client/session to trade live.</span>`;
+      } else if (stockIssues.length > 0) {
+        stockCard.style.borderColor = "rgba(239, 68, 68, 0.65)";
+        stockStatusText.innerHTML = `<span class="stock-bad">⚠️ Cannot complete until partner has enough stock:</span><br><span class="stock-bad">${escapeHtml(stockIssues.join(" · "))}</span>`;
+      } else {
+        const orbInfo = typeof partnerAvailableOrbs === "number" ? `${partnerAvailableOrbs.toLocaleString()} Orbs` : "Synced";
+        const tokInfo = typeof partnerAvailableTokens === "number" ? `${partnerAvailableTokens.toLocaleString()} Tokens` : "Synced";
+        stockCard.style.borderColor = "rgba(34, 197, 94, 0.45)";
+        stockStatusText.innerHTML = `<span class="stock-ok">✅ Verified (${escapeHtml(partnerDisplayName)})</span> · Partner Wallet: <strong>${orbInfo}</strong> · <strong>${tokInfo}</strong>`;
+      }
 
       const myOwnedIds = Object.keys(profile.owned).filter(id => profile.owned[id] > 0 && demonMap[id]);
       const myPicker = document.getElementById("myOwnedPicker");
@@ -3985,28 +4592,14 @@
         }).join("");
       }
 
-      const q = theirSearchQuery.toLowerCase();
-      const candidates = allDemons.filter(d => {
-        if (!q) return true;
-        return d.name.toLowerCase().includes(q) || String(d.rank) === q || ("#" + d.rank) === q;
-      }).slice(0, 60);
-
-      document.getElementById("theirAredlPicker").innerHTML = candidates.map(d => {
-        const picked = theirSelectedOffer.includes(d.id);
-        return `
-          <div class="pick-item ${picked ? "selected" : ""}" onclick="toggleTheirOfferDemon('${d.id}')">
-            <div style="font-weight:800;">#${d.rank} ${d.name}</div>
-            <div style="color:var(--c-${d.rarity}); font-size:0.68rem; font-weight:800;">${RARITY_TIERS[d.rarity].label}</div>
-          </div>
-        `;
-      }).join("");
-
       const yesBlockedByUnfair = unfairNow && !unfairConfirmedByUser;
+      const yesBlockedByPartnerStock = stockIssues.length > 0;
       const myYesBtn = document.getElementById("toggleMyYesBtn");
-      myYesBtn.disabled = yesBlockedByUnfair || lockedByCountdown;
+      myYesBtn.disabled = yesBlockedByUnfair || yesBlockedByPartnerStock || lockedByCountdown;
       myYesBtn.textContent = myAgreed ? "✅ You Said Yes" : "👍 Say Yes (You)";
-      document.getElementById("toggleTheirYesBtn").disabled = lockedByCountdown;
-      document.getElementById("toggleTheirYesBtn").textContent = theirAgreed ? "✅ Partner Said Yes" : "🤝 Partner Says Yes";
+
+      const partnerYesPill = document.getElementById("partnerYesPill");
+      partnerYesPill.innerHTML = `${escapeHtml(partnerDisplayName || "Partner")}: <strong style="color:${theirAgreed ? "#86efac" : "#fca5a5"};">${theirAgreed ? "YES 👍" : "NO"}</strong>`;
 
       document.getElementById("myYesStatusText").textContent = myAgreed ? "YES 👍" : "NO";
       document.getElementById("theirYesStatusText").textContent = theirAgreed ? "YES 👍" : "NO";
@@ -4038,6 +4631,16 @@
         return;
       }
 
+      const stockIssues = checkPartnerHasEnoughForOffer();
+      if (stockIssues.length > 0) {
+        myAgreed = false;
+        theirAgreed = false;
+        persistRoomOffers();
+        renderTradeRoomWorkspace();
+        showToast("Partner lacks enough demons, Orbs, or Tokens for this trade.");
+        return;
+      }
+
       if (fiveSecInterval) return;
 
       fiveSecSecondsLeft = Math.ceil(TRADE_CONFIRM_MS / 1000);
@@ -4062,10 +4665,20 @@
       theirAgreed = false;
       persistRoomOffers();
       renderTradeRoomWorkspace();
-      showToast(`Cancelled by ${cancellerLabel}`, 1000);
+      showToast(`Cancelled by ${cancellerLabel}`, 1200);
     }
 
     async function finalizeAndVerifyTrade() {
+      const stockIssues = checkPartnerHasEnoughForOffer();
+      if (stockIssues.length > 0) {
+        myAgreed = false;
+        theirAgreed = false;
+        persistRoomOffers();
+        renderTradeRoomWorkspace();
+        showToast("Trade blocked: partner doesn't own the offered items.");
+        return;
+      }
+
       const approvedMyIds = mySelectedOffer.filter((_, i) => mySlotStates[i] !== "rejected");
       const approvedTheirIds = theirSelectedOffer.filter((_, i) => theirSlotStates[i] !== "rejected");
 
@@ -4398,114 +5011,121 @@
       openModal("inspectModal");
     }
 
-    function openModal(id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.scrollTop = 0;
-      el.classList.add("open");
-    }
+    function openModal(id) { document.getElementById(id).classList.add("open"); }
+    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
 
-    function closeModal(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove("open");
-    }
+    document.querySelectorAll(".modal-backdrop").forEach(bd => {
+      bd.addEventListener("click", e => {
+        if (e.target === bd) bd.classList.remove("open");
+      });
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
+      }
+    });
 
     document.getElementById("hudClaimTokensBtn").addEventListener("click", claimPendingTokens);
     document.getElementById("stageClaimTokensBtn").addEventListener("click", claimPendingTokens);
     document.getElementById("invClaimTokensBtn").addEventListener("click", claimPendingTokens);
     document.getElementById("toastClaimBtn").addEventListener("click", claimPendingTokens);
 
-    document.getElementById("closeInvModalBtn").addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal("invModal");
-    }, { passive: false });
-
-    document.getElementById("closeAchModalBtn").addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal("achModal");
-    }, { passive: false });
-
-    document.getElementById("topCloseInspectModalBtn").addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal("inspectModal");
-    }, { passive: false });
-
-    document.getElementById("closeInspectModalBtn").addEventListener("click", e => {
-      e.preventDefault();
-      e.stopPropagation();
-      closeModal("inspectModal");
-    }, { passive: false });
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        const openModals = document.querySelectorAll(".modal-backdrop.open");
-        if (openModals.length > 0) {
-          openModals.forEach(m => m.classList.remove("open"));
-          return;
-        }
-        if (currentSection === "trader" && activeRoomId) {
-          document.getElementById("backToRoomsBtn").click();
-        } else if (currentSection === "shop" && selectedShopItemId) {
-          openShopSection();
-        } else if (currentSection !== "home") {
-          stopFiveSecCountdown();
-          showSection("home");
-        }
-      }
-    });
-
-    document.querySelectorAll(".modal-backdrop").forEach(m => {
-      m.addEventListener("click", e => {
-        if (e.target === m) closeModal(m.id);
-      });
-    });
-
     document.getElementById("pull1Btn").addEventListener("click", () => executePull(1, false));
     document.getElementById("pull5Btn").addEventListener("click", () => executePull(5, false));
     document.getElementById("pullOrbBtn").addEventListener("click", () => executePull(1, true));
     document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (confirm("Reset all summons, Orbs, Tokens, inventory, and achievements? (Your Display name is preserved)")) {
+        stopFiveSecCountdown();
+        const savedName = profile.displayName;
+        profile = {
+          displayName: savedName,
+          tokens: 0,
+          pendingClaimTokens: 0,
+          tokenCycleElapsedMs: 0,
+          tokenBoosterUntil: 0,
+          orbs: 500,
+          pulls: 0,
+          tradesCompleted: 0,
+          owned: {},
+          favorites: [],
+          packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+          activeBoost: null,
+          noDupUntil: 0,
+          lastPullIds: [],
+          lastPullOrbsTotal: 0,
+          unlockedAch: [],
+          tradeRooms: [],
+          streakDays: 0,
+          lastRollDayKey: "",
+          rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+          settings: profile.settings
+        };
+        sessionSingleUnluckyStreak = 0;
+        lastTokenSampleMs = Date.now();
+        saveProfile();
+        uiDirty = true;
+        document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Ready to summon!</p>`;
+        updateAllUI();
+      }
+    });
+
+    document.getElementById("soundToggleBtn").addEventListener("click", () => {
+      profile.settings.sfx = !profile.settings.sfx;
+      const btn = document.getElementById("soundToggleBtn");
+      btn.textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+      btn.classList.toggle("active-toggle", profile.settings.sfx);
+      saveProfile();
+    });
+
+    document.getElementById("viewModeBtn").addEventListener("click", () => {
+      profile.settings.listView = !profile.settings.listView;
+      document.getElementById("viewModeBtn").textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
+      saveProfile();
+      uiDirty = true;
+      updateAllUI();
+    });
+
+    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
+      document.getElementById("dexGrid").scrollTo({ top: 0, behavior: "smooth" });
+    });
+
     document.getElementById("openShopBtn").addEventListener("click", openShopSection);
     document.getElementById("backFromShopSectionBtn").addEventListener("click", () => showSection("home"));
     document.getElementById("backToShopListBtn").addEventListener("click", openShopSection);
-    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
+
     document.getElementById("openTraderBtn").addEventListener("click", openTraderSection);
     document.getElementById("backFromTraderSectionBtn").addEventListener("click", () => {
       stopFiveSecCountdown();
+      heartbeatPresence(null);
       showSection("home");
     });
-    document.getElementById("refreshLiveRoomsBtn").addEventListener("click", async () => {
-      await syncRoomsFromBackend();
-      if (activeRoomId) {
-        const updated = profile.tradeRooms.find(r => r.id === activeRoomId);
-        if (updated) {
-          theirSelectedOffer = [...(updated.theirOffer || [])].filter(id => Boolean(demonMap[id])).slice(0, MAX_TRADE_ITEMS);
-          theirSlotStates = normalizeStates(theirSelectedOffer, updated.theirSlotStates);
-          theirOfferOrbs = Math.max(0, Math.floor(Number(updated.theirOfferOrbs) || 0));
-          theirOfferTokens = Math.max(0, Math.floor(Number(updated.theirOfferTokens) || 0));
-          theirAgreed = Boolean(updated.theirAgreed);
-          renderTradeRoomWorkspace();
-          evaluateBothAgreedCountdown();
-        }
-      } else {
-        renderTraderLobby();
-      }
-      showToast("Live trade rooms synced!");
+
+    document.getElementById("refreshLiveRoomsBtn").addEventListener("click", () => performLiveTraderSync(true));
+    document.getElementById("lobbyCheckPlayersBtn").addEventListener("click", () => performLiveTraderSync(true));
+    document.getElementById("roomCheckPlayersBtn").addEventListener("click", () => performLiveTraderSync(true));
+    document.getElementById("dismissLiveBannerBtn").addEventListener("click", () => {
+      document.getElementById("livePartnerChangeBanner").classList.remove("show");
     });
-    document.getElementById("openAchBtn").addEventListener("click", openAchModal);
 
     document.getElementById("saveDisplayNameBtn").addEventListener("click", () => {
-      const rawInput = document.getElementById("displayNameInput").value.replace(/\s+/g, " ").trim().slice(0, 24);
-      if (rawInput && containsBadWord(rawInput)) {
+      const rawInput = document.getElementById("displayNameInput").value.replace(/\s+/g, " ").trim();
+      if (!rawInput) {
+        showToast("Please enter a display name.");
+        return;
+      }
+      if (containsBadWord(rawInput)) {
         showToast("Display name blocked: inappropriate word detected.");
         return;
       }
       profile.displayName = sanitizeName(rawInput, "Player");
       saveProfile();
+      uiDirty = true;
       syncDisplayNameUI();
       if (activeRoomId) persistRoomOffers();
+      heartbeatPresence(activeRoomId);
+      renderTradeRoomWorkspace();
       showToast(`Display name saved: ${profile.displayName}`);
     });
 
@@ -4514,61 +5134,59 @@
     });
 
     document.getElementById("createRoomBtn").addEventListener("click", createTradeRoom);
-    document.getElementById("backToRoomsBtn").addEventListener("click", () => {
+    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
+
+    document.getElementById("backToRoomsBtn").addEventListener("click", async () => {
       stopFiveSecCountdown();
       activeRoomId = null;
+      document.getElementById("myCurrencyError").textContent = "";
+      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
+      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderRoomView").style.display = "none";
       document.getElementById("backToRoomsBtn").style.display = "none";
       document.getElementById("traderLobbyView").style.display = "block";
-      renderTraderLobby();
+      await heartbeatPresence(null);
+      await performLiveTraderSync(false);
     });
 
-    function handleMyCurrencyInput(type, rawVal, inputEl) {
-      const parsed = Math.max(0, Math.floor(Number(rawVal) || 0));
+    document.getElementById("myOfferOrbsInput").addEventListener("input", e => {
+      if (fiveSecInterval) return;
       const errEl = document.getElementById("myCurrencyError");
-      const maxAllowed = type === "orbs" ? profile.orbs : profile.tokens;
-
-      if (parsed > maxAllowed) {
-        const clamped = maxAllowed;
-        if (type === "orbs") myOfferOrbs = clamped;
-        else myOfferTokens = clamped;
-        inputEl.value = clamped;
-        inputEl.classList.add("invalid-currency");
-        const label = type === "orbs" ? "Orbs" : "Tokens";
-        errEl.textContent = `⚠️ You only have ${maxAllowed.toLocaleString()} ${label}! Capped to max available.`;
-        showToast(`Not enough ${label} (max ${maxAllowed.toLocaleString()})`);
-      } else {
-        if (type === "orbs") myOfferOrbs = parsed;
-        else myOfferTokens = parsed;
-        inputEl.value = parsed;
-        inputEl.classList.remove("invalid-currency");
-        errEl.textContent = "";
+      const rawVal = Number(e.target.value);
+      if (!Number.isFinite(rawVal) || rawVal < 0) {
+        e.target.classList.add("invalid-currency");
+        errEl.textContent = "Cannot enter negative Orbs.";
+        return;
       }
-
-      resetAgreementAndSave();
-      renderTradeRoomWorkspace();
-    }
-
-    document.getElementById("myOfferOrbsInput").addEventListener("change", e => {
-      handleMyCurrencyInput("orbs", e.target.value, e.target);
-    });
-
-    document.getElementById("myOfferTokensInput").addEventListener("change", e => {
-      handleMyCurrencyInput("tokens", e.target.value, e.target);
-    });
-
-    document.getElementById("theirOfferOrbsInput").addEventListener("change", e => {
-      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
-      theirOfferOrbs = val;
-      e.target.value = val;
+      if (rawVal > profile.orbs) {
+        e.target.classList.add("invalid-currency");
+        errEl.textContent = `You only have ${profile.orbs.toLocaleString()} Orbs!`;
+        return;
+      }
+      e.target.classList.remove("invalid-currency");
+      errEl.textContent = "";
+      myOfferOrbs = Math.floor(rawVal);
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
 
-    document.getElementById("theirOfferTokensInput").addEventListener("change", e => {
-      const val = Math.max(0, Math.floor(Number(e.target.value) || 0));
-      theirOfferTokens = val;
-      e.target.value = val;
+    document.getElementById("myOfferTokensInput").addEventListener("input", e => {
+      if (fiveSecInterval) return;
+      const errEl = document.getElementById("myCurrencyError");
+      const rawVal = Number(e.target.value);
+      if (!Number.isFinite(rawVal) || rawVal < 0) {
+        e.target.classList.add("invalid-currency");
+        errEl.textContent = "Cannot enter negative Tokens.";
+        return;
+      }
+      if (rawVal > profile.tokens) {
+        e.target.classList.add("invalid-currency");
+        errEl.textContent = `You only have ${profile.tokens.toLocaleString()} Tokens!`;
+        return;
+      }
+      e.target.classList.remove("invalid-currency");
+      errEl.textContent = "";
+      myOfferTokens = Math.floor(rawVal);
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
@@ -4576,7 +5194,7 @@
     document.getElementById("confirmUnfairAcceptBtn").addEventListener("click", () => {
       unfairConfirmedByUser = true;
       renderTradeRoomWorkspace();
-      showToast("Confirmed — you can say Yes now.");
+      showToast("Unfair trade warning acknowledged. You can now press Yes.");
     });
 
     document.getElementById("markUnfairNoBtn").addEventListener("click", () => {
@@ -4585,55 +5203,38 @@
       stopFiveSecCountdown();
       persistRoomOffers();
       renderTradeRoomWorkspace();
-      showToast("Marked as NO automatically.");
+      showToast("Marked as unfair — confirmation set to NO.");
     });
 
     document.getElementById("toggleMyYesBtn").addEventListener("click", () => {
-      if (myOfferOrbs > profile.orbs || myOfferTokens > profile.tokens) {
-        showToast("Fix your Orb/Token offer amount first.");
-        return;
-      }
+      if (fiveSecInterval) return;
       if (isTradeUnfairToUser() && !unfairConfirmedByUser) {
-        showToast("Please choose 'I accept' on the unfair trade warning first.");
+        showToast("Please respond to the unfair trade warning first.");
         return;
       }
-      const hadCountdown = Boolean(fiveSecInterval);
+      const stockIssues = checkPartnerHasEnoughForOffer();
+      if (stockIssues.length > 0) {
+        showToast("Cannot confirm: partner doesn't have enough items for this offer.");
+        return;
+      }
+      if (!myAgreed && (!hasAnyOfferOnSide("my") || !hasAnyOfferOnSide("their"))) {
+        showToast("Both sides must include at least one demon, Orb, or Token.");
+        return;
+      }
       myAgreed = !myAgreed;
       persistRoomOffers();
-      if (!myAgreed && hadCountdown) {
-        cancelFiveSecCountdown(profile.displayName);
-        return;
-      }
-      renderTradeRoomWorkspace();
-      evaluateBothAgreedCountdown();
-    });
-
-    document.getElementById("toggleTheirYesBtn").addEventListener("click", () => {
-      const hadCountdown = Boolean(fiveSecInterval);
-      theirAgreed = !theirAgreed;
-      persistRoomOffers();
-      if (!theirAgreed && hadCountdown) {
-        cancelFiveSecCountdown("Partner");
-        return;
-      }
       renderTradeRoomWorkspace();
       evaluateBothAgreedCountdown();
     });
 
     document.getElementById("cancelFiveSecBtn").addEventListener("click", () => cancelFiveSecCountdown(profile.displayName));
-
     document.getElementById("clearRejectedBtn").addEventListener("click", clearRejectedSlots);
-
     document.getElementById("clearTradeBtn").addEventListener("click", () => {
       if (fiveSecInterval) return;
       mySelectedOffer = [];
       mySlotStates = [];
       myOfferOrbs = 0;
       myOfferTokens = 0;
-      theirSelectedOffer = [];
-      theirSlotStates = [];
-      theirOfferOrbs = 0;
-      theirOfferTokens = 0;
       document.getElementById("myCurrencyError").textContent = "";
       document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
       document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
@@ -4641,119 +5242,51 @@
       renderTradeRoomWorkspace();
     });
 
-    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
-    document.getElementById("theirSearchInput").addEventListener("input", e => {
-      theirSearchQuery = e.target.value.trim();
-      renderTradeRoomWorkspace();
+    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
+    document.getElementById("closeInvModalBtn").addEventListener("click", () => closeModal("invModal"));
+
+    document.getElementById("openAchBtn").addEventListener("click", openAchModal);
+    document.getElementById("closeAchModalBtn").addEventListener("click", () => closeModal("achModal"));
+
+    document.getElementById("closeInspectModalBtn").addEventListener("click", () => closeModal("inspectModal"));
+    document.getElementById("topCloseInspectModalBtn").addEventListener("click", () => closeModal("inspectModal"));
+
+    document.getElementById("filterBar").addEventListener("click", e => {
+      const btn = e.target.closest(".f-pill");
+      if (!btn) return;
+      document.querySelectorAll(".f-pill").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.dataset.filter;
+      uiDirty = true;
+      updateAllUI();
     });
 
-    ["displayNameInput", "newRoomNameInput", "theirSearchInput", "searchInput"].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener("focus", () => {
-          setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 180);
-        });
-      }
-    });
-
-    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
-      document.getElementById("dexGrid").scrollTo({ top: 0, behavior: "smooth" });
+    document.getElementById("searchInput").addEventListener("input", e => {
+      searchQuery = e.target.value.trim();
+      uiDirty = true;
+      updateAllUI();
     });
 
     document.getElementById("clearSearchBtn").addEventListener("click", () => {
       document.getElementById("searchInput").value = "";
       searchQuery = "";
-      renderDexGrid();
-    });
-
-    const soundBtn = document.getElementById("soundToggleBtn");
-    const viewBtn = document.getElementById("viewModeBtn");
-
-    function syncToggleButtons() {
-      soundBtn.textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
-      soundBtn.classList.toggle("active-toggle", profile.settings.sfx);
-      viewBtn.textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
-    }
-
-    soundBtn.addEventListener("click", () => {
-      profile.settings.sfx = !profile.settings.sfx;
-      saveProfile();
-      syncToggleButtons();
-    });
-
-    viewBtn.addEventListener("click", () => {
-      profile.settings.listView = !profile.settings.listView;
-      saveProfile();
       uiDirty = true;
-      syncToggleButtons();
-      renderDexGrid();
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      if (isRolling) return;
-      if (!confirm("Reset all your Tokens, Orbs, Items, Unlocked Demons, Rooms, and Achievements?")) return;
-      stopFiveSecCountdown();
-      sessionSingleUnluckyStreak = 0;
-      activeRoomId = null;
-      lastTokenSampleMs = Date.now();
-      try { localStorage.setItem(STARTER_GRANTED_KEY, "1"); } catch (_) {}
-      profile = {
-        displayName: profile.displayName || "Player",
-        tokens: 0,
-        pendingClaimTokens: 0,
-        tokenCycleElapsedMs: 0,
-        tokenBoosterUntil: 0,
-        orbs: 500,
-        pulls: 0,
-        tradesCompleted: 0,
-        owned: {},
-        favorites: [],
-        packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
-        activeBoost: null,
-        noDupUntil: 0,
-        lastPullIds: [],
-        lastPullOrbsTotal: 0,
-        unlockedAch: [],
-        tradeRooms: [],
-        streakDays: 0,
-        lastRollDayKey: "",
-        rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
-        settings: profile.settings
-      };
-      saveProfile();
-      uiDirty = true;
-      document.getElementById("tokenShortageBanner").style.display = "none";
-      document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Press Roll to begin!</p>`;
-      showToast("Progress reset.");
       updateAllUI();
     });
 
-    document.getElementById("filterBar").addEventListener("click", e => {
-      if (!e.target.classList.contains("f-pill")) return;
-      document.querySelectorAll(".f-pill").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      currentFilter = e.target.dataset.filter;
-      renderDexGrid();
-    });
-
-    document.getElementById("searchInput").addEventListener("input", e => {
-      searchQuery = e.target.value.trim();
-      renderDexGrid();
-    });
-
     hydrateOrbIcons();
-    lastTokenSampleMs = Date.now();
-    tickTokensByTime();
+    document.getElementById("soundToggleBtn").textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
+    document.getElementById("soundToggleBtn").classList.toggle("active-toggle", profile.settings.sfx);
+    document.getElementById("viewModeBtn").textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
     pruneExpiredRooms();
-    syncToggleButtons();
+    tickTokensByTime();
     updateAllUI();
-    loadAREDL(false);
-
+    heartbeatPresence(null);
     if (starterBonusJustAwarded) {
-      setTimeout(() => {
-        showToast(`Welcome! +${STARTER_TOKENS} starter Tokens (one-time gift)`);
-      }, 200);
+      triggerTokenSoftGlow();
+      showToast(`Welcome! You received ${STARTER_TOKENS} starter Tokens.`);
     }
+    loadAREDL(false);
   </script>
 </body>
 </html>
