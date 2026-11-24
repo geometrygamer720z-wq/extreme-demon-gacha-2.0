@@ -2011,7 +2011,7 @@
       <section class="summon-stage" id="summonStage">
         <div class="stage-header">
           <span id="syncStatus">Syncing AREDL Extreme Demon database...</span>
-          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +5 every 5m (Claim to collect)</strong>
+          <strong id="lastPullBadge" style="color:#fff;">1 Roll = 1 Token · +5 every 5m (Paused at 00:00 until claimed)</strong>
         </div>
 
         <div class="timer-claim-bar" id="timerClaimBar">
@@ -2444,7 +2444,7 @@
               tokens: typeof parsed.tokens === "number" && Number.isFinite(parsed.tokens) ? Math.max(0, Math.floor(parsed.tokens)) : 0,
               pendingClaimTokens: typeof parsed.pendingClaimTokens === "number" && Number.isFinite(parsed.pendingClaimTokens) ? Math.max(0, Math.floor(parsed.pendingClaimTokens)) : 0,
               tokenCycleElapsedMs: typeof parsed.tokenCycleElapsedMs === "number" && Number.isFinite(parsed.tokenCycleElapsedMs)
-                ? Math.max(0, Math.min(TOKEN_INTERVAL_MS - 1, Math.floor(parsed.tokenCycleElapsedMs)))
+                ? Math.max(0, Math.min(TOKEN_INTERVAL_MS, Math.floor(parsed.tokenCycleElapsedMs)))
                 : 0,
               tokenBoosterUntil: typeof parsed.tokenBoosterUntil === "number" && Number.isFinite(parsed.tokenBoosterUntil) ? Math.max(0, parsed.tokenBoosterUntil) : 0,
               orbs: typeof parsed.orbs === "number" && Number.isFinite(parsed.orbs) ? Math.max(0, Math.floor(parsed.orbs)) : 500,
@@ -2512,7 +2512,7 @@
     let theirOfferOrbs = 0;
     let theirOfferTokens = 0;
     let theirAgreed = false;
-    let partnerOwnedStock = {}; // { demonId: count }
+    let partnerOwnedStock = {};
     let partnerAvailableOrbs = null;
     let partnerAvailableTokens = null;
 
@@ -2560,10 +2560,23 @@
       return normalMs + boostedMs * TOKEN_BOOSTER_RATE_MULT;
     }
 
+    function isTimerPausedAwaitingClaim() {
+      return (Number(profile.pendingClaimTokens) || 0) > 0;
+    }
+
     function computeCurrentCycleElapsedMs(now = Date.now()) {
       let elapsed = Number(profile.tokenCycleElapsedMs) || 0;
       if (!Number.isFinite(elapsed) || elapsed < 0) elapsed = 0;
+
+      // Si ya hay tokens pendientes por reclamar, el temporizador se pausa en 00:00 (TOKEN_INTERVAL_MS)
+      if (isTimerPausedAwaitingClaim()) {
+        return TOKEN_INTERVAL_MS;
+      }
+
       elapsed += computeElapsedDeltaMs(lastTokenSampleMs, now);
+      if (elapsed >= TOKEN_INTERVAL_MS) {
+        return TOKEN_INTERVAL_MS;
+      }
       return elapsed;
     }
 
@@ -2576,13 +2589,15 @@
         profile.tokenBoosterUntil = 0;
       }
 
-      if (elapsedInCycle >= TOKEN_INTERVAL_MS) {
-        const cycles = Math.floor(elapsedInCycle / TOKEN_INTERVAL_MS);
-        elapsedInCycle = elapsedInCycle % TOKEN_INTERVAL_MS;
-        profile.tokenCycleElapsedMs = elapsedInCycle;
+      if (isTimerPausedAwaitingClaim()) {
+        profile.tokenCycleElapsedMs = TOKEN_INTERVAL_MS;
+        return;
+      }
 
-        const readyGained = cycles * TOKEN_REWARD_AMOUNT;
-        profile.pendingClaimTokens = (Number(profile.pendingClaimTokens) || 0) + readyGained;
+      if (elapsedInCycle >= TOKEN_INTERVAL_MS) {
+        // Se pausa exactamente al llegar a 00:00 hasta que el usuario reclame los tokens
+        profile.tokenCycleElapsedMs = TOKEN_INTERVAL_MS;
+        profile.pendingClaimTokens = (Number(profile.pendingClaimTokens) || 0) + TOKEN_REWARD_AMOUNT;
         saveProfile();
         uiDirty = true;
       } else {
@@ -2598,6 +2613,8 @@
         return;
       }
       profile.pendingClaimTokens = 0;
+      profile.tokenCycleElapsedMs = 0;
+      lastTokenSampleMs = Date.now();
       profile.tokens = (Number(profile.tokens) || 0) + pending;
       saveProfile();
       uiDirty = true;
@@ -2610,6 +2627,9 @@
     }
 
     function getMsUntilNextTokens() {
+      if (isTimerPausedAwaitingClaim()) {
+        return 0;
+      }
       const elapsed = computeCurrentCycleElapsedMs(Date.now());
       const clamped = Math.max(0, Math.min(TOKEN_INTERVAL_MS, elapsed));
       const remainingWeighted = Math.max(0, TOKEN_INTERVAL_MS - clamped);
@@ -3057,7 +3077,7 @@
       document.getElementById("tokenShortageText").textContent =
         `Not enough tokens for x${needed}! Need ${needed} tokens (missing ${missing}).`;
       document.getElementById("tokenShortageTimer").textContent =
-        `+5 in ${formatClockMMSS(getMsUntilNextTokens())}`;
+        isTimerPausedAwaitingClaim() ? "PAUSED (Claim ready!)" : `+5 in ${formatClockMMSS(getMsUntilNextTokens())}`;
       banner.style.display = "flex";
       showToast(`Missing ${missing} token(s) for x${needed}!`);
     }
@@ -3347,10 +3367,11 @@
     }
 
     function refreshTimersUI() {
+      const paused = isTimerPausedAwaitingClaim();
       const msLeft = getMsUntilNextTokens();
-      const clock = formatClockMMSS(msLeft);
+      const clock = paused ? "00:00 (PAUSED)" : formatClockMMSS(msLeft);
       const elapsed = Math.max(0, Math.min(TOKEN_INTERVAL_MS, computeCurrentCycleElapsedMs(Date.now())));
-      const pct = (elapsed / TOKEN_INTERVAL_MS) * 100;
+      const pct = paused ? 100 : (elapsed / TOKEN_INTERVAL_MS) * 100;
       const pendingClaim = Number(profile.pendingClaimTokens) || 0;
       const hasClaimable = pendingClaim > 0;
 
@@ -3414,7 +3435,8 @@
 
       const shortageBanner = document.getElementById("tokenShortageBanner");
       if (shortageBanner.style.display === "flex") {
-        document.getElementById("tokenShortageTimer").textContent = `+5 in ${clock}`;
+        document.getElementById("tokenShortageTimer").textContent =
+          paused ? "PAUSED (Claim ready!)" : `+5 in ${formatClockMMSS(msLeft)}`;
       }
 
       if (activeRoomId) {
@@ -3728,7 +3750,6 @@
         hostOffer: hostSide,
         guestOffer: guestSide,
         participants,
-        // Backward-compatible flat fields for lobby display
         myOffer: [...hostSide.demons],
         mySlotStates: [...hostSide.slotStates],
         myOfferOrbs: hostSide.orbs,
@@ -3806,7 +3827,6 @@
       const isHost = sanitized.hostClientId === LOCAL_CLIENT_ID;
       const now = Date.now();
 
-      // Check active participants in room other than local client
       let activePartnerEntry = null;
       if (sanitized.participants && typeof sanitized.participants === "object") {
         for (const [cid, pInfo] of Object.entries(sanitized.participants)) {
@@ -3888,7 +3908,6 @@
 
     function checkPartnerHasEnoughForOffer() {
       const issues = [];
-      // If partner published stockOwned, verify every requested demon against it
       if (partnerOwnedStock && typeof partnerOwnedStock === "object") {
         const neededCounts = {};
         theirSelectedOffer.forEach((id, idx) => {
@@ -4011,7 +4030,6 @@
             .filter(r => now < r.expiresAt)
             .slice(0, MAX_TRADE_ROOMS);
 
-          // Keep any local room that was just created and hasn't appeared in remote yet
           const remoteIds = new Set(remoteRooms.map(r => r.id));
           const freshLocalOnly = profile.tradeRooms.filter(r => !remoteIds.has(r.id) && (now - (r.createdAt || 0)) < 5000);
           profile.tradeRooms = [...remoteRooms, ...freshLocalOnly].slice(0, MAX_TRADE_ROOMS);
@@ -5014,18 +5032,6 @@
     function openModal(id) { document.getElementById(id).classList.add("open"); }
     function closeModal(id) { document.getElementById(id).classList.remove("open"); }
 
-    document.querySelectorAll(".modal-backdrop").forEach(bd => {
-      bd.addEventListener("click", e => {
-        if (e.target === bd) bd.classList.remove("open");
-      });
-    });
-
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
-      }
-    });
-
     document.getElementById("hudClaimTokensBtn").addEventListener("click", claimPendingTokens);
     document.getElementById("stageClaimTokensBtn").addEventListener("click", claimPendingTokens);
     document.getElementById("invClaimTokensBtn").addEventListener("click", claimPendingTokens);
@@ -5035,40 +5041,40 @@
     document.getElementById("pull5Btn").addEventListener("click", () => executePull(5, false));
     document.getElementById("pullOrbBtn").addEventListener("click", () => executePull(1, true));
     document.getElementById("syncBtn").addEventListener("click", () => loadAREDL(true));
+
     document.getElementById("resetBtn").addEventListener("click", () => {
-      if (confirm("Reset all summons, Orbs, Tokens, inventory, and achievements? (Your Display name is preserved)")) {
-        stopFiveSecCountdown();
-        const savedName = profile.displayName;
-        profile = {
-          displayName: savedName,
-          tokens: 0,
-          pendingClaimTokens: 0,
-          tokenCycleElapsedMs: 0,
-          tokenBoosterUntil: 0,
-          orbs: 500,
-          pulls: 0,
-          tradesCompleted: 0,
-          owned: {},
-          favorites: [],
-          packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
-          activeBoost: null,
-          noDupUntil: 0,
-          lastPullIds: [],
-          lastPullOrbsTotal: 0,
-          unlockedAch: [],
-          tradeRooms: [],
-          streakDays: 0,
-          lastRollDayKey: "",
-          rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
-          settings: profile.settings
-        };
-        sessionSingleUnluckyStreak = 0;
-        lastTokenSampleMs = Date.now();
-        saveProfile();
-        uiDirty = true;
-        document.getElementById("stageArena").innerHTML = `<p style="color: var(--muted); text-align: center;">Progress reset. Ready to summon!</p>`;
-        updateAllUI();
-      }
+      if (!confirm("Reset all your Orbs, Tokens, Demons, and Achievements?")) return;
+      const now = Date.now();
+      profile = {
+        displayName: profile.displayName || "Player",
+        tokens: 0,
+        pendingClaimTokens: 0,
+        tokenCycleElapsedMs: 0,
+        tokenBoosterUntil: 0,
+        orbs: 500,
+        pulls: 0,
+        tradesCompleted: 0,
+        owned: {},
+        favorites: [],
+        packs: { token_pack_5: 0, token_booster_10m: 0, no_duplicate: 0, luck10: 0, luck20: 0, luck50: 0 },
+        activeBoost: null,
+        noDupUntil: 0,
+        lastPullIds: [],
+        lastPullOrbsTotal: 0,
+        unlockedAch: [],
+        tradeRooms: [],
+        streakDays: 0,
+        lastRollDayKey: "",
+        rarityCounts: { common: 0, rare: 0, epic: 0, legendary: 0, mythic: 0, divine: 0, transcendent: 0, apex: 0 },
+        settings: profile.settings
+      };
+      lastTokenSampleMs = now;
+      sessionSingleUnluckyStreak = 0;
+      saveProfile();
+      uiDirty = true;
+      showSection("home");
+      updateAllUI();
+      showToast("Progress reset.");
     });
 
     document.getElementById("soundToggleBtn").addEventListener("click", () => {
@@ -5083,21 +5089,18 @@
       profile.settings.listView = !profile.settings.listView;
       document.getElementById("viewModeBtn").textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
       saveProfile();
-      uiDirty = true;
-      updateAllUI();
-    });
-
-    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
-      document.getElementById("dexGrid").scrollTo({ top: 0, behavior: "smooth" });
+      renderDexGrid();
     });
 
     document.getElementById("openShopBtn").addEventListener("click", openShopSection);
     document.getElementById("backFromShopSectionBtn").addEventListener("click", () => showSection("home"));
     document.getElementById("backToShopListBtn").addEventListener("click", openShopSection);
 
+    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
     document.getElementById("openTraderBtn").addEventListener("click", openTraderSection);
     document.getElementById("backFromTraderSectionBtn").addEventListener("click", () => {
       stopFiveSecCountdown();
+      activeRoomId = null;
       heartbeatPresence(null);
       showSection("home");
     });
@@ -5110,23 +5113,31 @@
     });
 
     document.getElementById("saveDisplayNameBtn").addEventListener("click", () => {
-      const rawInput = document.getElementById("displayNameInput").value.replace(/\s+/g, " ").trim();
-      if (!rawInput) {
-        showToast("Please enter a display name.");
+      const raw = document.getElementById("displayNameInput").value.replace(/\s+/g, " ").trim().slice(0, 24);
+      if (!raw) {
+        showToast("Display name cannot be empty.");
         return;
       }
-      if (containsBadWord(rawInput)) {
-        showToast("Display name blocked: inappropriate word detected.");
+      if (containsBadWord(raw)) {
+        showToast("Blocked: that display name contains inappropriate language.");
+        document.getElementById("displayNameInput").value = profile.displayName;
         return;
       }
-      profile.displayName = sanitizeName(rawInput, "Player");
+      profile.displayName = raw;
       saveProfile();
       uiDirty = true;
       syncDisplayNameUI();
-      if (activeRoomId) persistRoomOffers();
+      if (activeRoomId) {
+        const idx = profile.tradeRooms.findIndex(r => r.id === activeRoomId);
+        if (idx >= 0 && profile.tradeRooms[idx].hostClientId === LOCAL_CLIENT_ID) {
+          profile.tradeRooms[idx].hostDisplayName = raw;
+        }
+        persistRoomOffers();
+        renderRoomPlayersBar();
+        renderTraderLobby();
+      }
       heartbeatPresence(activeRoomId);
-      renderTradeRoomWorkspace();
-      showToast(`Display name saved: ${profile.displayName}`);
+      showToast(`Display name saved: ${raw}`);
     });
 
     document.getElementById("newRoomNameInput").addEventListener("input", e => {
@@ -5134,38 +5145,38 @@
     });
 
     document.getElementById("createRoomBtn").addEventListener("click", createTradeRoom);
-    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
 
-    document.getElementById("backToRoomsBtn").addEventListener("click", async () => {
+    document.getElementById("backToRoomsBtn").addEventListener("click", () => {
       stopFiveSecCountdown();
       activeRoomId = null;
-      document.getElementById("myCurrencyError").textContent = "";
-      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
-      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       document.getElementById("traderRoomView").style.display = "none";
       document.getElementById("backToRoomsBtn").style.display = "none";
       document.getElementById("traderLobbyView").style.display = "block";
-      await heartbeatPresence(null);
-      await performLiveTraderSync(false);
+      heartbeatPresence(null);
+      renderTraderLobby();
     });
+
+    document.getElementById("deleteRoomBtn").addEventListener("click", deleteActiveRoom);
 
     document.getElementById("myOfferOrbsInput").addEventListener("input", e => {
       if (fiveSecInterval) return;
       const errEl = document.getElementById("myCurrencyError");
-      const rawVal = Number(e.target.value);
-      if (!Number.isFinite(rawVal) || rawVal < 0) {
-        e.target.classList.add("invalid-currency");
+      const rawNum = Math.floor(Number(e.target.value) || 0);
+      if (rawNum < 0) {
+        e.target.value = 0;
+        myOfferOrbs = 0;
         errEl.textContent = "Cannot enter negative Orbs.";
-        return;
-      }
-      if (rawVal > profile.orbs) {
         e.target.classList.add("invalid-currency");
-        errEl.textContent = `You only have ${profile.orbs.toLocaleString()} Orbs!`;
-        return;
+      } else if (rawNum > profile.orbs) {
+        e.target.value = profile.orbs;
+        myOfferOrbs = profile.orbs;
+        errEl.textContent = `Capped at your available Orbs (${profile.orbs.toLocaleString()}).`;
+        e.target.classList.add("invalid-currency");
+      } else {
+        myOfferOrbs = rawNum;
+        errEl.textContent = "";
+        e.target.classList.remove("invalid-currency");
       }
-      e.target.classList.remove("invalid-currency");
-      errEl.textContent = "";
-      myOfferOrbs = Math.floor(rawVal);
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
@@ -5173,20 +5184,22 @@
     document.getElementById("myOfferTokensInput").addEventListener("input", e => {
       if (fiveSecInterval) return;
       const errEl = document.getElementById("myCurrencyError");
-      const rawVal = Number(e.target.value);
-      if (!Number.isFinite(rawVal) || rawVal < 0) {
-        e.target.classList.add("invalid-currency");
+      const rawNum = Math.floor(Number(e.target.value) || 0);
+      if (rawNum < 0) {
+        e.target.value = 0;
+        myOfferTokens = 0;
         errEl.textContent = "Cannot enter negative Tokens.";
-        return;
-      }
-      if (rawVal > profile.tokens) {
         e.target.classList.add("invalid-currency");
-        errEl.textContent = `You only have ${profile.tokens.toLocaleString()} Tokens!`;
-        return;
+      } else if (rawNum > profile.tokens) {
+        e.target.value = profile.tokens;
+        myOfferTokens = profile.tokens;
+        errEl.textContent = `Capped at your available Tokens (${profile.tokens.toLocaleString()}).`;
+        e.target.classList.add("invalid-currency");
+      } else {
+        myOfferTokens = rawNum;
+        errEl.textContent = "";
+        e.target.classList.remove("invalid-currency");
       }
-      e.target.classList.remove("invalid-currency");
-      errEl.textContent = "";
-      myOfferTokens = Math.floor(rawVal);
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
@@ -5194,98 +5207,102 @@
     document.getElementById("confirmUnfairAcceptBtn").addEventListener("click", () => {
       unfairConfirmedByUser = true;
       renderTradeRoomWorkspace();
-      showToast("Unfair trade warning acknowledged. You can now press Yes.");
+      showToast("Unfair trade warning acknowledged. You can press Say Yes now.");
     });
 
     document.getElementById("markUnfairNoBtn").addEventListener("click", () => {
-      unfairConfirmedByUser = false;
-      myAgreed = false;
       stopFiveSecCountdown();
+      myAgreed = false;
+      unfairConfirmedByUser = false;
       persistRoomOffers();
       renderTradeRoomWorkspace();
-      showToast("Marked as unfair — confirmation set to NO.");
+      showToast("Marked as unfair — Say Yes kept off.");
     });
 
     document.getElementById("toggleMyYesBtn").addEventListener("click", () => {
       if (fiveSecInterval) return;
       if (isTradeUnfairToUser() && !unfairConfirmedByUser) {
-        showToast("Please respond to the unfair trade warning first.");
+        showToast("Review the unfair trade warning first.");
         return;
       }
       const stockIssues = checkPartnerHasEnoughForOffer();
       if (stockIssues.length > 0) {
-        showToast("Cannot confirm: partner doesn't have enough items for this offer.");
-        return;
-      }
-      if (!myAgreed && (!hasAnyOfferOnSide("my") || !hasAnyOfferOnSide("their"))) {
-        showToast("Both sides must include at least one demon, Orb, or Token.");
+        showToast("Partner lacks enough demons, Orbs, or Tokens.");
         return;
       }
       myAgreed = !myAgreed;
       persistRoomOffers();
-      renderTradeRoomWorkspace();
       evaluateBothAgreedCountdown();
     });
 
     document.getElementById("cancelFiveSecBtn").addEventListener("click", () => cancelFiveSecCountdown(profile.displayName));
     document.getElementById("clearRejectedBtn").addEventListener("click", clearRejectedSlots);
+
     document.getElementById("clearTradeBtn").addEventListener("click", () => {
       if (fiveSecInterval) return;
       mySelectedOffer = [];
       mySlotStates = [];
       myOfferOrbs = 0;
       myOfferTokens = 0;
-      document.getElementById("myCurrencyError").textContent = "";
-      document.getElementById("myOfferOrbsInput").classList.remove("invalid-currency");
-      document.getElementById("myOfferTokensInput").classList.remove("invalid-currency");
       resetAgreementAndSave();
       renderTradeRoomWorkspace();
     });
 
-    document.getElementById("openInvBtn").addEventListener("click", openInvModal);
-    document.getElementById("closeInvModalBtn").addEventListener("click", () => closeModal("invModal"));
-
     document.getElementById("openAchBtn").addEventListener("click", openAchModal);
+    document.getElementById("closeInvModalBtn").addEventListener("click", () => closeModal("invModal"));
     document.getElementById("closeAchModalBtn").addEventListener("click", () => closeModal("achModal"));
-
     document.getElementById("closeInspectModalBtn").addEventListener("click", () => closeModal("inspectModal"));
     document.getElementById("topCloseInspectModalBtn").addEventListener("click", () => closeModal("inspectModal"));
+
+    document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+      backdrop.addEventListener("click", e => {
+        if (e.target === backdrop) backdrop.classList.remove("open");
+      });
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-backdrop.open").forEach(m => m.classList.remove("open"));
+      }
+    });
 
     document.getElementById("filterBar").addEventListener("click", e => {
       const btn = e.target.closest(".f-pill");
       if (!btn) return;
-      document.querySelectorAll(".f-pill").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll("#filterBar .f-pill").forEach(p => p.classList.remove("active"));
       btn.classList.add("active");
       currentFilter = btn.dataset.filter;
-      uiDirty = true;
-      updateAllUI();
+      renderDexGrid();
     });
 
     document.getElementById("searchInput").addEventListener("input", e => {
       searchQuery = e.target.value.trim();
-      uiDirty = true;
-      updateAllUI();
+      renderDexGrid();
     });
 
     document.getElementById("clearSearchBtn").addEventListener("click", () => {
       document.getElementById("searchInput").value = "";
       searchQuery = "";
-      uiDirty = true;
-      updateAllUI();
+      renderDexGrid();
+    });
+
+    document.getElementById("scrollTopDexBtn").addEventListener("click", () => {
+      document.getElementById("dexGrid").scrollTop = 0;
     });
 
     hydrateOrbIcons();
-    document.getElementById("soundToggleBtn").textContent = profile.settings.sfx ? "🔊 SFX: ON" : "🔇 SFX: OFF";
-    document.getElementById("soundToggleBtn").classList.toggle("active-toggle", profile.settings.sfx);
-    document.getElementById("viewModeBtn").textContent = profile.settings.listView ? "☰ View: List" : "☷ View: Grid";
-    pruneExpiredRooms();
+    syncDisplayNameUI();
     tickTokensByTime();
+    pruneExpiredRooms();
     updateAllUI();
-    heartbeatPresence(null);
     if (starterBonusJustAwarded) {
       triggerTokenSoftGlow();
-      showToast(`Welcome! You received ${STARTER_TOKENS} starter Tokens.`);
+      showToast(`Welcome! You received +${STARTER_TOKENS} starter Summon Tokens!`);
+    } else if ((Number(profile.pendingClaimTokens) || 0) > 0) {
+      triggerTokenSoftGlow();
+      showToast(`You have +${profile.pendingClaimTokens} Tokens ready to claim!`);
     }
+    heartbeatPresence(null);
     loadAREDL(false);
   </script>
 </body>
